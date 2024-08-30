@@ -7,7 +7,7 @@ import { getSystemVarsList } from "@/services/httpHub";
 export const SysVarItemList = async () => {
 	const sysVars = await getSystemVarsList();
 
-	return <div className="grid grid-cols-1 gap-8 mt-8 lg:grid-cols-2">
+	return <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
 		{sysVars.map((key) => <SysVarItem
 			name={transformSysVarKeyToName(key)}
 			key={key}
