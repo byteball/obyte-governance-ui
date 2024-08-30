@@ -9,14 +9,12 @@ interface ISysVarItemProps {
 	sysVarKey: string;
 }
 
-export const SysVarItem: FC<ISysVarItemProps> = ({ name, sysVarKey, description }) => (<Card>
+export const SysVarItem: FC<ISysVarItemProps> = ({ name, sysVarKey, description }) => (<Card className="flex flex-col justify-between">
 	<CardHeader>
 		<CardTitle className="uppercase">{name}</CardTitle>
 		<CardDescription>{description}</CardDescription>
 	</CardHeader>
 	<CardContent>
-		<Button size="sm" asChild>
-			<Link href={`/sys/${sysVarKey}`}>Vote now</Link>
-		</Button>
+		<Link className="underline" href={`/sys/${sysVarKey}`}>Vote now</Link>
 	</CardContent>
 </Card>)
