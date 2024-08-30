@@ -12,7 +12,7 @@ export const Header = () => {
 					href="/"
 					className="flex items-center w-8 h-8 text-lg font-medium md:text-base"
 				>
-					<img src="/logo.svg" className="inline-block w-8 h-8" /> <div />
+					<img src="/logo.svg" alt="Obyte governance logo" className="inline-block w-8 h-8" />
 				</Link>
 				<Link
 					href="/"
@@ -50,7 +50,7 @@ export const Header = () => {
 							href="/"
 							className="flex items-center gap-2 text-lg font-semibold"
 						>
-							<img src="/logo.svg"  className="w-8 h-8" />
+							<img src="/logo.svg" alt="Obyte governance logo" className="w-8 h-8" />
 							<span className="sr-only">Obyte governance</span>
 						</Link>
 						<Link
