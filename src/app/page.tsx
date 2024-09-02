@@ -6,7 +6,7 @@ export default function Home() {
 			<div className="hidden mb-8 sm:mt-32 sm:flex lg:mt-16">
 				<div className="relative px-3 py-1 text-sm leading-6 text-gray-500 rounded-full ring-1 ring-gray-900/10 dark:ring-white/10 hover:ring-gray-900/20">
 					We wrote an article about it.{' '}
-					<a href="#" className="font-bold whitespace-nowrap">
+					<a href="https://medium.com/" target="_blank" className="font-bold whitespace-nowrap">
 						<span aria-hidden="true" className="absolute inset-0" />
 						Read on Medium <span aria-hidden="true">&rarr;</span>
 					</a>
