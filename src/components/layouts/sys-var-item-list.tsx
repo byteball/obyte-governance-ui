@@ -3,6 +3,7 @@
 import { sysVarConfiguration } from "@/sysVarConfiguration"
 import { SysVarItem } from "./sys-var-item"
 import { getSystemVarsList } from "@/services/httpHub";
+import { transformSysVarKeyToName } from "@/lib/transformSysVarKeyToName";
 
 export const SysVarItemList = async () => {
 	const sysVars = await getSystemVarsList();
@@ -15,8 +16,4 @@ export const SysVarItemList = async () => {
 			description={sysVarConfiguration[key]?.description ?? "No description"}
 		/>)}
 	</div>
-}
-
-export const transformSysVarKeyToName = (key: string) => {
-	return sysVarConfiguration[key]?.customName || key.split("_").join(" ");
 }
