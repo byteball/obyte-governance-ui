@@ -1,5 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { transformSysVarKeyToName } from "@/lib/transformSysVarKeyToName";
+import { sysVarConfiguration } from "@/sysVarConfiguration";
+import { notFound } from "next/navigation";
 
 interface ISysVarPageProps {
 	params: {
@@ -8,6 +10,8 @@ interface ISysVarPageProps {
 }
 
 export default function SysVarPage({ params }: ISysVarPageProps) {
+	if (!Object.keys(sysVarConfiguration).includes(params.key)) return notFound();
+
 	return (<div className="space-y-8">
 		<h1 className="text-4xl font-extrabold tracking-tight scroll-m-20 lg:text-5xl">
 			Vote for <span className="lowercase">{transformSysVarKeyToName(params.key)}</span>
