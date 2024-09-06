@@ -30,6 +30,7 @@ const OpListView: FC<{ value: string[], hideList?: boolean }> = ({ value, hideLi
 						<a
 							href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${v}`}
 							target="_blank"
+							rel="noreferrer"
 							className="underline"
 						>
 							{v in appConfig.PROVIDER_DICTIONARY ? appConfig.PROVIDER_DICTIONARY[v as keyof typeof appConfig.PROVIDER_DICTIONARY] : v}
