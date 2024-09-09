@@ -22,7 +22,7 @@ export const getSystemVars = async (): Promise<ISystemVarsList> => {
 	return data;
 }
 
-interface IVoteInfo {
+export interface IVoteInfo {
 	address: string;
 	unit: string;
 	timestamp: string;

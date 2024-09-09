@@ -11,6 +11,7 @@ interface IParamsViewProps {
 	value: string | number | string[] | undefined;
 	decimals?: number;
 	hideList?: boolean;
+	minCount?: number;
 }
 
 const NumberView: FC<{ value: number, decimals?: number }> = ({ value, decimals }) => {
@@ -18,9 +19,9 @@ const NumberView: FC<{ value: number, decimals?: number }> = ({ value, decimals 
 	return <>{toLocalString(displayValue)}</>;
 };
 
-const OpListView: FC<{ value: string[], hideList?: boolean }> = ({ value, hideList }) => {
+const OpListView: FC<{ value: string[], hideList?: boolean, minCount?: number }> = ({ value, hideList, minCount = 1}) => {
 	const [visible, setVisible] = useState(false);
-	const displayList = hideList && !visible ? value.slice(0, 1) : value;
+	const displayList = hideList && !visible ? value.slice(0, minCount) : value;
 
 	return (
 		<>
@@ -47,7 +48,7 @@ const OpListView: FC<{ value: string[], hideList?: boolean }> = ({ value, hideLi
 	);
 };
 
-export const ParamsView: FC<IParamsViewProps> = ({ type, value, decimals, hideList }) => {
+export const ParamsView: FC<IParamsViewProps> = ({ type, value, decimals, hideList, minCount }) => {
 	if (typeof value === "undefined" || (type === "number" && typeof value !== "number")) {
 		return <>Invalid value</>;
 	}
@@ -56,7 +57,7 @@ export const ParamsView: FC<IParamsViewProps> = ({ type, value, decimals, hideLi
 		case 'number':
 			return <NumberView value={value as number} decimals={decimals} />;
 		case 'op-list':
-			return isArray(value) ? <OpListView value={value as string[]} hideList={hideList} /> : <>Invalid value</>;
+			return isArray(value) ? <OpListView value={value as string[]} hideList={hideList} minCount={minCount} /> : <>Invalid value</>;
 		default:
 			return <>{value}</>;
 	}

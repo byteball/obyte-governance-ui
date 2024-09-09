@@ -29,7 +29,7 @@ export const Widgets: FC<IWidgetsProps> = async ({ param_key }) => {
 	const currentValue = paramValues.length === 1 ? paramValues[0].value : maxBy(paramValues, (p) => p.vote_count_mci)?.value;
 	const totalSupport = votes.reduce((acc, curr) => acc + (balances?.[curr.address] ?? 0), 0);
 
-	return <div className="grid grid-cols-4 gap-8">
+	return <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
 		<Card className="h-[110px]">
 			<CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
 				<CardTitle className="text-sm font-medium">Total voters balance</CardTitle>
