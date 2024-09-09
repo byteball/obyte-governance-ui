@@ -36,7 +36,7 @@ export const QRButton: FC<IQRButtonProps> = ({ className, children, href, disabl
 			</DialogHeader>
 			<div className="mx-auto">
 				<a href={href}>
-					<QRCodeSVG size={240} className="qr" bgColor='#24292e' fgColor='#fff' renderAs="svg" value={href} />
+					<QRCodeSVG size={240} className="qr" bgColor='#24292e' fgColor='#fff' value={href} />
 				</a>
 			</div>
 
