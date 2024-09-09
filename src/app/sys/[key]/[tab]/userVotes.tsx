@@ -70,7 +70,7 @@ export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 							{votes.sort((a, b) => balances[b.address] - balances[a.address]).map(({ address, unit, timestamp }) => (
 								<div key={unit + timestamp} className="flex justify-between items-center">
 									<div className="">
-										<a target="_blank" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} className="block font-semibold">
+										<a target="_blank" rel="noreferrer" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} className="block font-semibold">
 											{address}
 										</a>
 
