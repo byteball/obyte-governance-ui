@@ -76,7 +76,7 @@ export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 
 										<div className="flex space-x-4 align-middle text-xs text-gray-500">
 											{unit ? <a className="hover:text-gray-900" target="_blank" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/${unit}`}>Unit on explorer <ExternalLink className="inline h-3 w-3" /></a> : null}
-											{timestamp ? <div className="">{moment.unix(timestamp).format("LLL")}</div> : null}
+											{timestamp ? <div className="">{moment.unix(Number(timestamp)).format("LLL")}</div> : null}
 										</div>
 									</div>
 
