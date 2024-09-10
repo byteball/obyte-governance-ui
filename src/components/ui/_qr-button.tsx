@@ -32,7 +32,7 @@ export const QRButton: FC<IQRButtonProps> = ({ className, children, href, disabl
 
 		<DialogContent className="sm:max-w-[425px]">
 			<DialogHeader>
-				<DialogTitle>Scan this QR code <br /> with your mobile phone</DialogTitle>
+				<DialogTitle className="max-w-[200px] text-center mx-auto">Scan this QR code with your mobile phone</DialogTitle>
 			</DialogHeader>
 			<div className="mx-auto">
 				<a href={href}>
