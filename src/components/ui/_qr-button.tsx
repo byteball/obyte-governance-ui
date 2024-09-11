@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from "react";
+import { FC, forwardRef } from "react";
 import { QrCode as QrCodeIcon } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import cn from "classnames";
@@ -13,7 +13,7 @@ interface IQRButtonProps extends ButtonProps {
 	href: string;
 }
 
-export const QRButton: FC<IQRButtonProps> = ({ className, children, href, disabled = false, ...props }) => (<div className="flex">
+export const QRButton = forwardRef<HTMLAnchorElement, IQRButtonProps>(({ className, children, href, disabled = false, ...props }, ref) => (<div className="flex">
 	<Dialog>
 		<TooltipProvider>
 			<Tooltip>
@@ -49,7 +49,7 @@ export const QRButton: FC<IQRButtonProps> = ({ className, children, href, disabl
 		<Tooltip>
 			<TooltipTrigger asChild>
 				<Button {...props} disabled asChild className={cn("pl-2 rounded-tl-none rounded-bl-none cursor-pointer", { "text-primary-foreground pointer-events-none opacity-50 bg-primary select-none": disabled })}>
-					<a href={href}>
+					<a href={href} ref={ref}>
 						{children}
 					</a>
 				</Button>
@@ -59,4 +59,4 @@ export const QRButton: FC<IQRButtonProps> = ({ className, children, href, disabl
 			</TooltipContent>
 		</Tooltip>
 	</TooltipProvider>
-</div>)
+</div>));

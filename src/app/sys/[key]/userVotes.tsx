@@ -34,11 +34,9 @@ export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 	if (type !== "op-list") {
 		uniqVotes = groupBy(votes, (v) => v.value);
 	} else if (type === "op-list") {
-		console.log("votes", votes);
 		uniqVotes = groupBy(votes, (v) => v.ops?.sort().join('\n'));
 	}
 
-	// console.error('votes', uniqVotes)
 	return (
 		<>
 			<h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 mb-4">
