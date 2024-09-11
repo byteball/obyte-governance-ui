@@ -36,8 +36,6 @@ export default function SysVarPage({ params }: ISysVarPageProps) {
 		</div>
 
 		<nav className="grid grid-cols-5 gap-8">
-			
-
 			<div className="col-span-4">
 				<UserVotes
 					param_key={params.key}
