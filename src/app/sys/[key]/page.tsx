@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { Plus } from "lucide-react";
 
 import { Widgets } from "@/components/layouts/widgets";
 import { transformSysVarKeyToName } from "@/lib/transformSysVarKeyToName";
@@ -6,6 +7,7 @@ import { sysVarConfiguration } from "@/sysVarConfiguration";
 import { Button } from "@/components/ui/button";
 
 import { UserVotes } from "./userVotes";
+
 
 interface ISysVarPageProps {
 	params: {
