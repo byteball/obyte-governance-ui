@@ -36,34 +36,12 @@ export default function SysVarPage({ params }: ISysVarPageProps) {
 		</div>
 
 		<nav className="grid grid-cols-5 gap-8">
-			<div className="flex space-y-4 flex-col text-sm text-muted-foreground">
-				<div className="font-semibold text-primary">
-					Menu
-				</div>
-				<Link href={`/sys/${params.key}/user_votes`}>User votes</Link>
-				<Link href={`/sys/${params.key}/recent`}>Recent votes</Link>
-				<Link href={`/sys/${params.key}/count`}>Count request</Link>
-				<Link href={`/sys/${params.key}/stats`}>Statistic</Link>
-			</div>
+			
 
 			<div className="col-span-4">
-				{params.tab === 'user_votes' ? <div>
-					<UserVotes
-						param_key={params.key}
-					/>
-				</div> : null}
-
-				{params.tab === 'recent' ? <div>
-					Recent votes
-				</div> : null}
-
-				{params.tab === 'stats' ? <div>
-					Stats
-				</div> : null}
-
-				{params.tab === 'count' ? <div>
-					Count
-				</div> : null}
+				<UserVotes
+					param_key={params.key}
+				/>
 			</div>
 		</nav>
 	</div>)
