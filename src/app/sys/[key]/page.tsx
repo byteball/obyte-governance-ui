@@ -1,9 +1,13 @@
 import { notFound } from "next/navigation";
+import { Plus } from "lucide-react";
 
 import { Widgets } from "@/components/layouts/widgets";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { transformSysVarKeyToName } from "@/lib/transformSysVarKeyToName";
 import { sysVarConfiguration } from "@/sysVarConfiguration";
+import { Button } from "@/components/ui/button";
+
+import { UserVotes } from "./userVotes";
+
 
 interface ISysVarPageProps {
 	params: {
@@ -26,5 +30,17 @@ export default function SysVarPage({ params }: ISysVarPageProps) {
 		<Widgets
 			param_key={params.key}
 		/>
+
+		<div className="flex justify-end">
+			<Button className="mt-[50px]"><Plus className="mr-2 h-4 w-4" /> Suggest another value</Button>
+		</div>
+
+		<nav className="grid grid-cols-5 gap-8">
+			<div className="col-span-4">
+				<UserVotes
+					param_key={params.key}
+				/>
+			</div>
+		</nav>
 	</div>)
 }
