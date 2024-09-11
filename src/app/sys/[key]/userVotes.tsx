@@ -1,7 +1,6 @@
 "use server";
 
 import { ParamsView } from "@/components/params-view"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { getSystemVarsVotes, IVoteInfo } from "@/services/httpHub";
 import { sysVarConfiguration } from "@/sysVarConfiguration";
