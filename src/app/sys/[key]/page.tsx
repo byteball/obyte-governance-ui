@@ -31,16 +31,18 @@ export default function SysVarPage({ params }: ISysVarPageProps) {
 			param_key={params.key}
 		/>
 
-		<div className="flex justify-end">
-			<Button className="mt-[50px]"><Plus className="mr-2 h-4 w-4" /> Suggest another value</Button>
-		</div>
-
-		<nav className="grid grid-cols-5 gap-8">
-			<div className="col-span-4">
-				<UserVotes
-					param_key={params.key}
-				/>
+		{params.key !== "op_list" ? <>
+			<div className="flex justify-end">
+				<Button className="mt-[50px]"><Plus className="mr-2 h-4 w-4" /> Suggest another value</Button>
 			</div>
-		</nav>
+
+			<nav className="grid grid-cols-5 gap-8">
+				<div className="col-span-4">
+					<UserVotes
+						param_key={params.key}
+					/>
+				</div>
+			</nav>
+		</> : null}
 	</div>)
 }
