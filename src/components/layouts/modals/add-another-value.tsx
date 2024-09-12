@@ -37,13 +37,13 @@ export const AddAnotherValueModal: FC<IAddAnotherValueModalProps> = ({ defaultVa
 
 	const { type, description, customName } = sysVarConfiguration[paramKey];
 	const actionUri = generateSysLink({ param_key: paramKey, value: type === "number" ? Number(value.value) : value.value });
-	console.log('type === "number" ? Number(value.value) : value.value', type === "number" ? Number(value.value) : value.value)
+
 	const pattern = /^\d+(\.?)\d*$/g;
 
 	const handleChangeValue = (ev: React.ChangeEvent<HTMLInputElement>) => {
 		const value = ev.target.value.replace(',', '.');
 
-		if ((getCountOfDecimals(value) <= 4 && value.match(pattern) || value === "") && Number(value) <= 10 ** 7) {
+		if ((getCountOfDecimals(value) <= 4 && value.match(pattern) || value === "") && Number(value) <= 10 ** 6 && value.length <= 6) {
 			setValue({ value, valid: isNumber(Number(value)) });
 		}
 	}
