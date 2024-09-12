@@ -1,13 +1,16 @@
 import { Menu } from "lucide-react"
 import Link from "next/link"
+
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet"
 import { Button } from "../ui/button"
 import { ModeToggle } from "../mode-toggle"
+import { sysVarConfiguration } from "@/sysVarConfiguration"
+import { transformSysVarKeyToName } from "@/lib/transformSysVarKeyToName"
 
 export const Header = () => {
 	return (
 		<header className="sticky top-0 z-50 flex items-center h-16 gap-4 px-4 border-b bg-background md:px-6">
-			<nav className="flex-col hidden gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
+			<nav className="flex-col w-full hidden gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
 				<Link
 					href="/"
 					className="flex items-center w-8 h-8 text-lg font-medium md:text-base"
@@ -20,18 +23,13 @@ export const Header = () => {
 				>
 					Home
 				</Link>
-				<Link
-					href="#"
-					className="transition-colors text-muted-foreground hover:text-foreground"
+				{Object.entries(sysVarConfiguration).map(([key, { customName }]) => (<Link
+					href={`/sys/${key}`}
+					key={key}
+					className="text-muted-foreground hover:text-foreground block flex-shrink-0"
 				>
-					OIPs
-				</Link>
-				<Link
-					href="#"
-					className="transition-colors text-muted-foreground hover:text-foreground"
-				>
-					Discord
-				</Link>
+					{customName || transformSysVarKeyToName(key)}
+				</Link>))}
 			</nav>
 			<Sheet>
 				<SheetTrigger asChild>
@@ -54,17 +52,17 @@ export const Header = () => {
 							<span className="sr-only">Obyte governance</span>
 						</Link>
 						<Link
-							href="#"
+							href="/"
 							className="text-muted-foreground hover:text-foreground"
 						>
 							Dashboard
 						</Link>
-						<Link
-							href="#"
+						{Object.entries(sysVarConfiguration).map(([key, { customName }]) => (<Link
+							href={`/sys/${key}`}
 							className="text-muted-foreground hover:text-foreground"
 						>
-							Github
-						</Link>
+							{customName || key}
+						</Link>))}
 					</nav>
 				</SheetContent>
 			</Sheet>
