@@ -25,7 +25,7 @@ const OpListView: FC<{ value: string[], hideList?: boolean, minCount?: number }>
 
 	return (
 		<>
-			<ul className="text-sm font-normal space-y-1.5">
+			<ul className="text-sm font-normal space-y-2">
 				{displayList.map((v) => (
 					<li key={v} className="text-ellipsis overflow-hidden w-full">
 						<a
@@ -34,7 +34,8 @@ const OpListView: FC<{ value: string[], hideList?: boolean, minCount?: number }>
 							rel="noreferrer"
 							className="underline"
 						>
-							{v in appConfig.PROVIDER_DICTIONARY ? appConfig.PROVIDER_DICTIONARY[v as keyof typeof appConfig.PROVIDER_DICTIONARY] : v}
+							<span className="address">{v}</span>
+							{v in appConfig.PROVIDER_DICTIONARY ? <span className="block text-xs text-foreground text-gray-600">({appConfig.PROVIDER_DICTIONARY[v as keyof typeof appConfig.PROVIDER_DICTIONARY]})</span> : ''}
 						</a>
 					</li>
 				))}
