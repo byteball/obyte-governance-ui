@@ -18,7 +18,7 @@ export const QRButton = forwardRef<HTMLAnchorElement, IQRButtonProps>(({ classNa
 		<TooltipProvider>
 			<Tooltip>
 				<TooltipTrigger asChild>
-					<DialogTrigger asChild>
+					<DialogTrigger asChild onClick={(e) => e.stopPropagation()}>
 						<Button {...props} disabled={disabled} className="px-3 rounded-tr-none rounded-br-none">
 							<QrCodeIcon className="w-4 h-4" />
 						</Button>
