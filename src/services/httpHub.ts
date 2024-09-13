@@ -29,13 +29,15 @@ export interface IVoteInfo {
 	ops?: string[];
 	value: number;
 }
+export interface IBalances {
+	[address: string]: number;
+}
+
 interface IVotes {
 	votes: {
 		[key: string]: IVoteInfo[];
 	},
-	balances: {
-		[address: string]: number;
-	}
+	balances: IBalances;
 }
 
 export const getSystemVarsVotes = async (): Promise<IVotes> => {

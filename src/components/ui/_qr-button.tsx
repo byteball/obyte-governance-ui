@@ -11,9 +11,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 
 interface IQRButtonProps extends ButtonProps {
 	href: string;
+	fluid?: boolean;
 }
 
-export const QRButton = forwardRef<HTMLAnchorElement, IQRButtonProps>(({ className, children, href, disabled = false, ...props }, ref) => (<div className="flex">
+export const QRButton = forwardRef<HTMLAnchorElement, IQRButtonProps>(({ className, fluid, children, href, disabled = false, ...props }, ref) => (<div className="flex">
 	<Dialog>
 		<TooltipProvider>
 			<Tooltip>
@@ -48,7 +49,7 @@ export const QRButton = forwardRef<HTMLAnchorElement, IQRButtonProps>(({ classNa
 	<TooltipProvider>
 		<Tooltip>
 			<TooltipTrigger asChild>
-				<Button {...props} disabled asChild className={cn("pl-2 rounded-tl-none rounded-bl-none cursor-pointer", { "text-primary-foreground pointer-events-none opacity-50 bg-primary select-none": disabled })}>
+				<Button {...props} disabled asChild className={cn("pl-2 rounded-tl-none rounded-bl-none cursor-pointer", { "text-primary-foreground pointer-events-none opacity-50 bg-primary select-none": disabled }, {"w-full": fluid})}>
 					<a href={href} ref={ref}>
 						{children}
 					</a>
