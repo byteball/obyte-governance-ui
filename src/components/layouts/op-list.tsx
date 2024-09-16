@@ -21,79 +21,92 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
 import appConfig from "@/appConfig"
-import { X } from "lucide-react"
+import { Plus } from "lucide-react"
 import { QRButton } from "../ui/_qr-button"
-import { AddAnotherOrderProviderModal } from "./modals/add-another-op"
 import { ParamsView } from "../params-view"
 import { generateSysLink } from "@/lib/generateLink"
+import { Input } from "../ui/input"
+import { Button } from "../ui/button"
+import obyte from "obyte"
+import { difference } from "lodash"
 
 export type IOrderProvider = {
 	amount: number;
 	address: string;
-	description?: string
+	description?: string;
+	editable?: boolean;
+	editableFieldId?: string;
+	isValidEditableField?: boolean;
 }
-
-export const columns: ColumnDef<IOrderProvider>[] = [
-	{
-		id: "select",
-		header: () => null,
-		cell: ({ row }) => (
-			<Checkbox
-				checked={row.getIsSelected()}
-				onCheckedChange={(value) => row.toggleSelected(!!value)}
-			/>
-		),
-		enableSorting: false,
-		enableHiding: false,
-	},
-	{
-		accessorKey: "address",
-		header: "Address",
-		cell: ({ row }) => (
-			<div>
-				<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" className="address underline">{row.getValue("address")}</a> <div><small className="text-muted-foreground">{row.original.description}</small></div>
-			</div>
-		),
-	},
-	{
-		accessorKey: "amount",
-		header: () => <div className="text-right">Amount (GBYTE)</div>,
-		cell: ({ row }) => <div className="text-right font-medium">
-			<ParamsView
-				value={row.getValue("amount")}
-				type="number"
-				decimals={9}
-			/>
-		</div>
-		,
-		enableSorting: true,
-		sortDescFirst: true,
-		enableResizing: true,
-		sortingFn: (a, b) => b.getValue<number>("amount") - a.getValue<number>("amount"),
-	}
-]
 
 interface IOrderProviderListProps {
 	data: IOrderProvider[];
+	currentValue: string[];
 }
 
-export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data }) => {
-
+export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, currentValue }) => {
 	const [sorting, setSorting] = React.useState<SortingState>([])
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
 		[]
 	)
 
-	const [rowSelection, setRowSelection] = React.useState({})
+	const [rowSelection, setRowSelection] = React.useState<{ [rowID: string]: boolean; }>(currentValue.reduce((a, v) => ({ ...a, [v]: true }), {}))
 	const [tableRows, setTableRows] = React.useState<IOrderProvider[]>(data);
+
+	const columns: ColumnDef<IOrderProvider>[] = React.useMemo(() => [
+		{
+			id: "select",
+			header: () => null,
+			cell: ({ row }) => (
+				<Checkbox
+					checked={row.getIsSelected()}
+					disabled={row.original.editable && !row.original.isValidEditableField}
+					onCheckedChange={(value) => row.toggleSelected(!!value)}
+				/>
+			),
+			enableSorting: false,
+			enableHiding: false,
+		},
+		{
+			accessorKey: "address",
+			header: "Address",
+			id: "address",
+			cell: ({ row }) => (
+				row.original.editable ?
+					<Input
+						value={row.getValue("address")}
+						className={obyte.utils.isValidAddress(row.getValue("address")) ? "border-green-700 ring-green-700 focus-visible:ring-green-700 focus-visible:ring-offset-0" : "border-red-800 focus-visible:ring-red-800 focus-visible:ring-offset-0"}
+						onChange={(ev: React.ChangeEvent<HTMLInputElement>) => changeEditableField(ev, row.original.editableFieldId || "unknownId", ev.target.value)}
+					/> :
+					<div className="min-h-[25px]">
+						<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" className="address underline">{row.getValue("address")}</a> <div><small className="text-muted-foreground">{row.original.description}</small></div>
+					</div>
+			),
+		},
+		{
+			accessorKey: "amount",
+			header: () => <div className="text-right">Amount (GBYTE)</div>,
+			cell: ({ row }) => <div className="text-right font-medium">
+				{row.original.editable ? <span>Your GBYTE balance</span> : <ParamsView
+					value={row.getValue("amount")}
+					type="number"
+					decimals={9}
+				/>}
+			</div>
+			,
+			enableSorting: true,
+			sortDescFirst: true,
+			enableResizing: true,
+			sortingFn: (a, b) => b.getValue<number>("amount") - a.getValue<number>("amount"),
+		}
+	], []);
 
 	const table = useReactTable({
 		rowCount: tableRows.length,
 		data: tableRows,
 		columns,
-		getRowId: (row) => row.address,
+		getRowId: (row) => row.editableFieldId || row.address,
 		onSortingChange: setSorting,
 		onColumnFiltersChange: setColumnFilters,
 		getCoreRowModel: getCoreRowModel(),
@@ -111,18 +124,43 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data }) =
 		},
 	});
 
-	const addOrderProviderAndSelect = (address: string) => {
-		if (!tableRows.map((r => r.address)).includes(address)) {
-			setTableRows((prev) => ([...prev, { address, amount: 0 }]));
-		}
-
-		setRowSelection((prev) => ({ ...prev, [address]: true }));
+	const createEmptyOrderProviderField: React.MouseEventHandler<HTMLButtonElement> = () => {
+		setTableRows((prev) => ([...prev, { address: "", amount: 0, editable: true, editableFieldId: Math.random().toString(36).substring(7) }]));
 	}
 
-	const uri = generateSysLink({ app: "system_vote", param_key: "op_list", value: Object.entries(rowSelection).filter(([_, value]) => value).map(([address])=> `${address}`).join("\n") });
+	const changeEditableField = React.useCallback((ev: React.ChangeEvent<HTMLInputElement>, editableFieldId: string, value: string) => {
+		setTableRows(tableRows => {
+			const index = tableRows.findIndex((row) => row.editableFieldId === editableFieldId);
+			setRowSelection((prev) => ({ ...prev, [editableFieldId]: false }));
+			if (index !== -1) {
+				const newTableRows = [...tableRows];
+				newTableRows[index].address = value;
+				newTableRows[index].isValidEditableField = obyte.utils.isValidAddress(value);
+				return newTableRows;
+			} else {
+				console.log("Editable field not found");
+				return tableRows;
+			}
+		});
+	}, []);
+
+	const selectedAddresses = tableRows.filter((row) => {
+		if (row.editable && row.editableFieldId && rowSelection[row.editableFieldId]) {
+			return true
+		} else if (!row.editable && rowSelection[row.address]) {
+			return true
+		} else {
+			return false;
+		}
+	}).map((row) => row.address);
+
+	const uri = generateSysLink({ app: "system_vote", param_key: "op_list", value: selectedAddresses.map((address) => `${address}`).join("\n") });
+
+	const removedOp = difference(currentValue, selectedAddresses);
+	const addedOp = difference(selectedAddresses, currentValue);
 
 	return (
-		<div className="grid grid-cols-6 gap-8">
+		<div className="grid grid-cols-5 gap-8">
 			<div className="w-full col-span-4">
 				<div className="rounded-md border">
 					<Table>
@@ -174,36 +212,33 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data }) =
 						</TableBody>
 					</Table>
 				</div>
-			</div>
-			<div className="col-span-2">
-				<Card className="z-50 sticky top-[79px] w-full">
-					<CardHeader className="pb-2">
-						<CardTitle className="text-xl">Selected order providers</CardTitle>
-						<CardDescription>
-							Select 12 order providers to vote or add new ones.
-						</CardDescription>
-					</CardHeader>
-					<CardContent>
-						{table.getFilteredSelectedRowModel().rows.length ? <div>
-							{table.getFilteredSelectedRowModel().rows.map((row, index) => {
-								const address = row.getValue<string>("address");
 
-								return (<div className="w-full">{index + 1}. <a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" className="underline">
-									{address.slice(0, 8)}... {address.slice(-8, address.length)}
-								</a> <span className="cursor-pointer text-red-700 inline-block align-middle" onClick={() => row.toggleSelected(false)}><X /></span></div>)
-							})}
-						</div> : <div>No order providers selected</div>}
-						<AddAnotherOrderProviderModal handler={addOrderProviderAndSelect} />
+				<div className="text-center">
+					<Button onClick={createEmptyOrderProviderField} variant="link" className="px-0"><Plus className="mr-2 h-4 w-4" /> Suggest another order provider</Button>
+				</div>
 
-						<div className="mt-8">
-							<QRButton fluid href={uri} disabled={table.getFilteredSelectedRowModel().rows.length !== 12}>Vote</QRButton>
-							{table.getFilteredSelectedRowModel().rows.length !== 12
-								? <div className="text-center"><small className="text-red-700">Select 12 order providers</small></div>
-								: null}
-						</div>
-					</CardContent>
-				</Card>
+
+
+				<div className="mt-4">
+
+					{table.getFilteredSelectedRowModel().rows.length === 12 ? <div className="mb-4 space-y-2">
+						{removedOp.length > 0 && removedOp.map((address, index) => (
+							<div className="text-xs" key={address}>
+								<a className="text-red-700 address underline" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank">{address} {address in appConfig.PROVIDER_DICTIONARY ? <span> ({appConfig.PROVIDER_DICTIONARY[address]})</span> : null}</a>
+								{" -> "}
+								<a className="text-green-700 address underline" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${addedOp[index]}`} target="_blank">{addedOp[index]}  {addedOp[index] in appConfig.PROVIDER_DICTIONARY ? <span> ({appConfig.PROVIDER_DICTIONARY[addedOp[index]]})</span> : null}</a>
+							</div>
+						))}
+					</div> : null}
+
+					<QRButton href={uri} disabled={table.getFilteredSelectedRowModel().rows.length !== 12}>Vote</QRButton>
+
+					{table.getFilteredSelectedRowModel().rows.length !== 12
+						? <div className="mt-2"><small className="text-red-700">Select 12 order providers</small></div>
+						: null}
+				</div>
 			</div>
 		</div>
 	)
 }
+

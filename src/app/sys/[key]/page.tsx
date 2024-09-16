@@ -7,8 +7,9 @@ import { sysVarConfiguration } from "@/sysVarConfiguration";
 import { UserVotes } from "./userVotes";
 import { AddAnotherValueModal } from "@/components/layouts/modals/add-another-value";
 import { OrderProviderList } from "@/components/layouts/op-list";
-import { getSystemVarsVotes } from "@/services/httpHub";
+import { getSystemVars, getSystemVarsVotes } from "@/services/httpHub";
 import { aggregateOpsData } from "@/lib/aggregateOpsData";
+import { maxBy } from "lodash";
 
 interface ISysVarPageProps {
 	params: {
@@ -20,8 +21,13 @@ export default async function SysVarPage({ params }: ISysVarPageProps) {
 	if (!Object.keys(sysVarConfiguration).includes(params.key)) return notFound();
 
 	const { votes: allVotes, balances } = await getSystemVarsVotes();
-
 	const opsData = aggregateOpsData(allVotes.op_list, balances);
+
+	const allValues = await getSystemVars();
+
+	const paramValues = allValues.op_list || [];
+
+	const currentValue: string[] = paramValues.length === 1 ? paramValues[0].value as string[] : maxBy(paramValues, (p) => p.vote_count_mci)?.value as string[];
 
 	return (<div className="space-y-8">
 		<h1 className="text-4xl font-extrabold tracking-tight scroll-m-20 lg:text-5xl">
@@ -49,7 +55,7 @@ export default async function SysVarPage({ params }: ISysVarPageProps) {
 				Order provider list
 			</h2>
 
-			<OrderProviderList data={opsData} />
+			<OrderProviderList data={opsData} currentValue={currentValue} />
 		</>}
 	</div>)
 }
