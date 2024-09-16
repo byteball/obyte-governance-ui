@@ -17,12 +17,13 @@ import {
 	Table,
 	TableBody,
 	TableCell,
+	TableFooter,
 	TableHead,
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table"
 import appConfig from "@/appConfig"
-import { Plus } from "lucide-react"
+import { Plus, X } from "lucide-react"
 import { QRButton } from "../ui/_qr-button"
 import { ParamsView } from "../params-view"
 import { generateSysLink } from "@/lib/generateLink"
@@ -74,11 +75,18 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, cur
 			id: "address",
 			cell: ({ row }) => (
 				row.original.editable ?
-					<Input
-						value={row.getValue("address")}
-						className={obyte.utils.isValidAddress(row.getValue("address")) ? "border-green-700 ring-green-700 focus-visible:ring-green-700 focus-visible:ring-offset-0" : "border-red-800 focus-visible:ring-red-800 focus-visible:ring-offset-0"}
-						onChange={(ev: React.ChangeEvent<HTMLInputElement>) => changeEditableField(ev, row.original.editableFieldId || "unknownId", ev.target.value)}
-					/> :
+					<div className="space-x-4 flex items-center">
+						<Input
+							value={row.getValue("address")}
+							className={obyte.utils.isValidAddress(row.getValue("address")) ? "border-green-700 ring-green-700 focus-visible:ring-green-700 focus-visible:ring-offset-0" : "border-red-800 focus-visible:ring-red-800 focus-visible:ring-offset-0"}
+							onChange={(ev: React.ChangeEvent<HTMLInputElement>) => changeEditableField(ev, row.original.editableFieldId || "unknownId", ev.target.value)}
+						/>
+						<div>
+							<X
+								className="w-6 h-6 cursor-pointer stroke-red-700"
+								onClick={() => setTableRows(rows => rows.filter(r => r.editableFieldId !== row.original.editableFieldId))} />
+						</div>
+					</div> :
 					<div className="min-h-[25px]">
 						<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" className="address underline">{row.getValue("address")}</a> <div><small className="text-muted-foreground">{row.original.description}</small></div>
 					</div>
@@ -211,13 +219,10 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, cur
 							)}
 						</TableBody>
 					</Table>
+					<div className="w-full px-4  border-t  border-r-0">
+						<Button onClick={createEmptyOrderProviderField} variant="link" className=""><Plus className="mr-2 h-4 w-4" /> Suggest another order provider</Button>
+					</div>
 				</div>
-
-				<div className="text-center">
-					<Button onClick={createEmptyOrderProviderField} variant="link" className="px-0"><Plus className="mr-2 h-4 w-4" /> Suggest another order provider</Button>
-				</div>
-
-
 
 				<div className="mt-4">
 
