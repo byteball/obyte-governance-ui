@@ -46,7 +46,7 @@ interface IOrderProviderListProps {
 }
 
 export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, currentValue }) => {
-	const [sorting, setSorting] = React.useState<SortingState>([])
+	const [sorting, setSorting] = React.useState<SortingState>([{ id: "amount", desc: false }]);
 	const [rowSelection, setRowSelection] = React.useState<{ [rowID: string]: boolean; }>(currentValue.reduce((a, v) => ({ ...a, [v]: true }), {}))
 	const [tableRows, setTableRows] = React.useState<IOrderProvider[]>(data);
 
