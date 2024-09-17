@@ -59,7 +59,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, cur
 			cell: ({ row }) => (
 				<Checkbox
 					checked={row.getIsSelected()}
-					disabled={row.original.editable && !row.original.isValidEditableField}
+					disabled={row.original.editableFieldCheckLoading || row.original.editable && !row.original.isValidEditableField || row.original.editableFieldError !== undefined}
 					onCheckedChange={(value) => row.toggleSelected(!!value)}
 				/>
 			),
@@ -72,18 +72,22 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, cur
 			id: "address",
 			cell: ({ row }) => (
 				row.original.editable ?
-					<div className="space-x-4 flex items-center">
-						<Input
-							value={row.getValue("address")}
-							className={obyte.utils.isValidAddress(row.getValue("address")) ? "border-green-700 ring-green-700 focus-visible:ring-green-700 focus-visible:ring-offset-0" : "border-red-800 focus-visible:ring-red-800 focus-visible:ring-offset-0"}
-							onChange={(ev: React.ChangeEvent<HTMLInputElement>) => changeEditableField(ev, row.original.editableFieldId || "unknownId", ev.target.value)}
-						/>
-						<div>
-							<X
-								className="w-6 h-6 cursor-pointer stroke-red-700"
-								onClick={() => setTableRows(rows => rows.filter(r => r.editableFieldId !== row.original.editableFieldId))} />
+					<>
+						<div className="space-x-4 flex items-center">
+							<Input
+								value={row.getValue("address")}
+								loading={row.original.editableFieldCheckLoading}
+								className={obyte.utils.isValidAddress(row.getValue("address")) && row.original.editableFieldError === undefined ? "border-green-700 ring-green-700 focus-visible:ring-green-700 focus-visible:ring-offset-0" : "border-red-800 focus-visible:ring-red-800 focus-visible:ring-offset-0"}
+								onChange={(ev: React.ChangeEvent<HTMLInputElement>) => changeEditableField(ev, row.original.editableFieldId || "unknownId", ev.target.value)}
+							/>
+							<div>
+								<X
+									className="w-6 h-6 cursor-pointer stroke-red-700"
+									onClick={() => setTableRows(rows => rows.filter(r => r.editableFieldId !== row.original.editableFieldId))} />
+							</div>
 						</div>
-					</div> :
+						{row.original.editableFieldError ? <div className="text-xs text-red-700 mt-1">{row.original.editableFieldError}</div> : null}
+					</> :
 					<div className="min-h-[25px]">
 						<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" className="address underline">{row.getValue("address")}</a> <div><small className="text-muted-foreground">{row.original.description}</small></div>
 					</div>
@@ -98,8 +102,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, cur
 					type="number"
 					decimals={9}
 				/>}
-			</div>
-			,
+			</div>,
 			enableSorting: true,
 			sortDescFirst: true,
 			enableResizing: true,
@@ -112,6 +115,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, cur
 		data: tableRows,
 		columns,
 		getRowId: (row) => row.editableFieldId || row.address,
+		onSortingChange: setSorting,
 		getCoreRowModel: getCoreRowModel(),
 		getSortedRowModel: getSortedRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
