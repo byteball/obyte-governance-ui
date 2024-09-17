@@ -110,7 +110,6 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, cur
 		data: tableRows,
 		columns,
 		getRowId: (row) => row.editableFieldId || row.address,
-		onSortingChange: setSorting,
 		getCoreRowModel: getCoreRowModel(),
 		getSortedRowModel: getSortedRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
