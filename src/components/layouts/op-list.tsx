@@ -29,7 +29,8 @@ import { generateSysLink } from "@/lib/generateLink"
 import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 import obyte from "obyte"
-import { difference } from "lodash"
+import { OrderProviderListDiff } from "./op-list-diff";
+import { getWalletDefinition } from "@/services/httpHub";
 
 export type IOrderProvider = {
 	amount: number;
