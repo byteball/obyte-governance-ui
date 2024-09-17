@@ -146,20 +146,11 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, cur
 		});
 	}, []);
 
-	const selectedAddresses = tableRows.filter((row) => {
-		if (row.editable && row.editableFieldId && rowSelection[row.editableFieldId]) {
-			return true
-		} else if (!row.editable && rowSelection[row.address]) {
-			return true
-		} else {
-			return false;
-		}
-	}).map((row) => row.address);
+	const selectedAddresses = tableRows
+  .filter((row) => !!rowSelection[row.editableFieldId || row.address])
+  .map((row) => row.address);
 
 	const uri = generateSysLink({ app: "system_vote", param_key: "op_list", value: selectedAddresses.map((address) => `${address}`).join("\n") });
-
-	const removedOp = difference(currentValue, selectedAddresses);
-	const addedOp = difference(selectedAddresses, currentValue);
 
 	return (
 		<div className="grid grid-cols-5 gap-8">
