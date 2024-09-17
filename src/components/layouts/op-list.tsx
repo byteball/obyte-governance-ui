@@ -229,9 +229,9 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, cur
 					{table.getFilteredSelectedRowModel().rows.length === 12 ? <div className="mb-4 space-y-2">
 						{removedOp.length > 0 && removedOp.map((address, index) => (
 							<div className="text-xs" key={address}>
-								<a className="text-red-700 address underline" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank">{address} {address in appConfig.PROVIDER_DICTIONARY ? <span> ({appConfig.PROVIDER_DICTIONARY[address]})</span> : null}</a>
+								<a className="text-red-700 underline" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank"><span className="address">{address}</span> {address in appConfig.PROVIDER_DICTIONARY ? <span> ({appConfig.PROVIDER_DICTIONARY[address]})</span> : null}</a>
 								{" -> "}
-								<a className="text-green-700 address underline" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${addedOp[index]}`} target="_blank">{addedOp[index]}  {addedOp[index] in appConfig.PROVIDER_DICTIONARY ? <span> ({appConfig.PROVIDER_DICTIONARY[addedOp[index]]})</span> : null}</a>
+								<a className="text-green-700 underline" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${addedOp[index]}`} target="_blank"><span className="address">{addedOp[index]}</span> {addedOp[index] in appConfig.PROVIDER_DICTIONARY ? <span> ({appConfig.PROVIDER_DICTIONARY[addedOp[index]]})</span> : null}</a>
 							</div>
 						))}
 					</div> : null}
