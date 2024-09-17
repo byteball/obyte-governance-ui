@@ -89,7 +89,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, cur
 		},
 		{
 			accessorKey: "amount",
-			header: () => <div className="text-right">Amount (GBYTE)</div>,
+			header: () => <div className="text-right">Votes (GBYTE)</div>,
 			cell: ({ row }) => <div className="text-right font-medium">
 				{row.original.editable ? <span>Your GBYTE balance</span> : <ParamsView
 					value={row.getValue("amount")}
