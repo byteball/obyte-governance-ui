@@ -3,7 +3,6 @@
 import * as React from "react"
 import {
 	ColumnDef,
-	SortingState,
 	flexRender,
 	getCoreRowModel,
 	getFilteredRowModel,
@@ -16,7 +15,6 @@ import {
 	Table,
 	TableBody,
 	TableCell,
-	TableFooter,
 	TableHead,
 	TableHeader,
 	TableRow,
@@ -38,6 +36,8 @@ export type IOrderProvider = {
 	description?: string;
 	editable?: boolean;
 	editableFieldId?: string;
+	editableFieldError?: string;
+	editableFieldCheckLoading?: boolean;
 	isValidEditableField?: boolean;
 }
 
@@ -47,7 +47,6 @@ interface IOrderProviderListProps {
 }
 
 export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, currentValue }) => {
-	const [sorting, setSorting] = React.useState<SortingState>([{ id: "amount", desc: false }]);
 	const [rowSelection, setRowSelection] = React.useState<{ [rowID: string]: boolean; }>(currentValue.reduce((a, v) => ({ ...a, [v]: true }), {}))
 	const [tableRows, setTableRows] = React.useState<IOrderProvider[]>(data);
 
@@ -121,7 +120,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, cur
 			}
 		},
 		state: {
-			sorting,
+			sorting: [{ id: "amount", desc: false }],
 			rowSelection,
 		},
 	});
