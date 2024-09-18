@@ -134,14 +134,61 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, cur
 		setTableRows((prev) => ([...prev, { address: "", amount: 0, editable: true, editableFieldId: Math.random().toString(36).substring(7) }]));
 	}
 
+	const checkWalletDefinition = React.useCallback(async (address: string, id: string) => {
+		const definitionExists = await getWalletDefinition(address)//.then(() => true)//.catch(() => false);
+
+		if (definitionExists.error || definitionExists.data === null) {
+			setTableRows(tableRows => {
+				const index = tableRows.findIndex((row) => row.editableFieldId === id);
+				if (index !== -1) {
+					const newTableRows = [...tableRows];
+					newTableRows[index].editableFieldError = "This wallet is empty, top it up with any amount of GBYTEs";
+					newTableRows[index].editableFieldCheckLoading = false;
+					return newTableRows;
+				} else {
+					return tableRows;
+				}
+			});
+		} else {
+			setTableRows(tableRows => {
+				const index = tableRows.findIndex((row) => row.editableFieldId === id);
+				if (index !== -1) {
+					const newTableRows = [...tableRows];
+					newTableRows[index].editableFieldError = undefined;
+					newTableRows[index].editableFieldCheckLoading = false;
+					return newTableRows;
+				} else {
+					return tableRows;
+				}
+			});
+		}
+	}, []);
+
 	const changeEditableField = React.useCallback((ev: React.ChangeEvent<HTMLInputElement>, editableFieldId: string, value: string) => {
 		setTableRows(tableRows => {
 			const index = tableRows.findIndex((row) => row.editableFieldId === editableFieldId);
 			setRowSelection((prev) => ({ ...prev, [editableFieldId]: false }));
+
 			if (index !== -1) {
+				const isValid = obyte.utils.isValidAddress(value);
 				const newTableRows = [...tableRows];
 				newTableRows[index].address = value;
-				newTableRows[index].isValidEditableField = obyte.utils.isValidAddress(value);
+				newTableRows[index].isValidEditableField = isValid;
+
+				if (isValid) {
+					const newTableRowsWithTheSameAddress = newTableRows.filter((row) => row.address === value);
+
+					if (newTableRowsWithTheSameAddress.length > 1) {
+						newTableRows[index].editableFieldError = "This address is already in the list";
+					} else {
+						newTableRows[index].editableFieldCheckLoading = true;
+
+						checkWalletDefinition(value, editableFieldId);
+					}
+				} else {
+					newTableRows[index].editableFieldError = undefined;
+				}
+
 				return newTableRows;
 			} else {
 				console.log("Editable field not found");
