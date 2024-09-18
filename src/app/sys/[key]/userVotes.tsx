@@ -44,7 +44,11 @@ export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 			</h2>
 
 			<div className="space-y-4">
-				{Object.entries(uniqVotes).map(([value, votes]) => {
+				{Object.entries(uniqVotes).sort((a, b) => {
+					const totalSupportAmountA = a[1].reduce((prev, value) => prev + (balances[value.address] ?? 0), 0);
+					const totalSupportAmountB = b[1].reduce((prev, value) => prev + (balances[value.address] ?? 0), 0);
+					return totalSupportAmountB - totalSupportAmountA;
+				}).map(([value, votes]) => {
 					const actionUri = generateSysLink({ param_key, value });
 					const totalSupportAmount = votes.reduce((prev, value) => prev + (balances[value.address] ?? 0), 0);
 					return (<Card key={value}>
