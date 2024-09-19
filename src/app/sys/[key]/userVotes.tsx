@@ -68,6 +68,14 @@ export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 							</div>
 						</CardHeader>
 						<CardContent>
+							<div className="mb-2">
+								Total support this value: <ParamsView
+									type="number"
+									value={totalSupportAmount}
+									decimals={appConfig.VOTING_TOKEN_DECIMALS}
+								/> {appConfig.VOTING_TOKEN_SYMBOL}
+							</div>
+							
 							<div className="font-bold mb-2">Votes:</div>
 							<div className="flex flex-col gap-4">
 								{votes.sort((a, b) => (balances[b.address] ?? 0) - (balances[a.address] ?? 0)).map(({ address, unit, timestamp }) => {
@@ -96,13 +104,6 @@ export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 								})}
 							</div>
 						</CardContent>
-						<CardFooter>
-							Total support this value: <ParamsView
-								type="number"
-								value={totalSupportAmount}
-								decimals={appConfig.VOTING_TOKEN_DECIMALS}
-							/> {appConfig.VOTING_TOKEN_SYMBOL}
-						</CardFooter>
 					</Card>)
 				})}
 			</div>
