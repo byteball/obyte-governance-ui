@@ -106,11 +106,13 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 				{row.original.editable ? <span>Your GBYTE balance</span> :
 					<Dialog>
 						<DialogTrigger>
-							<ParamsView
+							<span className="underline">
+								<ParamsView
 								value={row.getValue("amount")}
 								type="number"
 								decimals={9}
 							/>
+							</span>
 						</DialogTrigger>
 
 						<DialogContent className="max-w-[700px]">
