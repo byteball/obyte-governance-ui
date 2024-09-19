@@ -68,8 +68,8 @@ export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 							</div>
 						</CardHeader>
 						<CardContent>
-							<div className="mb-2">
-								Total support this value: <ParamsView
+							<div className="mb-4">
+								Total support for this value: <ParamsView
 									type="number"
 									value={totalSupportAmount}
 									decimals={appConfig.VOTING_TOKEN_DECIMALS}
