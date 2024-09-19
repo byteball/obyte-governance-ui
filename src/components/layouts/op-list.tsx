@@ -9,7 +9,8 @@ import {
 	getFilteredRowModel,
 	getSortedRowModel,
 	useReactTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -21,7 +22,7 @@ import {
 	TableRow,
 } from "@/components/ui/table"
 import appConfig from "@/appConfig"
-import { Plus, X } from "lucide-react"
+import { Dot, Plus, X } from "lucide-react"
 import { QRButton } from "../ui/_qr-button"
 import { ParamsView } from "../params-view"
 import { generateSysLink } from "@/lib/generateLink"
@@ -29,7 +30,10 @@ import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 import obyte from "obyte"
 import { OrderProviderListDiff } from "./op-list-diff";
-import { getWalletDefinition } from "@/services/httpHub";
+
+import { getWalletDefinition, IBalances, IVoteInfo } from "@/services/httpHub";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
+import moment from "moment";
 
 export type IOrderProvider = {
 	amount: number;
@@ -45,9 +49,11 @@ export type IOrderProvider = {
 interface IOrderProviderListProps {
 	data: IOrderProvider[];
 	currentValue: string[];
+	votes: IVoteInfo[];
+	balances: IBalances;
 }
 
-export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, currentValue }) => {
+export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, votes, currentValue, balances }) => {
 	const [sorting, setSorting] = React.useState<SortingState>([{ id: "amount", desc: false }]);
 	const [rowSelection, setRowSelection] = React.useState<{ [rowID: string]: boolean; }>(currentValue.reduce((a, v) => ({ ...a, [v]: true }), {}))
 	const [tableRows, setTableRows] = React.useState<IOrderProvider[]>(data);
@@ -97,11 +103,48 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, cur
 			accessorKey: "amount",
 			header: () => <div className="text-right">Votes (GBYTE)</div>,
 			cell: ({ row }) => <div className="text-right font-medium">
-				{row.original.editable ? <span>Your GBYTE balance</span> : <ParamsView
-					value={row.getValue("amount")}
-					type="number"
-					decimals={9}
-				/>}
+				{row.original.editable ? <span>Your GBYTE balance</span> :
+					<Dialog>
+						<DialogTrigger>
+							<ParamsView
+								value={row.getValue("amount")}
+								type="number"
+								decimals={9}
+							/>
+						</DialogTrigger>
+
+						<DialogContent className="max-w-[700px]">
+							<DialogHeader>
+								<DialogTitle>Supporters</DialogTitle>
+							</DialogHeader>
+							<DialogDescription>Order provider: <a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" className="address underline">{row.getValue("address")}</a></DialogDescription>
+							<ScrollArea className="max-h-[400px]">
+								<div className="space-y-3 pr-5">
+									{votes.filter((v) => v.ops && v.ops.includes(row.getValue("address"))).map(({ address, timestamp, unit }) => (<div key={address} className="flex justify-between items-center border-b pb-3">
+										<div>
+											<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" className="address underline">{address}</a>
+											<div className="space-x-2">
+												{appConfig.PROVIDER_DICTIONARY[address] && <><small className="text-muted-foreground">{appConfig.PROVIDER_DICTIONARY[address]}</small> <Dot className="w-4 h-4 inline-block" /> </>}
+												
+												<small className="text-muted-foreground">
+													<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/${unit}`} target="_blank">{moment.unix(timestamp).format("LLL")}</a>
+												</small>
+											</div>
+										</div>
+										<div>
+											<ParamsView
+												value={balances[address] ?? 0}
+												type="number"
+												decimals={9}
+											/> {" "}
+											<small>GBYTE</small>
+										</div>
+									</div>))}
+								</div>
+							</ScrollArea>
+						</DialogContent>
+					</Dialog>
+				}
 			</div>,
 			enableSorting: true,
 			sortDescFirst: true,
@@ -198,8 +241,8 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, cur
 	}, []);
 
 	const selectedAddresses = tableRows
-  .filter((row) => !!rowSelection[row.editableFieldId || row.address])
-  .map((row) => row.address);
+		.filter((row) => !!rowSelection[row.editableFieldId || row.address])
+		.map((row) => row.address);
 
 	const uri = generateSysLink({ app: "system_vote", param_key: "op_list", value: selectedAddresses.map((address) => `${address}`).join("\n") });
 

@@ -55,7 +55,12 @@ export default async function SysVarPage({ params }: ISysVarPageProps) {
 				Order provider list
 			</h2>
 
-			<OrderProviderList data={opsData} currentValue={currentValue} />
+			<OrderProviderList
+				data={opsData}
+				votes={allVotes.op_list}
+				balances={balances}
+				currentValue={currentValue}
+			/>
 		</>}
 	</div>)
 }
