@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { nanoid } from 'nanoid';
-
 import {
 	ColumnDef,
 	SortingState,
@@ -12,9 +11,12 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import obyte from "obyte";
+import moment from "moment";
+import { Dot, X } from "lucide-react";
 
-import { Checkbox } from "@/components/ui/checkbox"
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
 	Table,
 	TableBody,
@@ -22,20 +24,31 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@/components/ui/table"
-import appConfig from "@/appConfig"
-import { Dot, Plus, X } from "lucide-react"
-import { QRButton } from "../ui/_qr-button"
-import { ParamsView } from "../params-view"
-import { generateSysLink } from "@/lib/generateLink"
-import { Input } from "../ui/input"
-import { Button } from "../ui/button"
-import obyte from "obyte"
+} from "@/components/ui/table";
+import { QRButton } from "../ui/_qr-button";
+import { ParamsView } from "../params-view";
+import { generateSysLink } from "@/lib/generateLink";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 import { OrderProviderListDiff } from "./op-list-diff";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger
+} from "../ui/dialog";
 
-import { getWalletDefinition, IBalances, IVoteInfo } from "@/services/httpHub";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
-import moment from "moment";
+import {
+	getWalletDefinition,
+	IBalances,
+	IVoteInfo
+} from "@/services/httpHub";
+
+import { useToast } from "@/hooks/use-toast";
+
+import appConfig from "@/appConfig"
 
 export type IOrderProvider = {
 	amount: number;
@@ -59,16 +72,28 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 	const [sorting, setSorting] = React.useState<SortingState>([{ id: "amount", desc: false }]);
 	const [rowSelection, setRowSelection] = React.useState<{ [rowID: string]: boolean; }>(currentValue.reduce((a, v) => ({ ...a, [v]: true }), {}))
 	const [tableRows, setTableRows] = React.useState<IOrderProvider[]>(data);
+	const { toast } = useToast();
 
 	const columns: ColumnDef<IOrderProvider>[] = React.useMemo(() => [
 		{
 			id: "select",
 			header: () => null,
-			cell: ({ row }) => (
+			cell: ({ row, table }) => (
 				<Checkbox
 					checked={row.getIsSelected()}
 					disabled={row.original.editableFieldCheckLoading || row.original.editable && !row.original.isValidEditableField || row.original.editableFieldError !== undefined}
-					onCheckedChange={(value) => row.toggleSelected(!!value)}
+					onCheckedChange={(value) => {
+						const selected = table.getSelectedRowModel();
+
+						if (selected.rows.length >= appConfig.NUMBER_OF_ORDER_PROVIDERS && value === true) {
+							toast({
+								title: `You can select only ${appConfig.NUMBER_OF_ORDER_PROVIDERS} order providers`,
+								variant: "destructive"
+							});
+						} else {
+							row.toggleSelected(!!value)
+						}
+					}}
 				/>
 			),
 			enableSorting: false,
