@@ -1,6 +1,8 @@
 "use client"
 
-import * as React from "react"
+import * as React from "react";
+import { nanoid } from 'nanoid';
+
 import {
 	ColumnDef,
 	SortingState,
@@ -176,7 +178,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 	});
 
 	const createEmptyOrderProviderField: React.MouseEventHandler<HTMLButtonElement> = () => {
-		setTableRows((prev) => ([...prev, { address: "", amount: 0, editable: true, editableFieldId: Math.random().toString(36).substring(7) }]));
+		setTableRows((prev) => ([...prev, { address: "", amount: 0, editable: true, editableFieldId: nanoid() }]));
 	}
 
 	const checkWalletDefinition = React.useCallback(async (address: string, id: string) => {
