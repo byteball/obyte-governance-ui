@@ -86,14 +86,14 @@ export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 						<CardContent>
 							<div className="font-bold mb-2">Votes:</div>
 							<ScrollArea type="always" className="flex max-h-[340px] flex-col pr-4">
-								{votes.sort((a, b) => (balances[b.address] ?? 0) - (balances[a.address] ?? 0)).map(({ address, unit, timestamp }) => (<div key={unit + timestamp} className="flex justify-between items-center mb-4">
+								{[...votes].sort((a, b) => (balances[b.address] ?? 0) - (balances[a.address] ?? 0)).map(({ address, unit, timestamp }) => (<div key={unit + timestamp} className="flex justify-between items-center mb-4">
 									<div>
 										<a target="_blank" rel="noreferrer" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} className="block font-medium">
 											{address}
 										</a>
 
 										<div className="flex space-x-4 align-middle text-xs text-gray-500">
-											{unit ? <a className="hover:text-gray-900" target="_blank" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/${unit}`}>Unit on explorer <ExternalLink className="inline h-3 w-3" /></a> : null}
+											{unit ? <a className="hover:text-gray-900" target="_blank" rel="noreferrer" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/${unit}`}>Unit on explorer <ExternalLink className="inline h-3 w-3" /></a> : null}
 											{timestamp ? <div>{moment.unix(timestamp).format("LLL")}</div> : null}
 										</div>
 									</div>

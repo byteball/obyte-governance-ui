@@ -95,7 +95,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 						{row.original.editableFieldError ? <div className="text-xs text-red-700 mt-1">{row.original.editableFieldError}</div> : null}
 					</> :
 					<div className="min-h-[25px]">
-						<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" className="address underline">{row.getValue("address")}</a> <div><small className="text-muted-foreground">{row.original.description}</small></div>
+						<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" rel="noreferrer" className="address underline">{row.getValue("address")}</a> <div><small className="text-muted-foreground">{row.original.description}</small></div>
 					</div>
 			),
 		},
@@ -122,7 +122,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 							<DialogDescription>Order provider: <a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" className="address underline">{row.getValue("address")}</a></DialogDescription>
 							<ScrollArea className="max-h-[400px]">
 								<div className="space-y-3 pr-5">
-									{votes.filter((v) => v.ops && v.ops.includes(row.getValue("address"))).map(({ address, timestamp, unit }) => (<div key={address} className="flex justify-between items-center border-b pb-3">
+									{votes.filter((v) => v.ops?.includes(row.getValue("address"))).map(({ address, timestamp, unit }) => (<div key={address} className="flex justify-between items-center border-b pb-3">
 										<div>
 											<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" className="address underline">{address}</a>
 											<div className="space-x-2">

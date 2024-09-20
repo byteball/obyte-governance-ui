@@ -9,7 +9,7 @@ import { AddAnotherValueModal } from "@/components/layouts/modals/add-another-va
 import { OrderProviderList } from "@/components/layouts/op-list";
 import { getSystemVars, getSystemVarsVotes } from "@/services/httpHub";
 import { aggregateOpsData } from "@/lib/aggregateOpsData";
-import { maxBy } from "lodash";
+import maxBy from "lodash/maxBy";
 
 interface ISysVarPageProps {
 	params: {
