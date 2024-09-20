@@ -1,7 +1,7 @@
-import Link from "next/link"
-import { Button } from "../ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
-import { FC } from "react"
+import Link from "next/link";
+import { FC } from "react";
+
+import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card"
 
 interface ISysVarItemProps {
 	description: string;
