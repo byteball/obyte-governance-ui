@@ -22,9 +22,9 @@ export const OrderProviderListDiff: FC<IOrderProviderListDiffProps> = memo(({ cu
 		<div className="mb-4 space-y-2 mt-2">
 			{removedOp.map((address, index) => (
 				<div className="text-xs" key={address}>
-					<a className="text-red-700 line-through" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank"><span className="address">{address}</span> {address in appConfig.PROVIDER_DICTIONARY ? <span> ({appConfig.PROVIDER_DICTIONARY[address]})</span> : null}</a>
+					<a className="text-red-700 line-through" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" rel="noreferrer"><span className="address">{address}</span> {address in appConfig.PROVIDER_DICTIONARY ? <span> ({appConfig.PROVIDER_DICTIONARY[address]})</span> : null}</a>
 					{" -> "}
-					<a className="text-green-700" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${addedOp[index]}`} target="_blank"><span className="address">{addedOp[index]}</span> {addedOp[index] in appConfig.PROVIDER_DICTIONARY ? <span> ({appConfig.PROVIDER_DICTIONARY[addedOp[index]]})</span> : null}</a>
+					<a className="text-green-700" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${addedOp[index]}`} target="_blank" rel="noreferrer"><span className="address">{addedOp[index]}</span> {addedOp[index] in appConfig.PROVIDER_DICTIONARY ? <span> ({appConfig.PROVIDER_DICTIONARY[addedOp[index]]})</span> : null}</a>
 				</div>
 			))}
 		</div>
