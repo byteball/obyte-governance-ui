@@ -58,6 +58,7 @@ export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 				}).map(([value, votes]) => {
 					const actionUri = generateSysLink({ param_key, value });
 					const totalSupportAmount = votes.reduce((prev, value) => prev + (balances[value.address] ?? 0), 0);
+
 					return (<Card key={value}>
 						<CardHeader>
 							<div className="flex justify-between items-center">

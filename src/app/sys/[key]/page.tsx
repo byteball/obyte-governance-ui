@@ -38,18 +38,18 @@ export default async function SysVarPage({ params }: ISysVarPageProps) {
 			Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi quibusdam impedit maiores recusandae accusamus dolorem praesentium a excepturi distinctio, rem qui aliquid ipsam iure iste eaque dolorum commodi officiis in!
 		</div>
 
-		<Widgets param_key={params.key} />
+		<div className="pb-8">
+			<Widgets param_key={params.key} />
+		</div>
 
 		{params.key !== "op_list" ? <>
-			<div className="flex justify-end">
-				<AddAnotherValueModal paramKey={params.key} />
-			</div>
-
-			<nav className="grid grid-cols-5 gap-8">
+			<div className="grid grid-cols-5 gap-8">
 				<div className="col-span-4">
 					<UserVotes param_key={params.key} />
 				</div>
-			</nav>
+			</div>
+
+			<AddAnotherValueModal paramKey={params.key} />
 		</> : <>
 			<h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 mb-4">
 				Order provider list
