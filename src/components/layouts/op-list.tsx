@@ -242,7 +242,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 				return tableRows;
 			}
 		});
-	}, []);
+	}, [checkWalletDefinition]);
 
 	const selectedAddresses = tableRows
 		.filter((row) => !!rowSelection[row.editableFieldId || row.address])
