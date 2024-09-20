@@ -12,6 +12,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { QRButton } from "@/components/ui/_qr-button";
 
 import { generateSysLink } from "@/lib/generateLink";
+import { transformSysVarKeyToName } from "@/lib/transformSysVarKeyToName";
 
 import { getSystemVarsVotes, IVoteInfo } from "@/services/httpHub";
 
@@ -30,7 +31,7 @@ interface IUniqVotes {
 export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 	if (!sysVarConfiguration[param_key]) return notFound();
 
-	const { type } = sysVarConfiguration[param_key];
+	const { type, customName } = sysVarConfiguration[param_key];
 
 	const { votes: allVotes, balances } = await getSystemVarsVotes();
 	const votes = allVotes[param_key] || [];
@@ -61,8 +62,8 @@ export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 						<CardHeader>
 							<div className="flex justify-between items-center">
 								<div className="space-y-1">
-									<div>
-										<b>Parameter value:</b> <ParamsView
+									<div className="text-xl">
+										<b>{customName || transformSysVarKeyToName(param_key)}:</b> <ParamsView
 											type={type}
 											value={type === "number" ? Number(value) : (type === "op-list" ? value.split("\n") : value)}
 											hideList
