@@ -167,7 +167,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 		getSortedRowModel: getSortedRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
 		onRowSelectionChange: (...props) => {
-			if (props.length < 12) {
+			if (props.length < appConfig.NUMBER_OF_ORDER_PROVIDERS) {
 				setRowSelection(...props)
 			}
 		},
@@ -310,10 +310,10 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 				<div className="mt-4">
 					<OrderProviderListDiff currentAddresses={currentValue} newAddresses={selectedAddresses} />
 
-					<QRButton href={uri} disabled={selectedAddresses.length !== 12}>Vote</QRButton>
+					<QRButton href={uri} disabled={selectedAddresses.length !== appConfig.NUMBER_OF_ORDER_PROVIDERS}>Vote</QRButton>
 
-					{selectedAddresses.length !== 12
-						? <div className="mt-2"><small className="text-red-700">Select 12 order providers</small></div>
+					{selectedAddresses.length !== appConfig.NUMBER_OF_ORDER_PROVIDERS
+						? <div className="mt-2"><small className="text-red-700">Select {appConfig.NUMBER_OF_ORDER_PROVIDERS} order providers</small></div>
 						: null}
 				</div>
 			</div>

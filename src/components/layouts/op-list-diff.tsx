@@ -9,7 +9,7 @@ interface IOrderProviderListDiffProps {
 }
 
 export const OrderProviderListDiff: FC<IOrderProviderListDiffProps> = memo(({ currentAddresses = [], newAddresses = [] }) => {
-	if (newAddresses.length !== 12) return null;
+	if (newAddresses.length !== appConfig.NUMBER_OF_ORDER_PROVIDERS) return null;
 
 	const removedOp = difference(currentAddresses, newAddresses);
 	const addedOp = difference(newAddresses, currentAddresses);
