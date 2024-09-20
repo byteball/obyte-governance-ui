@@ -177,7 +177,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 		},
 	});
 
-	const createEmptyOrderProviderField: React.MouseEventHandler<HTMLButtonElement> = () => {
+	const createEmptyOrderProviderField = () => {
 		setTableRows((prev) => ([...prev, { address: "", amount: 0, editable: true, editableFieldId: nanoid() }]));
 	}
 
@@ -238,7 +238,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 
 				return newTableRows;
 			} else {
-				console.log("Editable field not found");
+
 				return tableRows;
 			}
 		});
@@ -303,8 +303,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 						</TableBody>
 					</Table>
 					<div className="w-full pl-[53px] border-t border-r-0">
-						<Button onClick={createEmptyOrderProviderField} variant="link" className="">Suggest another order provider</Button>
-						{/* <Plus className="mr-2 h-4 w-4" /> */}
+						<Button onClick={createEmptyOrderProviderField} variant="link">Suggest another order provider</Button>
 					</div>
 				</div>
 
