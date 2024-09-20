@@ -110,10 +110,10 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 						<DialogTrigger>
 							<span className="underline">
 								<ParamsView
-								value={row.getValue("amount")}
-								type="number"
-								decimals={9}
-							/>
+									value={row.getValue("amount")}
+									type="number"
+									decimals={9}
+								/>
 							</span>
 						</DialogTrigger>
 
@@ -129,7 +129,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 											<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" className="address underline">{address}</a>
 											<div className="space-x-2">
 												{appConfig.PROVIDER_DICTIONARY[address] && <><small className="text-muted-foreground">{appConfig.PROVIDER_DICTIONARY[address]}</small> <Dot className="w-4 h-4 inline-block" /> </>}
-												
+
 												<small className="text-muted-foreground">
 													<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/${unit}`} target="_blank" rel="noreferrer">{moment.unix(timestamp).format("LLL")}</a>
 												</small>
@@ -167,9 +167,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 		getSortedRowModel: getSortedRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
 		onRowSelectionChange: (...props) => {
-			if (props.length < appConfig.NUMBER_OF_ORDER_PROVIDERS) {
-				setRowSelection(...props)
-			}
+			setRowSelection(...props);
 		},
 		state: {
 			sorting,
