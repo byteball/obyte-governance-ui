@@ -33,7 +33,6 @@ export const Widgets: FC<IWidgetsProps> = async ({ param_key }) => {
 		<Card className="h-[110px]">
 			<CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
 				<CardTitle className="text-sm font-medium">Total voters balance</CardTitle>
-				<small>GBYTE</small>
 			</CardHeader>
 			<CardContent>
 				<div className="text-2xl font-bold">
@@ -41,7 +40,7 @@ export const Widgets: FC<IWidgetsProps> = async ({ param_key }) => {
 						type="number"
 						value={Number(totalSupport)}
 						decimals={appConfig.VOTING_TOKEN_DECIMALS}
-					/>
+					/> <small>GBYTE</small>
 				</div>
 				{/* <p className="text-xs text-muted-foreground">$500,000</p> */}
 			</CardContent>
