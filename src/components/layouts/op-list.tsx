@@ -121,7 +121,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 							<DialogHeader>
 								<DialogTitle>Supporters</DialogTitle>
 							</DialogHeader>
-							<DialogDescription>Order provider: <a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" className="address underline">{row.getValue("address")}</a></DialogDescription>
+							<DialogDescription>Order provider: <a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" rel="noreferrer" className="address underline">{row.getValue("address")}</a></DialogDescription>
 							<ScrollArea className="max-h-[400px]">
 								<div className="space-y-3 pr-5">
 									{votes.filter((v) => v.ops?.includes(row.getValue("address"))).map(({ address, timestamp, unit }) => (<div key={address} className="flex justify-between items-center border-b pb-3">
@@ -131,7 +131,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 												{appConfig.PROVIDER_DICTIONARY[address] && <><small className="text-muted-foreground">{appConfig.PROVIDER_DICTIONARY[address]}</small> <Dot className="w-4 h-4 inline-block" /> </>}
 												
 												<small className="text-muted-foreground">
-													<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/${unit}`} target="_blank">{moment.unix(timestamp).format("LLL")}</a>
+													<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/${unit}`} target="_blank" rel="noreferrer">{moment.unix(timestamp).format("LLL")}</a>
 												</small>
 											</div>
 										</div>
