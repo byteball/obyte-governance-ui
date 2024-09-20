@@ -182,7 +182,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 	}
 
 	const checkWalletDefinition = React.useCallback(async (address: string, id: string) => {
-		const definitionExists = await getWalletDefinition(address)//.then(() => true)//.catch(() => false);
+		const definitionExists = await getWalletDefinition(address);
 
 		if (definitionExists.error || definitionExists.data === null) {
 			setTableRows(tableRows => {
