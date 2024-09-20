@@ -11,9 +11,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 
 interface IQRButtonProps extends ButtonProps {
 	href: string;
+	fluid?: boolean;
 }
 
-export const QRButton = forwardRef<HTMLAnchorElement, IQRButtonProps>(({ className, children, href, disabled = false, ...props }, ref) => (<div className="flex">
+export const QRButton = forwardRef<HTMLAnchorElement, IQRButtonProps>(({ className, fluid, children, href, disabled = false, ...props }, ref) => (<div className="flex">
 	<Dialog>
 		<TooltipProvider>
 			<Tooltip>
@@ -41,14 +42,14 @@ export const QRButton = forwardRef<HTMLAnchorElement, IQRButtonProps>(({ classNa
 			</div>
 
 			<div className='text-xs text-foreground max-w-[220px] mx-auto text-center'>
-				Install Obyte wallet for <a className='text-blue-700' href="#">iOS</a> or <a className='text-blue-700' href="#">Android</a> if you don't have one yet
+				Install Obyte wallet for <a className='text-blue-700' href="https://itunes.apple.com/us/app/byteball/id1147137332?ls=1&mt=8" target="_blank" rel="noreferrer">iOS</a> or <a className='text-blue-700' href="https://play.google.com/store/apps/details?id=org.byteball.wallet" target="_blank" rel="noreferrer">Android</a> if you don't have one yet
 			</div>
 		</DialogContent>
 	</Dialog>
 	<TooltipProvider>
 		<Tooltip>
 			<TooltipTrigger asChild>
-				<Button {...props} disabled asChild className={cn("pl-2 rounded-tl-none rounded-bl-none cursor-pointer", { "text-primary-foreground pointer-events-none opacity-50 bg-primary select-none": disabled })}>
+				<Button {...props} disabled asChild className={cn("pl-2 rounded-tl-none rounded-bl-none cursor-pointer", { "text-primary-foreground pointer-events-none opacity-50 bg-primary select-none": disabled }, { "w-full": fluid })}>
 					<a href={href} ref={ref}>
 						{children}
 					</a>

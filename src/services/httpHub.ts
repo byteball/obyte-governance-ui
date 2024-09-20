@@ -29,16 +29,23 @@ export interface IVoteInfo {
 	ops?: string[];
 	value: number;
 }
+export interface IBalances {
+	[address: string]: number;
+}
+
 interface IVotes {
 	votes: {
 		[key: string]: IVoteInfo[];
 	},
-	balances: {
-		[address: string]: number;
-	}
+	balances: IBalances;
 }
 
 export const getSystemVarsVotes = async (): Promise<IVotes> => {
 	const data = await fetch(`https://${appConfig.TESTNET ? 'testnet.' : ''}obyte.org/api/get_system_var_votes`, { next: { revalidate: CACHE_VARS_VOTES_REVALIDATE_TIME, tags: ['votes'] }, method: "POST" }).then(res => res.json()).then(({ data }) => data);
+	return data;
+}
+
+export const getWalletDefinition = async (address: string): Promise<{ error?: string, data: object }> => {
+	const data = await fetch(`https://${appConfig.TESTNET ? 'testnet.' : ''}obyte.org/api/get_definition`, { next: { revalidate: CACHE_VARS_VOTES_REVALIDATE_TIME, tags: ['definition'] }, method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ address }) }).then(res => res.json())//.then(({ data, error }) => error || data);
 	return data;
 }

@@ -6,6 +6,10 @@ import { sysVarConfiguration } from "@/sysVarConfiguration";
 
 import { UserVotes } from "./userVotes";
 import { AddAnotherValueModal } from "@/components/layouts/modals/add-another-value";
+import { OrderProviderList } from "@/components/layouts/op-list";
+import { getSystemVars, getSystemVarsVotes } from "@/services/httpHub";
+import { aggregateOpsData } from "@/lib/aggregateOpsData";
+import maxBy from "lodash/maxBy";
 
 interface ISysVarPageProps {
 	params: {
@@ -13,8 +17,17 @@ interface ISysVarPageProps {
 	}
 }
 
-export default function SysVarPage({ params }: ISysVarPageProps) {
+export default async function SysVarPage({ params }: ISysVarPageProps) {
 	if (!Object.keys(sysVarConfiguration).includes(params.key)) return notFound();
+
+	const { votes: allVotes, balances } = await getSystemVarsVotes();
+	const opsData = aggregateOpsData(allVotes.op_list, balances);
+
+	const allValues = await getSystemVars();
+
+	const paramValues = allValues.op_list || [];
+
+	const currentValue: string[] = paramValues.length === 1 ? paramValues[0].value as string[] : maxBy(paramValues, (p) => p.vote_count_mci)?.value as string[];
 
 	return (<div className="space-y-8">
 		<h1 className="text-4xl font-extrabold tracking-tight scroll-m-20 lg:text-5xl">
@@ -37,6 +50,17 @@ export default function SysVarPage({ params }: ISysVarPageProps) {
 					<UserVotes param_key={params.key} />
 				</div>
 			</nav>
-		</> : null}
+		</> : <>
+			<h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 mb-4">
+				Order provider list
+			</h2>
+
+			<OrderProviderList
+				data={opsData}
+				votes={allVotes.op_list}
+				balances={balances}
+				currentValue={currentValue}
+			/>
+		</>}
 	</div>)
 }

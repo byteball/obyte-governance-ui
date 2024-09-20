@@ -39,7 +39,7 @@ interface IGenerateSysLink {
 }
 
 export const generateSysLink = ({ app = 'system_vote', param_key, from_address, is_single, value }: IGenerateSysLink) => {
-  let link = `obyte${suffix}:data?app=${app}&subject=${param_key}&value=${value}`;
+  let link = `obyte${suffix}:data?app=${app}&subject=${param_key}&value=${encodeURIComponent(value)}`;
 	
   if (from_address) link += "&from_address=" + encodeURIComponent(from_address);
 

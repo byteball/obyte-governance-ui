@@ -1,40 +1,53 @@
-import { Menu } from "lucide-react"
-import Link from "next/link"
+"use client";
 
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet"
-import { Button } from "../ui/button"
-import { ModeToggle } from "../mode-toggle"
-import { sysVarConfiguration } from "@/sysVarConfiguration"
-import { transformSysVarKeyToName } from "@/lib/transformSysVarKeyToName"
+import { Menu } from "lucide-react";
+import Link from "next/link";
+import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
+import { usePathname } from "next/navigation";
+import cn from "classnames";
+import { useRef } from "react";
+
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
+import { Button } from "../ui/button";
+import { ModeToggle } from "../mode-toggle";
+import { sysVarConfiguration } from "@/sysVarConfiguration";
+import { transformSysVarKeyToName } from "@/lib/transformSysVarKeyToName";
 
 export const Header = () => {
+	const pathname = usePathname();
+	const ref = useRef<HTMLButtonElement>(null);
+
 	return (
 		<header className="sticky top-0 z-50 flex items-center h-16 gap-4 px-4 border-b bg-background md:px-6">
 			<nav className="flex-col w-full hidden gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
 				<Link
 					href="/"
-					className="flex items-center w-8 h-8 text-lg font-medium md:text-base"
+					className="flex items-center w-8 h-8 text-lg font-medium md:text-base flex-shrink-0"
 				>
 					<img src="/logo.svg" alt="Obyte governance logo" className="inline-block w-8 h-8" />
 				</Link>
 				<Link
 					href="/"
-					className="transition-colors text-muted-foreground hover:text-foreground"
+					className={cn("transition-colors hover:text-foreground", { "font-bold text-gray-950 dark:text-gray-300 text-foreground": pathname === "/" }, { "text-muted-foreground": pathname !== "/" })}
 				>
 					Home
 				</Link>
 				{Object.entries(sysVarConfiguration).map(([key, { customName }]) => (<Link
 					href={`/sys/${key}`}
 					key={key}
-					className="text-muted-foreground hover:text-foreground block flex-shrink-0"
+					className={cn("hover:text-foreground block flex-shrink-0", { "font-bold text-foreground text-gray-950 dark:text-gray-300": pathname === `/sys/${key}` }, { "text-muted-foreground": pathname !== `/sys/${key}` })}
 				>
 					{customName || transformSysVarKeyToName(key)}
 				</Link>))}
 			</nav>
 			<Sheet>
+				<VisuallyHidden.Root>
+					<SheetTitle />
+				</VisuallyHidden.Root>
 				<SheetTrigger asChild>
 					<Button
 						variant="outline"
+						ref={ref}
 						size="icon"
 						className="shrink-0 md:hidden"
 					>
@@ -53,25 +66,26 @@ export const Header = () => {
 						</Link>
 						<Link
 							href="/"
-							className="text-muted-foreground hover:text-foreground"
+							onClick={() => ref.current?.click()}
+							className={cn("text-muted-foreground hover:text-foreground", { "font-bold text-foreground text-gray-950 dark:text-gray-300": pathname === "/" })}
 						>
 							Dashboard
 						</Link>
 						{Object.entries(sysVarConfiguration).map(([key, { customName }]) => (<Link
 							href={`/sys/${key}`}
-							className="text-muted-foreground hover:text-foreground"
+							key={key}
+							onClick={() => ref.current?.click()}
+							className={cn("text-muted-foreground hover:text-foreground", { "font-bold text-foreground text-gray-950 dark:text-gray-300": pathname === `/sys/${key}` })}
 						>
 							{customName || key}
 						</Link>))}
 					</nav>
 				</SheetContent>
 			</Sheet>
-			<div className="flex items-center w-full gap-4 md:ml-auto md:gap-2 lg:gap-4">
-				<form className="flex-1 ml-auto sm:flex-initial">
-					<div className="relative">
-						<ModeToggle />
-					</div>
-				</form>
+			<div className="flex flex-1">
+				<div className="flex justify-end w-full">
+					<ModeToggle />
+				</div>
 			</div>
 		</header>
 	)
