@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, forwardRef } from "react";
+import { forwardRef } from "react";
 import { QrCode as QrCodeIcon } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import cn from "classnames";
