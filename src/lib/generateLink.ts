@@ -35,7 +35,7 @@ interface IGenerateSysLink {
   is_single?: boolean;
 	app?: 'system_vote' | 'system_vote_count';
 	param_key: string;
-	value: string | number;
+	value?: string | number;
 }
 
 export const generateSysLink = ({ app = 'system_vote', param_key, from_address, is_single, value }: IGenerateSysLink) => {
