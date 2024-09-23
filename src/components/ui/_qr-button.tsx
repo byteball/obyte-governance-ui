@@ -49,7 +49,7 @@ export const QRButton = forwardRef<HTMLAnchorElement, IQRButtonProps>(({ classNa
 	<TooltipProvider>
 		<Tooltip>
 			<TooltipTrigger asChild>
-				<Button {...props} disabled asChild className={cn("pl-2 rounded-tl-none rounded-bl-none cursor-pointer", { "text-primary-foreground pointer-events-none opacity-50 bg-primary select-none": disabled }, { "w-full": fluid })}>
+				<Button {...props} disabled={disabled} asChild className={cn("pl-2 rounded-tl-none rounded-bl-none cursor-pointer", { "pointer-events-none opacity-50 select-none": disabled }, { "w-full": fluid })}>
 					<a href={href} ref={ref}>
 						{children}
 					</a>
