@@ -32,4 +32,4 @@ export const sysVarConfiguration: ISysVarConfiguration = {
 		description: "The fee multiplier per transaction.",
 		type: "number"
 	},
-}
+} as const;
