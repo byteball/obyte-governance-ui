@@ -61,7 +61,7 @@ export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 
 					return (<Card key={value}>
 						<CardHeader>
-							<div className="flex justify-between items-center">
+							<div className="flex justify-between md:items-center flex-col md:flex-row ">
 								<div className="space-y-1">
 									<div className="text-xl">
 										<b>{customName || transformSysVarKeyToName(param_key)}:</b> <ParamsView
@@ -81,22 +81,22 @@ export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 										/> {appConfig.VOTING_TOKEN_SYMBOL}
 									</div>
 								</div>
-								<div>
+								<div className="mt-3 md:mt-0">
 									<QRButton href={actionUri} variant="secondary">Vote for this value</QRButton>
 								</div>
 							</div>
 						</CardHeader>
 						<CardContent>
 							<div className="font-bold mb-2">Votes:</div>
-							<ScrollArea type="always" className="flex max-h-[340px] flex-col pr-4">
-								{[...votes].sort((a, b) => (balances[b.address] ?? 0) - (balances[a.address] ?? 0)).map(({ address, unit, timestamp }) => (<div key={address + timestamp} className="flex justify-between items-center mb-4">
+							<ScrollArea type="always" className="md:flex md:max-h-[340px] flex-col pr-4">
+								{[...votes].sort((a, b) => (balances[b.address] ?? 0) - (balances[a.address] ?? 0)).map(({ address, unit, timestamp }) => (<div key={address + timestamp} className="flex md:justify-between md:items-center mb-4 flex-col-reverse md:flex-row">
 									<div>
 										<a target="_blank" rel="noreferrer" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} className="block font-medium">
 											{address}
 										</a>
 
-										<div className="flex space-x-4 align-middle text-xs text-gray-500">
-											{unit ? <a className="hover:text-gray-900" target="_blank" rel="noreferrer" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/${unit}`}>Unit on explorer <ExternalLink className="inline h-3 w-3" /></a> : null}
+										<div className="md:flex md:space-x-4 align-middle text-xs text-gray-500 space-y-1 md:space-y-0 mt-2 md:mt-0">
+											{unit ? <div><a className="hover:text-gray-900" target="_blank" rel="noreferrer" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/${unit}`}>Unit on explorer <ExternalLink className="inline h-3 w-3" /></a></div> : null}
 											{timestamp ? <div>{moment.unix(timestamp).format("LLL")}</div> : null}
 										</div>
 									</div>

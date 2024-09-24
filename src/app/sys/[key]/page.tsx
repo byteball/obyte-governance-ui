@@ -44,7 +44,7 @@ export default async function SysVarPage({ params }: ISysVarPageProps) {
 
 		{params.key !== "op_list" ? <>
 			<div className="grid grid-cols-5 gap-8">
-				<div className="col-span-4">
+				<div className="col-span-5 lg:col-span-4">
 					<UserVotes param_key={params.key} />
 				</div>
 			</div>

@@ -277,7 +277,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 
 	return (
 		<div className="grid grid-cols-5 gap-8">
-			<div className="w-full col-span-4">
+			<div className="w-full col-span-5 lg:col-span-4">
 				<div className="rounded-md border">
 					<Table>
 						<TableHeader>
