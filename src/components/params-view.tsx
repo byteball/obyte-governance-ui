@@ -4,9 +4,14 @@ import cn from "classnames";
 import { isArray } from "lodash";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { FC, useState } from "react";
+import { Roboto } from "next/font/google";
+
 import { toLocalString } from "@/lib/toLocalString";
 
 import appConfig from "@/appConfig";
+
+const roboto = Roboto({ subsets: ["latin"], weight: ["300", "400", "500", ] });
+
 interface IParamsViewProps {
 	type: 'string' | 'number' | 'op-list';
 	newOPs?: string[];
@@ -19,7 +24,7 @@ interface IParamsViewProps {
 
 const NumberView: FC<{ value: number, decimals?: number , fixedDecimals?: boolean}> = ({ value, decimals, fixedDecimals = false }) => {
 	const displayValue = decimals ? value / 10 ** decimals : value;
-	return <>{toLocalString(displayValue, fixedDecimals)}</>;
+	return <span className={roboto.className}>{toLocalString(displayValue, fixedDecimals)}</span>;
 };
 
 const OpListView: FC<{ value: string[], newValues: string[]; hideList?: boolean, minCount?: number }> = ({ value, hideList, minCount = 1, newValues }) => {
