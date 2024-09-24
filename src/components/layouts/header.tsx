@@ -26,16 +26,10 @@ export const Header = () => {
 				>
 					<img src="/logo.svg" alt="Obyte governance logo" className="inline-block w-8 h-8" />
 				</Link>
-				<Link
-					href="/"
-					className={cn("transition-colors hover:text-foreground", { "font-bold text-gray-950 dark:text-gray-300 text-foreground": pathname === "/" }, { "text-muted-foreground": pathname !== "/" })}
-				>
-					Home
-				</Link>
 				{Object.entries(sysVarConfiguration).map(([key, { customName }]) => (<Link
 					href={`/sys/${key}`}
 					key={key}
-					className={cn("hover:text-foreground block flex-shrink-0", { "font-bold text-foreground text-gray-950 dark:text-gray-300": pathname === `/sys/${key}` }, { "text-muted-foreground": pathname !== `/sys/${key}` })}
+					className={cn("hover:text-foreground block flex-shrink-0", { "text-foreground text-gray-950 dark:text-gray-300": pathname === `/sys/${key}` }, { "text-muted-foreground": pathname !== `/sys/${key}` })}
 				>
 					{customName || transformSysVarKeyToName(key)}
 				</Link>))}
@@ -69,7 +63,7 @@ export const Header = () => {
 							onClick={() => ref.current?.click()}
 							className={cn("text-muted-foreground hover:text-foreground", { "font-bold text-foreground text-gray-950 dark:text-gray-300": pathname === "/" })}
 						>
-							Dashboard
+							Home
 						</Link>
 						{Object.entries(sysVarConfiguration).map(([key, { customName }]) => (<Link
 							href={`/sys/${key}`}
