@@ -1,13 +1,15 @@
 "use client";
 
-import appConfig from "@/appConfig";
-import { toLocalString } from "@/lib/toLocalString";
+import cn from "classnames";
 import { isArray } from "lodash";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { FC, useState } from "react";
+import { toLocalString } from "@/lib/toLocalString";
 
+import appConfig from "@/appConfig";
 interface IParamsViewProps {
 	type: 'string' | 'number' | 'op-list';
+	newOPs?: string[];
 	value: string | number | string[] | undefined;
 	decimals?: number;
 	hideList?: boolean;
@@ -19,7 +21,7 @@ const NumberView: FC<{ value: number, decimals?: number }> = ({ value, decimals 
 	return <>{toLocalString(displayValue)}</>;
 };
 
-const OpListView: FC<{ value: string[], hideList?: boolean, minCount?: number }> = ({ value, hideList, minCount = 1}) => {
+const OpListView: FC<{ value: string[], newValues: string[]; hideList?: boolean, minCount?: number }> = ({ value, hideList, minCount = 1, newValues }) => {
 	const [visible, setVisible] = useState(false);
 	const displayList = hideList && !visible ? value.slice(0, minCount) : value;
 
@@ -27,7 +29,7 @@ const OpListView: FC<{ value: string[], hideList?: boolean, minCount?: number }>
 		<>
 			<ul className="text-sm font-normal space-y-2">
 				{displayList.map((v) => (
-					<li key={v} className="text-ellipsis overflow-hidden w-full">
+					<li key={v} className={cn("text-ellipsis overflow-hidden w-full", { "text-green-600": newValues.includes(v) })}>
 						<a
 							href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${v}`}
 							target="_blank"
@@ -35,7 +37,7 @@ const OpListView: FC<{ value: string[], hideList?: boolean, minCount?: number }>
 							className="underline"
 						>
 							<span className="address">{v}</span>
-							{v in appConfig.PROVIDER_DICTIONARY ? <span className="block text-xs text-foreground text-gray-600">({appConfig.PROVIDER_DICTIONARY[v as keyof typeof appConfig.PROVIDER_DICTIONARY]})</span> : ''}
+							{v in appConfig.PROVIDER_DICTIONARY ? <span className="block text-xs">({appConfig.PROVIDER_DICTIONARY[v as keyof typeof appConfig.PROVIDER_DICTIONARY]})</span> : ''}
 						</a>
 					</li>
 				))}
@@ -49,7 +51,7 @@ const OpListView: FC<{ value: string[], hideList?: boolean, minCount?: number }>
 	);
 };
 
-export const ParamsView: FC<IParamsViewProps> = ({ type, value, decimals, hideList, minCount }) => {
+export const ParamsView: FC<IParamsViewProps> = ({ type, value, decimals, hideList, minCount, newOPs }) => {
 	if (typeof value === "undefined" || (type === "number" && typeof value !== "number")) {
 		return <>Invalid value</>;
 	}
@@ -58,7 +60,7 @@ export const ParamsView: FC<IParamsViewProps> = ({ type, value, decimals, hideLi
 		case 'number':
 			return <NumberView value={value as number} decimals={decimals} />;
 		case 'op-list':
-			return isArray(value) ? <OpListView value={value as string[]} hideList={hideList} minCount={minCount} /> : <>Invalid value</>;
+			return isArray(value) ? <OpListView newValues={(newOPs ?? []) as string[]} value={value as string[]} hideList={hideList} minCount={minCount} /> : <>Invalid value</>;
 		default:
 			return <>{value}</>;
 	}

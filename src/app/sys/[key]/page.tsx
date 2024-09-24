@@ -39,7 +39,7 @@ export default async function SysVarPage({ params }: ISysVarPageProps) {
 		</div>
 
 		<div className="pb-8">
-			<Widgets param_key={params.key} />
+			<Widgets paramKey={String(params.key as keyof typeof sysVarConfiguration)} />
 		</div>
 
 		{params.key !== "op_list" ? <>
