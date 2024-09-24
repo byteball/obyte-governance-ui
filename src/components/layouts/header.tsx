@@ -22,9 +22,9 @@ export const Header = () => {
 			<nav className="flex-col w-full hidden gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
 				<Link
 					href="/"
-					className="flex items-center w-8 h-8 text-lg font-medium md:text-base flex-shrink-0"
+					className="flex items-center h-8 text-lg font-medium md:text-base flex-shrink-0"
 				>
-					<img src="/logo.svg" alt="Obyte governance logo" className="inline-block w-8 h-8" />
+					<img src="/logo.svg" alt="Obyte governance logo" className="inline-block h-8" />
 				</Link>
 				{Object.entries(sysVarConfiguration).map(([key, { customName }]) => (<Link
 					href={`/sys/${key}`}
@@ -53,17 +53,11 @@ export const Header = () => {
 					<nav className="grid gap-6 text-lg font-medium">
 						<Link
 							href="/"
+							onClick={() => ref.current?.click()}
 							className="flex items-center gap-2 text-lg font-semibold"
 						>
-							<img src="/logo.svg" alt="Obyte governance logo" className="w-8 h-8" />
+							<img src="/logo.svg" alt="Obyte governance logo" className="h-8" />
 							<span className="sr-only">Obyte governance</span>
-						</Link>
-						<Link
-							href="/"
-							onClick={() => ref.current?.click()}
-							className={cn("text-muted-foreground hover:text-foreground", { "font-bold text-foreground text-gray-950 dark:text-gray-300": pathname === "/" })}
-						>
-							Home
 						</Link>
 						{Object.entries(sysVarConfiguration).map(([key, { customName }]) => (<Link
 							href={`/sys/${key}`}
