@@ -22,10 +22,10 @@ export function generateMetadata({ params }: ISysVarPageProps): Metadata {
 	const { description } = sysVarConfiguration[params?.key] ?? {};
 	const name = transformSysVarKeyToName(params.key);
 
-  return {
-    title: `Obyte governance - ${name}`,
+	return {
+		title: `Obyte governance - ${name}`,
 		description: description ?? `Vote to change the ${name}`
-  }
+	}
 }
 
 export default async function SysVarPage({ params }: ISysVarPageProps) {
@@ -33,6 +33,7 @@ export default async function SysVarPage({ params }: ISysVarPageProps) {
 
 	const { votes: allVotes, balances } = await getSystemVarsVotes();
 	const opsData = aggregateOpsData(allVotes.op_list, balances);
+	const { description } = sysVarConfiguration[params.key];
 
 	const allValues = await getSystemVars();
 
@@ -45,9 +46,9 @@ export default async function SysVarPage({ params }: ISysVarPageProps) {
 			Vote for <span className="lowercase">{transformSysVarKeyToName(params.key)}</span>
 		</h1>
 
-		<div className="max-w-3xl text-muted-foreground">
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi quibusdam impedit maiores recusandae accusamus dolorem praesentium a excepturi distinctio, rem qui aliquid ipsam iure iste eaque dolorum commodi officiis in!
-		</div>
+		{description ? <div className="max-w-3xl text-muted-foreground">
+			{description}
+		</div> : null}
 
 		<div className="pb-8">
 			<Widgets paramKey={String(params.key as keyof typeof sysVarConfiguration)} />
