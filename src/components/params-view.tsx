@@ -60,7 +60,7 @@ export const ParamsView: FC<IParamsViewProps> = ({ type, value, decimals, hideLi
 		case 'number':
 			return <NumberView value={value as number} decimals={decimals} />;
 		case 'op-list':
-			return isArray(value) ? <OpListView newValues={newOPs ?? []} value={value as string[]} hideList={hideList} minCount={minCount} /> : <>Invalid value</>;
+			return isArray(value) ? <OpListView newValues={(newOPs ?? []) as string[]} value={value as string[]} hideList={hideList} minCount={minCount} /> : <>Invalid value</>;
 		default:
 			return <>{value}</>;
 	}
