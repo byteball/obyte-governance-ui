@@ -42,7 +42,7 @@ export const QRButton = forwardRef<HTMLAnchorElement, IQRButtonProps>(({ classNa
 			</div>
 
 			<div className='text-xs text-foreground max-w-[220px] mx-auto text-center'>
-				Install Obyte wallet for <a className='text-blue-700' href="https://itunes.apple.com/us/app/byteball/id1147137332?ls=1&mt=8" target="_blank" rel="noreferrer">iOS</a> or <a className='text-blue-700' href="https://play.google.com/store/apps/details?id=org.byteball.wallet" target="_blank" rel="noreferrer">Android</a> if you don't have one yet
+				Install Obyte wallet for <a className='text-blue-700 dark:text-blue-400' href="https://itunes.apple.com/us/app/byteball/id1147137332?ls=1&mt=8" target="_blank" rel="noreferrer">iOS</a> or <a className='text-blue-700 dark:text-blue-400' href="https://play.google.com/store/apps/details?id=org.byteball.wallet" target="_blank" rel="noreferrer">Android</a> if you don't have one yet
 			</div>
 		</DialogContent>
 	</Dialog>
