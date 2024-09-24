@@ -6,6 +6,7 @@ import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { usePathname } from "next/navigation";
 import cn from "classnames";
 import { useRef } from "react";
+import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
@@ -18,6 +19,20 @@ export const Header = () => {
 	const ref = useRef<HTMLButtonElement>(null);
 
 	return (
+		<>
+			<ProgressBar
+				height="5px"
+				color="#0284c7"
+				options={{ showSpinner: true }}
+				targetPreprocessor={(url) => {
+					if (url.protocol === 'obyte:') {
+						return new URL(window.location.href);
+					} else {
+						return url;
+					}
+				}}
+			/>
+
 		<header className="sticky top-0 z-50 flex items-center h-16 gap-4 px-4 border-b bg-background md:px-6">
 			<nav className="flex-col w-full hidden gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
 				<Link
@@ -76,5 +91,6 @@ export const Header = () => {
 				</div>
 			</div>
 		</header>
+		</>
 	)
 }
