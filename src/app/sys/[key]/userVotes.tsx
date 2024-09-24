@@ -76,6 +76,7 @@ export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 										<b>Total support for this value:</b> <ParamsView
 											type="number"
 											value={totalSupportAmount}
+											fixedDecimals
 											decimals={appConfig.VOTING_TOKEN_DECIMALS}
 										/> {appConfig.VOTING_TOKEN_SYMBOL}
 									</div>
@@ -103,6 +104,7 @@ export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 									<div className="font-bold">
 										<ParamsView
 											type="number"
+											fixedDecimals
 											value={balances[address] || 0}
 											decimals={appConfig.VOTING_TOKEN_DECIMALS}
 										/> {appConfig.VOTING_TOKEN_SYMBOL}

@@ -14,11 +14,12 @@ interface IParamsViewProps {
 	decimals?: number;
 	hideList?: boolean;
 	minCount?: number;
+	fixedDecimals?: boolean;
 }
 
-const NumberView: FC<{ value: number, decimals?: number }> = ({ value, decimals }) => {
+const NumberView: FC<{ value: number, decimals?: number , fixedDecimals?: boolean}> = ({ value, decimals, fixedDecimals = false }) => {
 	const displayValue = decimals ? value / 10 ** decimals : value;
-	return <>{toLocalString(displayValue)}</>;
+	return <>{toLocalString(displayValue, fixedDecimals)}</>;
 };
 
 const OpListView: FC<{ value: string[], newValues: string[]; hideList?: boolean, minCount?: number }> = ({ value, hideList, minCount = 1, newValues }) => {
@@ -51,14 +52,14 @@ const OpListView: FC<{ value: string[], newValues: string[]; hideList?: boolean,
 	);
 };
 
-export const ParamsView: FC<IParamsViewProps> = ({ type, value, decimals, hideList, minCount, newOPs }) => {
+export const ParamsView: FC<IParamsViewProps> = ({ type, value, decimals, hideList, minCount, newOPs, fixedDecimals = false }) => {
 	if (typeof value === "undefined" || (type === "number" && typeof value !== "number")) {
 		return <>Invalid value</>;
 	}
 
 	switch (type) {
 		case 'number':
-			return <NumberView value={value as number} decimals={decimals} />;
+			return <NumberView fixedDecimals={fixedDecimals} value={value as number} decimals={decimals} />;
 		case 'op-list':
 			return isArray(value) ? <OpListView newValues={(newOPs ?? []) as string[]} value={value as string[]} hideList={hideList} minCount={minCount} /> : <>Invalid value</>;
 		default:

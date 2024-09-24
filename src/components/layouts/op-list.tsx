@@ -138,6 +138,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 									value={row.getValue("amount")}
 									type="number"
 									decimals={9}
+									fixedDecimals
 								/>
 							</span>
 						</DialogTrigger>
@@ -149,7 +150,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 							<DialogDescription>Order provider: <a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" rel="noreferrer" className="address underline">{row.getValue("address")}</a></DialogDescription>
 							<ScrollArea className="max-h-[400px]">
 								<div className="space-y-3 pr-5">
-									{votes.filter((v) => v.ops?.includes(row.getValue("address"))).map(({ address, timestamp, unit }) => (<div key={address} className="flex justify-between items-center border-b pb-3">
+									{votes.filter((v) => v.ops?.includes(row.getValue("address"))).sort((a, b) => (balances[b.address] ?? 0) - (balances[a.address] ?? 0)).map(({ address, timestamp, unit }) => (<div key={address} className="flex justify-between items-center border-b pb-3">
 										<div>
 											<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" className="address underline">{address}</a>
 											<div className="space-x-2">
@@ -164,6 +165,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 											<ParamsView
 												value={balances[address] ?? 0}
 												type="number"
+												fixedDecimals
 												decimals={9}
 											/> {" "}
 											<small>GBYTE</small>
