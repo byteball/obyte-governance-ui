@@ -41,7 +41,13 @@ export const Widgets: FC<IWidgetsProps> = async ({ paramKey }) => {
 
 	let leaderValue: string | number | string[] | undefined;
 
-	if (paramKey !== "op_list") {
+	if (paramKey === "op_list") {
+		const opsData = aggregateOpsData(votes, balances)
+			.sort((a, b) => b.amount - a.amount)
+			.slice(0, 12);
+
+		leaderValue = getValueWithType(paramKey, opsData.map((op) => op.address));
+	} else {
 		const supportByValue: { [value: string]: number } = {};
 
 		votes.forEach((v) => {
@@ -52,12 +58,6 @@ export const Widgets: FC<IWidgetsProps> = async ({ paramKey }) => {
 		const leader = maxBy(Object.entries(supportByValue), function (o) { return o[1]; });
 
 		leaderValue = getValueWithType(paramKey, type === "number" ? Number(leader?.[0] || 0) : String(leader?.[0]));
-	} else if (paramKey === "op_list") {
-		const opsData = aggregateOpsData(votes, balances)
-			.sort((a, b) => b.amount - a.amount)
-			.slice(0, 12);
-
-		leaderValue = getValueWithType(paramKey, opsData.map((op) => op.address));
 	}
 
 	const disabledCommit = paramKey === "op_list" && isArray(leaderValue) && isArray(currentValue) ? difference(leaderValue, currentValue).length === 0 : isEqual(leaderValue, currentValue);
