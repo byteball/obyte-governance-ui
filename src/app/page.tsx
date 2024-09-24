@@ -2,7 +2,7 @@ import { SysVarItemList } from "@/components/layouts/sys-var-item-list";
 
 export const metadata = {
   title: 'Obyte governance',
-	description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi quibusdam impedit maiores recusandae accusamus dolorem praesentium a excepturi distinctio, rem qui aliquid ipsam iure'
+	description: 'Vote for system parameters such as Order Providers and variables that determine the fees. The weight of your vote is equal to the GBYTE balance of your address(es).'
 }
 
 export default function Home() {
@@ -13,8 +13,7 @@ export default function Home() {
 			</h1>
 
 			<p className="max-w-3xl text-xl text-muted-foreground">
-				A modal dialog that interrupts the user with important content and expects
-				a response important content and expects a response
+				Vote for system parameters such as Order Providers and variables that determine the fees. The weight of your vote is equal to the GBYTE balance of your address(es).
 			</p>
 
 			<div className="hidden mb-8 sm:mt-32 sm:flex lg:mt-16">
