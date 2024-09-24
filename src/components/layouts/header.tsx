@@ -25,7 +25,7 @@ export const Header = () => {
 				color="#0284c7"
 				options={{ showSpinner: true }}
 				targetPreprocessor={(url) => {
-					if (url.protocol === 'obyte:') {
+					if (url.protocol === 'obyte:' || url.protocol === 'obyte-tn:') {
 						return new URL(window.location.href);
 					} else {
 						return url;
