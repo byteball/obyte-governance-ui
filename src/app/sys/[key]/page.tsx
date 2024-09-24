@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 import { Widgets } from "@/components/layouts/widgets";
 import { transformSysVarKeyToName } from "@/lib/transformSysVarKeyToName";
@@ -15,6 +16,16 @@ interface ISysVarPageProps {
 	params: {
 		key: string;
 	}
+}
+
+export function generateMetadata({ params }: ISysVarPageProps): Metadata {
+	const { description } = sysVarConfiguration[params?.key] ?? {};
+	const name = transformSysVarKeyToName(params.key);
+
+  return {
+    title: `Obyte governance - ${name}`,
+		description: description ?? `Vote to change the ${name}`
+  }
 }
 
 export default async function SysVarPage({ params }: ISysVarPageProps) {

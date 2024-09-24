@@ -1,5 +1,10 @@
 import { SysVarItemList } from "@/components/layouts/sys-var-item-list";
 
+export const metadata = {
+  title: 'Obyte governance',
+	description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi quibusdam impedit maiores recusandae accusamus dolorem praesentium a excepturi distinctio, rem qui aliquid ipsam iure'
+}
+
 export default function Home() {
 	return (<div className="space-y-16">
 		<div className="space-y-8 mt-14">
