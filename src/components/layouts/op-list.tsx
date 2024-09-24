@@ -328,7 +328,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 						</TableBody>
 					</Table>
 					<div className="w-full pl-[53px] border-t border-r-0">
-						<Button onClick={createEmptyOrderProviderField} variant="link">Suggest another order provider</Button>
+						<Button onClick={createEmptyOrderProviderField} className="underline" variant="link">Suggest another order provider</Button>
 					</div>
 				</div>
 
