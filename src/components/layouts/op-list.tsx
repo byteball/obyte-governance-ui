@@ -239,10 +239,11 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 	const changeEditableField = React.useCallback((ev: React.ChangeEvent<HTMLInputElement>, editableFieldId: string, value: string) => {
 		setTableRows(tableRows => {
 			const index = tableRows.findIndex((row) => row.editableFieldId === editableFieldId);
-			setRowSelection((prev) => ({ ...prev, [editableFieldId]: false }));
+			const isValid = obyte.utils.isValidAddress(value);
+
+			setRowSelection((prev) => ({ ...prev, [editableFieldId]: isValid }));
 
 			if (index !== -1) {
-				const isValid = obyte.utils.isValidAddress(value);
 				const newTableRows = [...tableRows];
 				newTableRows[index].address = value;
 				newTableRows[index].isValidEditableField = isValid;
