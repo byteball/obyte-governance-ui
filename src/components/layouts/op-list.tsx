@@ -122,7 +122,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 						{row.original.editableFieldError ? <div className="text-xs text-red-700 mt-1">{row.original.editableFieldError}</div> : null}
 					</> :
 					<div className="min-h-[25px]">
-						<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" rel="noreferrer" className="address text-blue-700 dark:text-blue-500">{row.getValue("address")}</a> <div><small className="text-muted-foreground">{row.original.description}</small></div>
+						<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" rel="noreferrer" className="address underline ">{row.getValue("address")}</a> <div><small className="text-muted-foreground">{row.original.description}</small></div>
 					</div>
 			),
 		},
@@ -133,7 +133,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 				{row.original.editable ? <span>Your GBYTE balance</span> :
 					<Dialog>
 						<DialogTrigger>
-							<span className="text-blue-700 dark:text-blue-500">
+							<span className="underline ">
 								<ParamsView
 									value={row.getValue("amount")}
 									type="number"
@@ -147,12 +147,12 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 							<DialogHeader>
 								<DialogTitle>Supporters</DialogTitle>
 							</DialogHeader>
-							<DialogDescription>Order provider: <a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" rel="noreferrer" className="address text-blue-700 dark:text-blue-500">{row.getValue("address")}</a></DialogDescription>
+							<DialogDescription>Order provider: <a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" rel="noreferrer" className="address underline ">{row.getValue("address")}</a></DialogDescription>
 							<ScrollArea className="max-h-[400px]">
 								<div className="space-y-3 pr-5">
 									{votes.filter((v) => v.ops?.includes(row.getValue("address"))).sort((a, b) => (balances[b.address] ?? 0) - (balances[a.address] ?? 0)).map(({ address, timestamp, unit }) => (<div key={address} className="flex justify-between items-center border-b pb-3">
 										<div>
-											<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" className="address text-blue-700 dark:text-blue-500">{address}</a>
+											<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" className="address underline ">{address}</a>
 											<div className="space-x-2">
 												{appConfig.PROVIDER_DICTIONARY[address] && <><small className="text-muted-foreground">{appConfig.PROVIDER_DICTIONARY[address]}</small> <Dot className="w-4 h-4 inline-block" /> </>}
 
@@ -329,7 +329,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 							<TableRow className="hover:bg-transparent data-[state=selected]:bg-transparent">
 								<TableCell> <span></span> </TableCell>
 								<TableCell>
-									<span onClick={createEmptyOrderProviderField} className="text-blue-700 cursor-pointer dark:text-blue-500 font-medium">Suggest another order provider</span>
+									<span onClick={createEmptyOrderProviderField} className="underline font-medium">Suggest another order provider</span>
 								</TableCell>
 							</TableRow>
 						</TableBody>
