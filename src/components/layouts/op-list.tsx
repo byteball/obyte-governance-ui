@@ -326,18 +326,22 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 									</TableCell>
 								</TableRow>
 							)}
+							<TableRow className="hover:bg-transparent data-[state=selected]:bg-transparent">
+								<TableCell> <span></span> </TableCell>
+								<TableCell>
+									<span onClick={createEmptyOrderProviderField} className="text-blue-700 cursor-pointer dark:text-blue-500 font-medium">Suggest another order provider</span>
+								</TableCell>
+							</TableRow>
 						</TableBody>
 					</Table>
-					<div className="w-full pl-[53px] border-t border-r-0">
-						<Button onClick={createEmptyOrderProviderField} className="text-blue-700 dark:text-blue-500" variant="link">Suggest another order provider</Button>
-					</div>
 				</div>
 
 				<div className="mt-4">
 					<OrderProviderListDiff currentAddresses={currentValue} newAddresses={selectedAddresses} />
 
-					<QRButton href={uri} disabled={selectedAddresses.length !== appConfig.NUMBER_OF_ORDER_PROVIDERS}>Vote</QRButton>
-
+					<div>
+						<QRButton href={uri} disabled={selectedAddresses.length !== appConfig.NUMBER_OF_ORDER_PROVIDERS}>Vote</QRButton>
+					</div>
 					{selectedAddresses.length !== appConfig.NUMBER_OF_ORDER_PROVIDERS
 						? <div className="mt-2"><small className="text-red-700">Select {appConfig.NUMBER_OF_ORDER_PROVIDERS} order providers</small></div>
 						: null}
