@@ -122,7 +122,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 						{row.original.editableFieldError ? <div className="text-xs text-red-700 mt-1">{row.original.editableFieldError}</div> : null}
 					</> :
 					<div className="min-h-[25px]">
-						<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" rel="noreferrer" className="address underline">{row.getValue("address")}</a> <div><small className="text-muted-foreground">{row.original.description}</small></div>
+						<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" rel="noreferrer" className="address underline ">{row.getValue("address")}</a> <div><small className="text-muted-foreground">{row.original.description}</small></div>
 					</div>
 			),
 		},
@@ -133,7 +133,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 				{row.original.editable ? <span>Your GBYTE balance</span> :
 					<Dialog>
 						<DialogTrigger>
-							<span className="underline">
+							<span className="underline ">
 								<ParamsView
 									value={row.getValue("amount")}
 									type="number"
@@ -147,12 +147,12 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 							<DialogHeader>
 								<DialogTitle>Supporters</DialogTitle>
 							</DialogHeader>
-							<DialogDescription>Order provider: <a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" rel="noreferrer" className="address underline">{row.getValue("address")}</a></DialogDescription>
+							<DialogDescription>Order provider: <a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" rel="noreferrer" className="address underline ">{row.getValue("address")}</a></DialogDescription>
 							<ScrollArea className="max-h-[400px]">
 								<div className="space-y-3 pr-5">
 									{votes.filter((v) => v.ops?.includes(row.getValue("address"))).sort((a, b) => (balances[b.address] ?? 0) - (balances[a.address] ?? 0)).map(({ address, timestamp, unit }) => (<div key={address} className="flex justify-between items-center border-b pb-3">
 										<div>
-											<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" className="address underline">{address}</a>
+											<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" rel="noreferrer" className="address underline">{address}</a>
 											<div className="space-x-2">
 												{appConfig.PROVIDER_DICTIONARY[address] && <><small className="text-muted-foreground">{appConfig.PROVIDER_DICTIONARY[address]}</small> <Dot className="w-4 h-4 inline-block" /> </>}
 
@@ -326,18 +326,22 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 									</TableCell>
 								</TableRow>
 							)}
+							<TableRow className="hover:bg-transparent data-[state=selected]:bg-transparent">
+								<TableCell> <span></span> </TableCell>
+								<TableCell>
+									<span onClick={createEmptyOrderProviderField} className="underline font-medium">Suggest another order provider</span>
+								</TableCell>
+							</TableRow>
 						</TableBody>
 					</Table>
-					<div className="w-full pl-[53px] border-t border-r-0">
-						<Button onClick={createEmptyOrderProviderField} className="underline" variant="link">Suggest another order provider</Button>
-					</div>
 				</div>
 
 				<div className="mt-4">
 					<OrderProviderListDiff currentAddresses={currentValue} newAddresses={selectedAddresses} />
 
-					<QRButton href={uri} disabled={selectedAddresses.length !== appConfig.NUMBER_OF_ORDER_PROVIDERS}>Vote</QRButton>
-
+					<div>
+						<QRButton href={uri} disabled={selectedAddresses.length !== appConfig.NUMBER_OF_ORDER_PROVIDERS}>Vote</QRButton>
+					</div>
 					{selectedAddresses.length !== appConfig.NUMBER_OF_ORDER_PROVIDERS
 						? <div className="mt-2"><small className="text-red-700">Select {appConfig.NUMBER_OF_ORDER_PROVIDERS} order providers</small></div>
 						: null}

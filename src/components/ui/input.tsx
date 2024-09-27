@@ -10,10 +10,10 @@ export interface InputProps
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
 	({ className, type, disabled, loading, ...props }, ref) => {
 		const Wrapper = loading ? "div" : React.Fragment;
-		const wrapperClassName = loading ? "w-full relative" : undefined;
+		const wrapperProps = loading ? { className: "w-full relative" } : {};
 
 		return (
-			<Wrapper className={wrapperClassName}>
+			<Wrapper {...wrapperProps}>
 				{loading ? <div className="absolute right-2.5 top-2.5">
 					<div role="status">
 						<svg aria-hidden="true" className="w-5 h-5 text-gray-300 animate-spin dark:text-gray-400 fill-gray-800" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">

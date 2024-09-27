@@ -16,7 +16,4 @@ export const SysVarItem: FC<ISysVarItemProps> = ({ name, sysVarKey, description 
 		</CardTitle>
 		<CardDescription>{description}</CardDescription>
 	</CardHeader>
-	{/* <CardContent>
-		<Link className="underline" href={`/sys/${sysVarKey}`}>Vote</Link>
-	</CardContent> */}
 </Card>)
