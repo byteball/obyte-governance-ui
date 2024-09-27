@@ -23,7 +23,7 @@ export const QRButton = forwardRef<HTMLAnchorElement, IQRButtonProps>(({ classNa
 		}
 	};
 
-	return (<div onKeyDown={handleKeyDown} tabIndex={0} className="flex rounded-md ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0">
+	return (<div onKeyDown={handleKeyDown} tabIndex={0} className="inline-flex rounded-md ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0">
 		<Dialog>
 			<TooltipProvider>
 				<Tooltip>
