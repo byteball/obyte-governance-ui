@@ -64,7 +64,7 @@ export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 							<div className="flex justify-between md:items-center flex-col md:flex-row ">
 								<div className="space-y-1">
 									<div className="text-xl">
-										<b>{customName || transformSysVarKeyToName(param_key)}:</b> <ParamsView
+										<span className="font-semibold">{customName || transformSysVarKeyToName(param_key)}:</span> <ParamsView
 											type={type}
 											value={type === "number" ? Number(value) : (type === "op-list" ? value.split("\n") : value)}
 											hideList
@@ -73,7 +73,7 @@ export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 									</div>
 
 									<div>
-										<b>Total support for this value:</b> <ParamsView
+										<span>Total support for this value:</span> <ParamsView
 											type="number"
 											value={totalSupportAmount}
 											fixedDecimals
@@ -87,15 +87,15 @@ export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 							</div>
 						</CardHeader>
 						<CardContent>
-							<div className="font-bold mb-2">Votes:</div>
+							<div className="font-semibold mb-2">Votes:</div>
 							<ScrollArea type="always" className="md:flex md:max-h-[340px] flex-col pr-4">
 								{[...votes].sort((a, b) => (balances[b.address] ?? 0) - (balances[a.address] ?? 0)).map(({ address, unit, timestamp }) => (<div key={address + timestamp} className="flex md:justify-between md:items-center mb-4 flex-col-reverse md:flex-row">
 									<div>
-										<a target="_blank" rel="noreferrer" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} className="block font-medium address underline ">
+										<a target="_blank" rel="noreferrer" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} className="block font-medium address">
 											{address}
 										</a>
 
-										<div className="md:flex md:space-x-4 align-middle text-xs text-gray-500 space-y-1 md:space-y-0 mt-2 md:mt-0">
+										<div className="md:flex md:space-x-4 align-middle text-xs space-y-1 md:space-y-0 mt-2 md:mt-0">
 											{unit ? <div><a className="hover:text-gray-900" target="_blank" rel="noreferrer" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/${unit}`}>Unit on explorer <ExternalLink className="inline h-3 w-3" /></a></div> : null}
 											{timestamp ? <div>{moment.unix(timestamp).format("LLL")}</div> : null}
 										</div>
