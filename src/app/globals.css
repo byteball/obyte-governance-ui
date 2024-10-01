@@ -15,7 +15,7 @@
 		--secondary: 240 4.8% 95.9%;
 		--secondary-foreground: 240 5.9% 10%;
 		--muted: 240 4.8% 95.9%;
-		--muted-foreground: 240 3.8% 46.1%;
+		--muted-foreground: 240 5.2% 33.9%;
 		--accent: 240 4.8% 95.9%;
 		--accent-foreground: 240 5.9% 10%;
 		--destructive: 0 84.2% 60.2%;
@@ -29,6 +29,7 @@
 		--chart-3: 197 37% 24%;
 		--chart-4: 43 74% 66%;
 		--chart-5: 27 87% 67%;
+		--link: 210 100% 40%;
 	}
 
 	.dark {
@@ -56,6 +57,7 @@
 		--chart-3: 30 80% 55%;
 		--chart-4: 280 65% 60%;
 		--chart-5: 340 75% 55%;
+		--link: 210 100% 60%;
 	}
 }
 
@@ -70,5 +72,6 @@
 
 	.address {
 		font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace !important;
+		@apply text-link;
 	}
 }
