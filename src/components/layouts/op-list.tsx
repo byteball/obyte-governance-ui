@@ -49,6 +49,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 
 import appConfig from "@/appConfig"
+import { isArray } from "lodash";
 
 export type IOrderProvider = {
 	amount: number;
@@ -215,27 +216,30 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 							<DialogDescription>Order provider: <a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" rel="noreferrer" className="address">{row.getValue("address")}</a></DialogDescription>
 							<ScrollArea className="max-h-[400px]">
 								<div className="space-y-3 pr-5">
-									{votes.filter((v) => v.ops?.includes(row.getValue("address"))).sort((a, b) => (balances[b.address] ?? 0) - (balances[a.address] ?? 0)).map(({ address, timestamp, unit }) => (<div key={address} className="flex justify-between items-center border-b pb-3">
-										<div>
-											<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" rel="noreferrer" className="address">{address}</a>
-											<div className="space-x-2">
-												{appConfig.PROVIDER_DICTIONARY[address] && <><small className="text-muted-foreground">{appConfig.PROVIDER_DICTIONARY[address]}</small> <Dot className="w-4 h-4 inline-block" /> </>}
+									{votes
+										.filter((v) => isArray(v.value) && v.value?.includes(row.getValue("address")))
+										.sort((a, b) => (balances[b.address] ?? 0) - (balances[a.address] ?? 0))
+										.map(({ address, timestamp, unit }) => (<div key={address} className="flex justify-between items-center border-b pb-3">
+											<div>
+												<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" rel="noreferrer" className="address">{address}</a>
+												<div className="space-x-2">
+													{appConfig.PROVIDER_DICTIONARY[address] && <><small className="text-muted-foreground">{appConfig.PROVIDER_DICTIONARY[address]}</small> <Dot className="w-4 h-4 inline-block" /> </>}
 
-												<small className="text-muted-foreground">
-													<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/${unit}`} target="_blank" rel="noreferrer">{moment.unix(timestamp).format("LLL")}</a>
-												</small>
+													<small className="text-muted-foreground">
+														<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/${unit}`} target="_blank" rel="noreferrer">{moment.unix(timestamp).format("LLL")}</a>
+													</small>
+												</div>
 											</div>
-										</div>
-										<div>
-											<ParamsView
-												value={balances[address] ?? 0}
-												type="number"
-												fixedDecimals
-												decimals={9}
-											/> {" "}
-											<small>GBYTE</small>
-										</div>
-									</div>))}
+											<div>
+												<ParamsView
+													value={balances[address] ?? 0}
+													type="number"
+													fixedDecimals
+													decimals={9}
+												/> {" "}
+												<small>GBYTE</small>
+											</div>
+										</div>))}
 								</div>
 							</ScrollArea>
 						</DialogContent>

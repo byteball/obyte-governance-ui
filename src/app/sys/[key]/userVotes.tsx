@@ -1,6 +1,6 @@
 "use server";
 
-import { groupBy } from "lodash";
+import { groupBy, isArray } from "lodash";
 import { notFound } from "next/navigation";
 import { FC } from "react"
 import moment from "moment";
@@ -41,7 +41,7 @@ export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 	if (type !== "op-list") {
 		uniqVotes = groupBy(votes, (v) => v.value);
 	} else if (type === "op-list") {
-		uniqVotes = groupBy(votes, (v) => v.ops?.sort().join('\n'));
+		uniqVotes = groupBy(votes, (v) => isArray(v.value) ? v.value?.sort().join('\n') : v.value);
 	}
 
 	return (

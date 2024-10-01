@@ -26,8 +26,7 @@ export interface IVoteInfo {
 	address: string;
 	unit: string;
 	timestamp: number;
-	ops?: string[];
-	value: number;
+	value: number | string[];
 }
 export interface IBalances {
 	[address: string]: number;
