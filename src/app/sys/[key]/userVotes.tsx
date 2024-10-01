@@ -91,7 +91,7 @@ export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 							<ScrollArea type="always" className="md:flex md:max-h-[340px] flex-col pr-4">
 								{[...votes].sort((a, b) => (balances[b.address] ?? 0) - (balances[a.address] ?? 0)).map(({ address, unit, timestamp }) => (<div key={address + timestamp} className="flex md:justify-between md:items-center mb-4 flex-col-reverse md:flex-row">
 									<div>
-										<a target="_blank" rel="noreferrer" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} className="block font-medium address">
+										<a target="_blank" rel="noreferrer" href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} className="block address">
 											{address}
 										</a>
 
