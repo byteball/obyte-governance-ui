@@ -30,3 +30,5 @@ export const OrderProviderListDiff: FC<IOrderProviderListDiffProps> = memo(({ cu
 		</div>
 	</>
 });
+
+OrderProviderListDiff.displayName = "OrderProviderListDiff";

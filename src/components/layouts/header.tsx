@@ -14,6 +14,7 @@ import { ModeToggle } from "../mode-toggle";
 import { sysVarConfiguration } from "@/sysVarConfiguration";
 import { transformSysVarKeyToName } from "@/lib/transformSysVarKeyToName";
 
+
 export const Header = () => {
 	const pathname = usePathname();
 	const ref = useRef<HTMLButtonElement>(null);
@@ -21,8 +22,8 @@ export const Header = () => {
 	return (
 		<>
 			<ProgressBar
-				height="5px"
-				color="#0284c7"
+				height="3px"
+				color="#0066CC"
 				options={{ showSpinner: true }}
 				targetPreprocessor={(url) => {
 					if (url.protocol === 'obyte:' || url.protocol === 'obyte-tn:') {
@@ -45,7 +46,7 @@ export const Header = () => {
 					{Object.entries(sysVarConfiguration).map(([key, { customName }]) => (<Link
 						href={`/sys/${key}`}
 						key={key}
-						className={cn("hover:text-foreground block flex-shrink-0", { "text-foreground text-gray-950 dark:text-gray-300": pathname === `/sys/${key}` }, { "text-muted-foreground": pathname !== `/sys/${key}` })}
+						className={cn("hover:text-foreground block flex-shrink-0 font-normal", { "text-foreground text-gray-950 dark:text-gray-300": pathname === `/sys/${key}` }, { "text-muted-foreground": pathname !== `/sys/${key}` })}
 					>
 						{customName || transformSysVarKeyToName(key)}
 					</Link>))}

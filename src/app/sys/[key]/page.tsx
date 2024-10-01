@@ -42,7 +42,7 @@ export default async function SysVarPage({ params }: ISysVarPageProps) {
 	const currentValue: string[] = paramValues.length === 1 ? paramValues[0].value as string[] : maxBy(paramValues, (p) => p.vote_count_mci)?.value as string[];
 
 	return (<div className="space-y-8">
-		<h1 className="text-4xl font-extrabold tracking-tight scroll-m-20 lg:text-5xl">
+		<h1 className="text-4xl font-bold tracking-tight scroll-m-20 lg:text-5xl">
 			Vote for <span className="lowercase">{transformSysVarKeyToName(params.key)}</span>
 		</h1>
 

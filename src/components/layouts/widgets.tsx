@@ -68,7 +68,7 @@ export const Widgets: FC<IWidgetsProps> = async ({ paramKey }) => {
 				<CardTitle className="text-sm font-medium">Total voters balance</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<div className="text-2xl font-bold">
+				<div className="text-2xl font-semibold">
 					<ParamsView
 						type="number"
 						value={Number(totalSupport)}
@@ -83,7 +83,7 @@ export const Widgets: FC<IWidgetsProps> = async ({ paramKey }) => {
 				<CardTitle className="text-sm font-medium">Count votes</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<div className="text-2xl font-bold">{votes.length}</div>
+				<div className="text-2xl font-semibold">{votes.length}</div>
 			</CardContent>
 		</Card>
 
@@ -92,7 +92,7 @@ export const Widgets: FC<IWidgetsProps> = async ({ paramKey }) => {
 				<CardTitle className="text-sm font-medium">Current value</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<div className="text-2xl font-bold">
+				<div className="text-2xl font-semibold">
 					<ParamsView
 						type={type}
 						value={currentValue}
@@ -107,7 +107,7 @@ export const Widgets: FC<IWidgetsProps> = async ({ paramKey }) => {
 				<CardTitle className="text-sm font-medium">Leader</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<div className="text-2xl font-bold">
+				<div className="text-2xl font-semibold">
 					<ParamsView
 						type={type}
 						newOPs={leaderValue && isArray(leaderValue) && isArray(currentValue) ? difference(leaderValue, currentValue) : undefined}
