@@ -14,6 +14,7 @@ import { ModeToggle } from "../mode-toggle";
 import { sysVarConfiguration } from "@/sysVarConfiguration";
 import { transformSysVarKeyToName } from "@/lib/transformSysVarKeyToName";
 
+
 export const Header = () => {
 	const pathname = usePathname();
 	const ref = useRef<HTMLButtonElement>(null);

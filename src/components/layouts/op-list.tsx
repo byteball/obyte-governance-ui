@@ -74,6 +74,71 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 	const [tableRows, setTableRows] = React.useState<IOrderProvider[]>(data);
 	const { toast } = useToast();
 
+
+	const checkWalletDefinition = React.useCallback(async (address: string, id: string) => {
+		const definitionExists = await getWalletDefinition(address);
+
+		if (definitionExists.error || definitionExists.data === null) {
+			setTableRows(tableRows => {
+				const index = tableRows.findIndex((row) => row.editableFieldId === id);
+				if (index !== -1) {
+					const newTableRows = [...tableRows];
+					newTableRows[index].editableFieldError = "This wallet is empty, top it up with any amount of GBYTEs";
+					newTableRows[index].editableFieldCheckLoading = false;
+					return newTableRows;
+				} else {
+					return tableRows;
+				}
+			});
+		} else {
+			setTableRows(tableRows => {
+				const index = tableRows.findIndex((row) => row.editableFieldId === id);
+				if (index !== -1) {
+					const newTableRows = [...tableRows];
+					newTableRows[index].editableFieldError = undefined;
+					newTableRows[index].editableFieldCheckLoading = false;
+					return newTableRows;
+				} else {
+					return tableRows;
+				}
+			});
+		}
+	}, []);
+
+	const changeEditableField = React.useCallback((ev: React.ChangeEvent<HTMLInputElement>, editableFieldId: string, value: string) => {
+		setTableRows(tableRows => {
+			const index = tableRows.findIndex((row) => row.editableFieldId === editableFieldId);
+			const isValid = obyte.utils.isValidAddress(value);
+
+			setRowSelection((prev) => ({ ...prev, [editableFieldId]: isValid }));
+
+			if (index !== -1) {
+				const newTableRows = [...tableRows];
+				newTableRows[index].address = value;
+				newTableRows[index].isValidEditableField = isValid;
+
+				if (isValid) {
+					const newTableRowsWithTheSameAddress = newTableRows.filter((row) => row.address === value);
+
+					if (newTableRowsWithTheSameAddress.length > 1) {
+						newTableRows[index].editableFieldError = "This address is already in the list";
+					} else {
+						newTableRows[index].editableFieldCheckLoading = true;
+
+						checkWalletDefinition(value, editableFieldId);
+					}
+				} else {
+					newTableRows[index].editableFieldError = undefined;
+				}
+
+				return newTableRows;
+			} else {
+
+				return tableRows;
+			}
+		});
+	}, [checkWalletDefinition]);
+
 	const columns: ColumnDef<IOrderProvider>[] = React.useMemo(() => [
 		{
 			id: "select",
@@ -182,7 +247,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 			enableResizing: true,
 			sortingFn: (a, b) => b.getValue<number>("amount") - a.getValue<number>("amount"),
 		}
-	], []);
+	], [balances, votes, toast, changeEditableField]);
 
 	const table = useReactTable({
 		rowCount: tableRows.length,
@@ -206,69 +271,6 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 		setTableRows((prev) => ([...prev, { address: "", amount: 0, editable: true, editableFieldId: nanoid() }]));
 	}
 
-	const checkWalletDefinition = React.useCallback(async (address: string, id: string) => {
-		const definitionExists = await getWalletDefinition(address);
-
-		if (definitionExists.error || definitionExists.data === null) {
-			setTableRows(tableRows => {
-				const index = tableRows.findIndex((row) => row.editableFieldId === id);
-				if (index !== -1) {
-					const newTableRows = [...tableRows];
-					newTableRows[index].editableFieldError = "This wallet is empty, top it up with any amount of GBYTEs";
-					newTableRows[index].editableFieldCheckLoading = false;
-					return newTableRows;
-				} else {
-					return tableRows;
-				}
-			});
-		} else {
-			setTableRows(tableRows => {
-				const index = tableRows.findIndex((row) => row.editableFieldId === id);
-				if (index !== -1) {
-					const newTableRows = [...tableRows];
-					newTableRows[index].editableFieldError = undefined;
-					newTableRows[index].editableFieldCheckLoading = false;
-					return newTableRows;
-				} else {
-					return tableRows;
-				}
-			});
-		}
-	}, []);
-
-	const changeEditableField = React.useCallback((ev: React.ChangeEvent<HTMLInputElement>, editableFieldId: string, value: string) => {
-		setTableRows(tableRows => {
-			const index = tableRows.findIndex((row) => row.editableFieldId === editableFieldId);
-			const isValid = obyte.utils.isValidAddress(value);
-
-			setRowSelection((prev) => ({ ...prev, [editableFieldId]: isValid }));
-
-			if (index !== -1) {
-				const newTableRows = [...tableRows];
-				newTableRows[index].address = value;
-				newTableRows[index].isValidEditableField = isValid;
-
-				if (isValid) {
-					const newTableRowsWithTheSameAddress = newTableRows.filter((row) => row.address === value);
-
-					if (newTableRowsWithTheSameAddress.length > 1) {
-						newTableRows[index].editableFieldError = "This address is already in the list";
-					} else {
-						newTableRows[index].editableFieldCheckLoading = true;
-
-						checkWalletDefinition(value, editableFieldId);
-					}
-				} else {
-					newTableRows[index].editableFieldError = undefined;
-				}
-
-				return newTableRows;
-			} else {
-
-				return tableRows;
-			}
-		});
-	}, [checkWalletDefinition]);
 
 	const selectedAddresses = tableRows
 		.filter((row) => !!rowSelection[row.editableFieldId || row.address])
@@ -329,7 +331,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 							<TableRow className="hover:bg-transparent data-[state=selected]:bg-transparent">
 								<TableCell> <span></span> </TableCell>
 								<TableCell>
-									<span onClick={createEmptyOrderProviderField} className="font-medium text-link">Suggest another order provider</span>
+									<span onClick={createEmptyOrderProviderField} className="font-medium text-link cursor-pointer">Suggest another order provider</span>
 								</TableCell>
 							</TableRow>
 						</TableBody>

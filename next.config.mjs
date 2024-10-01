@@ -2,7 +2,7 @@
 const nextConfig = {
 	eslint: {
     // Отключить ESLint при сборке на Vercel
-    ignoreDuringBuilds: true,
+    // ignoreDuringBuilds: true,
   }
 };
 
