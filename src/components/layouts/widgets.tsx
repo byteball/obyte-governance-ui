@@ -118,40 +118,17 @@ export const Widgets: FC<IWidgetsProps> = async ({ paramKey }) => {
 				</div>
 
 				<div className={cn(paramKey === "op_list" ? "mt-6" : "mt-2")}>
-					{disabledCommit ?
-						<TooltipProvider>
-							<Tooltip delayDuration={500}>
-								<TooltipTrigger asChild>
-									<div>
-										<QRButton
-											href="#"
-											disabled={true}
-											size="sm"
-											fluid
-											variant="secondary"
-										>
-											Commit value
-										</QRButton>
-									</div>
-								</TooltipTrigger>
-								<TooltipContent className="max-w-xs">
-									<p>The leader is the same as the current value, nothing to commit</p>
-								</TooltipContent>
-							</Tooltip>
-						</TooltipProvider> : <>
-							<QRButton
-								href={generateSysLink({ param_key: String(paramKey), app: "system_vote_count" })}
-								disabled={disabledCommit}
-								size="sm"
-								fluid
-								variant="secondary"
-							>
-								Commit value
-							</QRButton>
+					<QRButton
+						href={generateSysLink({ param_key: String(paramKey), app: "system_vote_count" })}
+						disabled={disabledCommit}
+						size="sm"
+						fluid
+						variant="secondary"
+					>
+						Commit value
+					</QRButton>
 
-							<div className="text-[10px] mt-1">Make the current leader value active. This will cost you 1 GB in fees.</div>
-						</>
-					}
+					<div className="mt-4 text-sm">{disabledCommit ? "The leader is the same as the current value, nothing to commit." : "Make the current leader value active. This will cost you 1 GB in fees."}</div>
 				</div>
 			</CardContent>
 		</Card>}
