@@ -101,7 +101,7 @@ export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 										</div>
 									</div>
 
-									<div className="">
+									<div>
 										<ParamsView
 											type="number"
 											fixedDecimals

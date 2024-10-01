@@ -105,7 +105,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 		}
 	}, []);
 
-	const changeEditableField = React.useCallback((ev: React.ChangeEvent<HTMLInputElement>, editableFieldId: string, value: string) => {
+	const changeEditableField = React.useCallback((editableFieldId: string, value: string) => {
 		setTableRows(tableRows => {
 			const index = tableRows.findIndex((row) => row.editableFieldId === editableFieldId);
 			const isValid = obyte.utils.isValidAddress(value);
@@ -176,7 +176,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 								value={row.getValue("address")}
 								loading={row.original.editableFieldCheckLoading}
 								className={obyte.utils.isValidAddress(row.getValue("address")) && row.original.editableFieldError === undefined ? "border-green-700 ring-green-700 focus-visible:ring-green-700 focus-visible:ring-offset-0" : "border-red-800 focus-visible:ring-red-800 focus-visible:ring-offset-0"}
-								onChange={(ev: React.ChangeEvent<HTMLInputElement>) => changeEditableField(ev, row.original.editableFieldId || "unknownId", ev.target.value)}
+								onChange={(ev: React.ChangeEvent<HTMLInputElement>) => changeEditableField(row.original.editableFieldId || "unknownId", ev.target.value)}
 							/>
 							<div>
 								<X
