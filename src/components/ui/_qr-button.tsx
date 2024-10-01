@@ -46,7 +46,7 @@ export const QRButton = forwardRef<HTMLAnchorElement, IQRButtonProps>(({ classNa
 				</DialogHeader>
 				<div className="mx-auto">
 					<a href={href}>
-						<QRCodeSVG size={240} className="qr" bgColor='#24292e' fgColor='#fff' marginSize={1} value={href} />
+						<QRCodeSVG size={240} className="qr" bgColor='#fff' marginSize={1} value={href} />
 					</a>
 				</div>
 
