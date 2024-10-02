@@ -52,6 +52,8 @@ export const Widgets: FC<IWidgetsProps> = async ({ paramKey }) => {
 		const supportByValue: { [value: string]: number } = {};
 
 		votes.forEach((v) => {
+			if (isArray(v.value)) return; // It's impossible, because string[] only for op_list
+
 			if (!(String(v.value) in supportByValue)) supportByValue[v.value] = 0;
 			supportByValue[v.value] = (supportByValue[v.value] || 0) + (balances?.[v.address] ?? 0);
 		});
