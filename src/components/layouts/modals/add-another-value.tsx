@@ -63,7 +63,7 @@ export const AddAnotherValueModal: FC<IAddAnotherValueModalProps> = ({ defaultVa
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
 					<DialogTitle>Suggest another {customName}</DialogTitle>
-					{description ? <DialogDescription>
+					{description ? <DialogDescription className="leading-6">
 						{description}
 					</DialogDescription> : null}
 				</DialogHeader>

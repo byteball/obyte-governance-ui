@@ -130,7 +130,7 @@ export const Widgets: FC<IWidgetsProps> = async ({ paramKey }) => {
 						Commit value
 					</QRButton>
 
-					<div className="mt-4 text-sm">{disabledCommit ? "The leader is the same as the current value, nothing to commit." : "Make the current leader value active. This will cost you 1 GB in fees."}</div>
+					<div className="mt-4 text-sm leading-6">{disabledCommit ? "The leader is the same as the current value, nothing to commit." : "Make the current leader value active. This will cost you 1 GB in fees."}</div>
 				</div>
 			</CardContent>
 		</Card>}

@@ -42,7 +42,7 @@ export const QRButton = forwardRef<HTMLAnchorElement, IQRButtonProps>(({ classNa
 
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
-					<DialogTitle className="max-w-[200px] text-center mx-auto">Scan this QR code with your mobile phone</DialogTitle>
+					<DialogTitle className="max-w-[200px] text-center mx-auto leading-6">Scan this QR code with your mobile phone</DialogTitle>
 				</DialogHeader>
 				<div className="mx-auto">
 					<a href={href}>

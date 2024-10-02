@@ -19,9 +19,11 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const { fontFamily, fontStyle } = openSans.style;
+	
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<body className={openSans.className}>
+			<body style={{ fontFamily: `"SF Pro Text", "SF Pro Icons", ${fontFamily}`, fontStyle }}>
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="system"

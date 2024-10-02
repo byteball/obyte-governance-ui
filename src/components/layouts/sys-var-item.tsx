@@ -11,9 +11,9 @@ interface ISysVarItemProps {
 
 export const SysVarItem: FC<ISysVarItemProps> = ({ name, sysVarKey, description }) => (<Card className="flex flex-col justify-between">
 	<CardHeader>
-		<CardTitle>
+		<CardTitle className="mb-4">
 			<Link href={`/sys/${sysVarKey}`} className="underline">{name}</Link>
 		</CardTitle>
-		<CardDescription>{description}</CardDescription>
+		<CardDescription className="leading-6">{description}</CardDescription>
 	</CardHeader>
 </Card>)
