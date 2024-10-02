@@ -50,7 +50,7 @@ const config = {
         },
         card: {
           DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          foreground: "var(--card-foreground)",
         },
 				link: {
           DEFAULT: "hsl(var(--link))",
