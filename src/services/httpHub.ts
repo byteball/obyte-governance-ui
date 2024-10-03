@@ -18,7 +18,7 @@ interface ISystemVarsList {
 }
 
 export const getSystemVars = async (): Promise<ISystemVarsList> => {
-	const data = await fetch(`https://${appConfig.TESTNET ? 'testnet.' : ''}obyte.org/api/get_system_vars`, { next: { revalidate: CACHE_VARS_REVALIDATE_TIME, tags: ['vars'] }, method: "POST" }).then(res => res.json()).then(({ data }) => data);
+	const data = await fetch(`https://${appConfig.TESTNET ? 'testnet.' : ''}obyte.org/api/get_system_vars`, { next: {}, method: "POST", cache: 'no-store' }).then(res => res.json()).then(({ data }) => data);
 	return data;
 }
 
@@ -40,11 +40,11 @@ interface IVotes {
 }
 
 export const getSystemVarsVotes = async (): Promise<IVotes> => {
-	const data = await fetch(`https://${appConfig.TESTNET ? 'testnet.' : ''}obyte.org/api/get_system_var_votes`, { next: { revalidate: CACHE_VARS_VOTES_REVALIDATE_TIME, tags: ['votes'] }, method: "POST" }).then(res => res.json()).then(({ data }) => data);
+	const data = await fetch(`https://${appConfig.TESTNET ? 'testnet.' : ''}obyte.org/api/get_system_var_votes`, { next: {}, method: "POST", cache: 'no-store' }).then(res => res.json()).then(({ data }) => data);
 	return data;
 }
 
 export const getWalletDefinition = async (address: string): Promise<{ error?: string, data: object }> => {
-	const data = await fetch(`https://${appConfig.TESTNET ? 'testnet.' : ''}obyte.org/api/get_definition`, { next: { revalidate: CACHE_VARS_VOTES_REVALIDATE_TIME, tags: ['definition'] }, method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ address }) }).then(res => res.json())//.then(({ data, error }) => error || data);
+	const data = await fetch(`https://${appConfig.TESTNET ? 'testnet.' : ''}obyte.org/api/get_definition`, { next: {}, method: "POST", cache: 'no-store', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ address }) }).then(res => res.json())//.then(({ data, error }) => error || data);
 	return data;
 }

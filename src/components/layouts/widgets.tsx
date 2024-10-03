@@ -21,7 +21,6 @@ import { QRButton } from "../ui/_qr-button";
 import { generateSysLink } from "@/lib/generateLink";
 import { aggregateOpsData } from "@/lib/aggregateOpsData";
 import { getValueWithType } from "@/lib/getValueWithType";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 
 interface IWidgetsProps {
 	paramKey: keyof typeof sysVarConfiguration;

@@ -1,11 +1,11 @@
-"use client";
+'use client'
 
 import { Menu } from "lucide-react";
 import Link from "next/link";
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import cn from "classnames";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
@@ -14,10 +14,29 @@ import { ModeToggle } from "../mode-toggle";
 import { sysVarConfiguration } from "@/sysVarConfiguration";
 import { transformSysVarKeyToName } from "@/lib/transformSysVarKeyToName";
 
-
 export const Header = () => {
 	const pathname = usePathname();
 	const ref = useRef<HTMLButtonElement>(null);
+	const router = useRouter();
+
+	useEffect(() => {
+		(async () => {
+			const client = await import("../../services/obyte.client.service");
+
+			client.default.subscribe(async (err, result) => {
+				if (err) return null;
+
+				const { subject, body } = result[1];
+
+				console.log("log: message", subject, body);
+
+				if (subject === "system_var_vote") {
+					console.log('log: refresh');
+					router.refresh();
+				}
+			})
+		})();
+	}, []);
 
 	return (
 		<>
