@@ -2,7 +2,11 @@
 
 ## Getting Started
 
-First, run the development server:
+1. Create a `.env` file in the project root directory.
+2. Add the following line to the `.env` file: ``NEXT_PUBLIC_TESTNET=true``
+
+
+Second, run the development server:
 
 ```bash
 npm run dev
