@@ -2,7 +2,9 @@
 
 ## Getting Started
 
-First, If you want to start testnet network create .env file with variable: ``NEXT_PUBLIC_TESTNET=true``
+1. Create a `.env` file in the project root directory.
+2. Add the following line to the `.env` file: ``NEXT_PUBLIC_TESTNET=true``
+
 
 Second, run the development server:
 

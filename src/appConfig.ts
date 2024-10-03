@@ -9,7 +9,7 @@ interface IAppConfig {
 }
 
 const appConfig: IAppConfig = {
-	TESTNET: process.env.NEXT_PUBLIC_TESTNET ? true : false,
+	TESTNET: !!process.env.NEXT_PUBLIC_TESTNET,
 	VOTING_TOKEN_SYMBOL: "GBYTE",
 	VOTING_TOKEN_DECIMALS: 9,
 	NUMBER_OF_ORDER_PROVIDERS: 12,
