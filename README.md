@@ -2,7 +2,9 @@
 
 ## Getting Started
 
-First, run the development server:
+First, If you want to start testnet network create .env file with variable: ``NEXT_PUBLIC_TESTNET=true``
+
+Second, run the development server:
 
 ```bash
 npm run dev
