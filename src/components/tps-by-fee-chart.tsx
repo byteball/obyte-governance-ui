@@ -60,7 +60,7 @@ export const TpsByFeeChart: FC<ITpsByFeeChartProps> = ({ sysVars, paramKey, valu
 					<Label offset={2} position="left" angle={-90}>TPS fee</Label>
 				</YAxis>
 
-				<ChartTooltip cursor={false} formatter={(value, name, item) => typeof value === 'number' && value >= 1000 ? `${name !== 'fee' ? 'New ' : ''}TPS fee: ` + (value / 1000).toFixed(4) + 'Kbytes' : `${name !== 'fee' ? 'New ' : ''}TPS fee: ` + +Number(value).toFixed(4) + 'bytes'} content={<ChartTooltipContent />} />
+				<ChartTooltip cursor={false} formatter={(value, name, item) => typeof value === 'number' && value >= 1000 ? `${name !== 'fee' ? 'New ' : ''}TPS fee: ` + (value / 1000).toFixed(4) + ' Kbytes' : `${name !== 'fee' ? 'New ' : ''}TPS fee: ` + +Number(value).toFixed(4) + ' bytes'} content={<ChartTooltipContent />} />
 
 				<defs>
 					<linearGradient id="fillCurrent" x1="0" y1="0" x2="0" y2="1">
