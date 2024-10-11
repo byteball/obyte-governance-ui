@@ -1,22 +1,25 @@
 'use client';
 
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 
 import { generateTpsFeeDataByParams } from "@/lib/generateTpsFeeDataByParams";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis, Label } from "recharts";
 
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "./ui/chart";
+import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "./ui/chart";
 
 import { ISystemVarsList } from "@/services/httpHub";
 import { getCurrentParamsBySysVars } from "@/lib/getCurrentParamsBySysVars";
+import { getStringAbrvOfNumber } from "@/lib/getStringAbrvOfNumber";
 
 
 const chartConfig = {
-	new: {
+	newFee: {
 		color: "hsl(var(--link))",
+		label: "New value",
 	},
-	current: {
-		color: "hsl(var(--border))",
+	fee: {
+		color: "hsl(var(--chart-3))",
+		label: "Current value",
 	}
 } satisfies ChartConfig;
 
@@ -30,6 +33,20 @@ interface ITpsByFeeChartProps {
 export const TpsByFeeChart: FC<ITpsByFeeChartProps> = ({ sysVars, paramKey, value }) => {
 	const currentParams = getCurrentParamsBySysVars(sysVars);
 	const chartData = generateTpsFeeDataByParams({ currentParams, newParams: { ...currentParams, [paramKey]: value } });
+	const [max, setMax] = useState<'auto' | number>('auto')
+
+	useEffect(() => {
+		const fees: number[] = [];
+		chartData.forEach(({ fee, newFee }) => {
+			fees.push(fee);
+
+			if (newFee) {
+				fees.push(newFee);
+			}
+		});
+
+		setMax(Math.max(...fees))
+	}, [chartData, value, sysVars, paramKey]);
 
 	return <div className="max-w-[350px]">
 		<ChartContainer config={chartConfig}>
@@ -42,7 +59,6 @@ export const TpsByFeeChart: FC<ITpsByFeeChartProps> = ({ sysVars, paramKey, valu
 
 				<XAxis
 					dataKey="tps"
-					className="mt-2"
 					tickLine={false}
 					axisLine={false}
 					type="number"
@@ -53,37 +69,38 @@ export const TpsByFeeChart: FC<ITpsByFeeChartProps> = ({ sysVars, paramKey, valu
 				<YAxis
 					dataKey="fee"
 					type="number"
+					domain={[0, max]}
 					tickLine={false}
 					axisLine={false}
-					tickFormatter={(value) => value >= 1000 ? (value / 1000) + 'K' : value}
+					tickFormatter={(value) => getStringAbrvOfNumber(value, true)}
 				>
 					<Label offset={2} position="left" angle={-90}>TPS fee</Label>
 				</YAxis>
 
-				<ChartTooltip cursor={false} formatter={(value, name, item) => typeof value === 'number' && value >= 1000 ? `${name !== 'fee' ? 'New ' : ''}TPS fee: ` + (value / 1000).toFixed(4) + ' Kbytes' : `${name !== 'fee' ? 'New ' : ''}TPS fee: ` + +Number(value).toFixed(4) + ' bytes'} content={<ChartTooltipContent />} />
+				<ChartTooltip cursor={false} formatter={(value, name) => `${name !== 'fee' ? 'New ' : ''}TPS fee: ` + getStringAbrvOfNumber(Number(value))} content={<ChartTooltipContent />} />
 
 				<defs>
-					<linearGradient id="fillCurrent" x1="0" y1="0" x2="0" y2="1">
+					<linearGradient id="fillFee" x1="0" y1="0" x2="0" y2="1">
 						<stop
 							offset="5%"
-							stopColor="var(--color-current)"
+							stopColor="var(--color-fee)"
 							stopOpacity={0.8}
 						/>
 						<stop
 							offset="95%"
-							stopColor="var(--color-current)"
+							stopColor="var(--color-fee)"
 							stopOpacity={0.1}
 						/>
 					</linearGradient>
-					<linearGradient id="fillNew" x1="0" y1="0" x2="0" y2="1">
+					<linearGradient id="fillNewFee" x1="0" y1="0" x2="0" y2="1">
 						<stop
 							offset="5%"
-							stopColor="var(--color-new)"
+							stopColor="var(--color-newFee)"
 							stopOpacity={0.8}
 						/>
 						<stop
 							offset="95%"
-							stopColor="var(--color-new)"
+							stopColor="var(--color-newFee)"
 							stopOpacity={0.2}
 						/>
 					</linearGradient>
@@ -92,19 +109,21 @@ export const TpsByFeeChart: FC<ITpsByFeeChartProps> = ({ sysVars, paramKey, valu
 					animationDuration={0}
 					dataKey="fee"
 					type="monotone"
-					fill="url(#fillCurrent)"
+					fill="url(#fillFee)"
 					fillOpacity={0.6}
-					stroke="var(--color-current)"
+					stroke="var(--color-fee)"
 					stackId="2a"
 				/>
 				<Area
 					dataKey="newFee"
 					type="monotone"
-					fill="url(#fillNew)"
+					fill="url(#fillNewFee)"
 					fillOpacity={0.6}
-					stroke="var(--color-new)"
+					stroke="var(--color-newFee)"
 					stackId="a"
 				/>
+
+				<ChartLegend content={<ChartLegendContent />} />
 			</AreaChart>
 		</ChartContainer>
 	</div>
