@@ -9,7 +9,7 @@ export const getSystemVarsList = async (): Promise<string[]> => {
 	return Object.keys(data);
 }
 
-interface ISystemVarsList {
+export interface ISystemVarsList {
 	[key: string]: {
 		vote_count_mci: number;
 		value: number | string[];
