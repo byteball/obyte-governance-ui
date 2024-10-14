@@ -1,4 +1,4 @@
-const final_tps = [0.03, 0.1, 1, 3, 5, 8, 10, 12];
+const final_tps = [0.03, 0.1, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12];
 
 interface ITpsFeeParams {
 	base_tps_fee?: number;
