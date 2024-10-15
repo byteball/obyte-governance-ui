@@ -78,7 +78,7 @@ export const SizeByOversizeFeeChart: FC<ITpsByFeeChartProps> = ({ sysVars, value
 				</YAxis>
 
 				<ChartTooltip cursor={false} formatter={
-					(value, name, item) => <div>{name === 'oversizeFee' ? <div className="underline mb-2"> <b>Size: {item.payload.size}</b></div> : null} <span className="font-semibold">{name !== 'oversizeFee' ? 'New' : 'Current'} oversize fee:</span> {getStringAbrvOfNumber(Number(value))}</div>} content={<ChartTooltipContent />} />
+					(value, name, item) => <div>{name === 'oversizeFee' ? <div className="mb-2"> <b>Size: {item.payload.size}</b></div> : null} <span className="font-semibold">{name !== 'oversizeFee' ? 'New' : 'Current'} oversize fee:</span> {getStringAbrvOfNumber(Number(value))}</div>} content={<ChartTooltipContent />} />
 
 				<defs>
 					<linearGradient id="fillOversizeFee" x1="0" y1="0" x2="0" y2="1">

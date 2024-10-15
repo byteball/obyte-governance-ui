@@ -78,7 +78,7 @@ export const TpsByFeeChart: FC<ITpsByFeeChartProps> = ({ sysVars, paramKey, valu
 				</YAxis>
 
 				<ChartTooltip cursor={false} formatter={
-					(value, name, item) => <div>{name === 'fee' ? <div className="underline mb-2"> <b>TPS: {item.payload.tps}</b></div> : null} <span className="font-semibold">{name !== 'fee' ? 'New' : 'Current'} TPS fee:</span> {getStringAbrvOfNumber(Number(value))}</div>} content={<ChartTooltipContent />} />
+					(value, name, item) => <div>{name === 'fee' ? <div className="mb-2"> <b>TPS: {item.payload.tps}</b></div> : null} <span className="font-semibold">{name !== 'fee' ? 'New' : 'Current'} TPS fee:</span> {getStringAbrvOfNumber(Number(value))}</div>} content={<ChartTooltipContent />} />
 
 				<defs>
 					<linearGradient id="fillFee" x1="0" y1="0" x2="0" y2="1">
