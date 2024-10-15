@@ -24,7 +24,7 @@ export const generateOversizeFeeDataByParams = ({ currentParams, newParams }: IG
 	return [0, ...sizes]
 	.map((size: number) => ({
 		size,
-		oversizeFee: current_threshold_size > 1 && size !== 0 ? size * (Math.exp(size / current_threshold_size - 1) - 1) : 0,
-		newOversizeFee: new_threshold_size > 1 && size !== 0 ? size * (Math.exp(size / new_threshold_size - 1) - 1) : 0,
+		oversizeFee: Math.ceil(current_threshold_size > 1 && size !== 0 ? size * (Math.exp(size / current_threshold_size - 1) - 1) : 0),
+		newOversizeFee: Math.ceil(new_threshold_size > 1 && size !== 0 ? size * (Math.exp(size / new_threshold_size - 1) - 1) : 0),
 	})) satisfies TpsFeeDataResult[];
 }
