@@ -23,7 +23,7 @@ export const generateTpsFeeDataByParams = ({ currentParams, newParams }: IGenera
 
 	return final_tps.map((tps: number) => ({
 		tps,
-		fee: current_tps_fee_multiplier * current_base_tps_fee * (Math.exp(tps / current_tps_interval) - 1),
-		newFee: new_tps_interval ? new_tps_fee_multiplier * new_base_tps_fee * (Math.exp(tps / new_tps_interval) - 1) : 0
+		fee: Math.ceil(current_tps_fee_multiplier * current_base_tps_fee * (Math.exp(tps / current_tps_interval) - 1)),
+		newFee: Math.ceil(new_tps_interval ? new_tps_fee_multiplier * new_base_tps_fee * (Math.exp(tps / new_tps_interval) - 1) : 0)
 	})) satisfies TpsFeeDataResult[];
 }
