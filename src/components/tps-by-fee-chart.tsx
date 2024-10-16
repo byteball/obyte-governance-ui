@@ -45,7 +45,7 @@ export const TpsByFeeChart: FC<ITpsByFeeChartProps> = ({ sysVars, paramKey, valu
 			}
 		});
 
-		setMax(Math.max(...fees))
+		setMax(fees.length > 0 ? Math.max(...fees) : 'auto');
 	}, [chartData, value, sysVars, paramKey]);
 
 	return <div className="max-w-[350px]">

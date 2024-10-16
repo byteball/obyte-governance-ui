@@ -43,7 +43,7 @@ export const SizeByOversizeFeeChart: FC<ITpsByFeeChartProps> = ({ sysVars, value
 			}
 		});
 
-		setMax(Math.max(...fees))
+		setMax(fees.length > 0 ? Math.max(...fees) : 'auto');
 	}, [chartData, sysVars]);
 
 	return <div className="max-w-[350px]">
