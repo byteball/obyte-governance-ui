@@ -50,7 +50,6 @@ export const SizeByOversizeFeeChart: FC<ITpsByFeeChartProps> = ({ sysVars, value
 		<ChartContainer config={chartConfig}>
 			<AreaChart
 				data={chartData}
-				accessibilityLayer
 				margin={{ left: 10, right: 5, bottom: 10 }}
 			>
 				<CartesianGrid vertical={false} horizontal={false} />

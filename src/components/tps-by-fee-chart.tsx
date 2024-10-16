@@ -52,7 +52,6 @@ export const TpsByFeeChart: FC<ITpsByFeeChartProps> = ({ sysVars, paramKey, valu
 		<ChartContainer config={chartConfig}>
 			<AreaChart
 				data={chartData}
-				accessibilityLayer
 				margin={{ left: 10, right: 5, bottom: 10 }}
 			>
 				<CartesianGrid vertical={false} horizontal={false} />
