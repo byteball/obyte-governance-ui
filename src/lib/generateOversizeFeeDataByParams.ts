@@ -17,9 +17,9 @@ export const generateOversizeFeeDataByParams = ({ currentParams, newParams }: IG
 	const { threshold_size: current_threshold_size = 10000 } = currentParams ?? {};
 	const { threshold_size: new_threshold_size = 10000 } = newParams ?? {};
 
-	const maxCurrentThresholdSize = Math.max(current_threshold_size, new_threshold_size);
+	const maxThresholdSize = Math.max(current_threshold_size, new_threshold_size);
 
-	const sizes = Array(5).fill(1).map((_, i) => maxCurrentThresholdSize * (i + 1));
+	const sizes = Array(5).fill(1).map((_, i) => maxThresholdSize * (i + 1));
 
 	return [0, ...sizes]
 	.map((size: number) => ({
