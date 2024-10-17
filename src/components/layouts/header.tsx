@@ -65,7 +65,7 @@ export const Header = () => {
 					{Object.entries(sysVarConfiguration).map(([key, { customName }]) => (<Link
 						href={`/sys/${key}`}
 						key={key}
-						className={cn("hover:text-foreground block flex-shrink-0 font-normal", { "text-foreground text-gray-950 dark:text-gray-300": pathname === `/sys/${key}` }, { "text-muted-foreground": pathname !== `/sys/${key}` })}
+						className={cn("block flex-shrink-0 font-normal", { "text-link ": pathname === `/sys/${key}` }, { "text-muted-foreground hover:text-link/70": pathname !== `/sys/${key}` })}
 					>
 						{customName || transformSysVarKeyToName(key)}
 					</Link>))}

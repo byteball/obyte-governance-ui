@@ -24,12 +24,17 @@ import { generateSysLink } from "@/lib/generateLink";
 
 import { sysVarConfiguration } from "@/sysVarConfiguration";
 
+import { ISystemVarsList } from "@/services/httpHub";
+import { TpsByFeeChart } from "@/components/tps-by-fee-chart";
+import { SizeByOversizeFeeChart } from "@/components/size-by-oversize-fee-chart";
+
 interface IAddAnotherValueModalProps {
 	defaultValue?: string;
 	paramKey: string;
+	sysVars: ISystemVarsList;
 }
 
-export const AddAnotherValueModal: FC<IAddAnotherValueModalProps> = ({ defaultValue = "", paramKey }) => {
+export const AddAnotherValueModal: FC<IAddAnotherValueModalProps> = ({ defaultValue = "", paramKey, sysVars }) => {
 	const [value, setValue] = useState<{ value: string; valid: boolean }>({ value: defaultValue, valid: true });
 	const ref = useRef<HTMLAnchorElement>(null);
 
@@ -67,6 +72,9 @@ export const AddAnotherValueModal: FC<IAddAnotherValueModalProps> = ({ defaultVa
 						{description}
 					</DialogDescription> : null}
 				</DialogHeader>
+				{paramKey === "base_tps_fee" || paramKey === "tps_interval" ? <TpsByFeeChart sysVars={sysVars} paramKey={paramKey} value={value.value} /> : null}
+				{paramKey === "threshold_size" ? <SizeByOversizeFeeChart sysVars={sysVars} value={Number(value.value || 0)} /> : null}
+
 				<div className="grid gap-4 py-4">
 					<div className="items-center gap-4">
 						<Input onChange={handleChangeValue} onKeyDown={onKeyDownHandle} value={value.value} />

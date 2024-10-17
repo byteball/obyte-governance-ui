@@ -10,15 +10,17 @@ import { ParamsView } from "@/components/params-view"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { QRButton } from "@/components/ui/_qr-button";
+import { TpsByFeeChart } from "@/components/tps-by-fee-chart";
 
 import { generateSysLink } from "@/lib/generateLink";
 import { transformSysVarKeyToName } from "@/lib/transformSysVarKeyToName";
 
-import { getSystemVarsVotes, IVoteInfo } from "@/services/httpHub";
+import { getSystemVars, getSystemVarsVotes, IVoteInfo } from "@/services/httpHub";
 
 import { sysVarConfiguration } from "@/sysVarConfiguration";
 
 import appConfig from "@/appConfig";
+import { SizeByOversizeFeeChart } from "@/components/size-by-oversize-fee-chart";
 
 interface IUserVotesProps {
 	param_key: string;
@@ -29,12 +31,12 @@ interface IUniqVotes {
 }
 
 export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
-	if (!sysVarConfiguration[param_key]) return notFound();
-
 	const { type, customName } = sysVarConfiguration[param_key];
 
 	const { votes: allVotes, balances } = await getSystemVarsVotes();
-	const votes = allVotes[param_key] || [];
+	const sysVars = await getSystemVars();
+
+	const votes = allVotes[param_key] ?? [];
 
 	let uniqVotes: IUniqVotes = {};
 
@@ -87,6 +89,8 @@ export const UserVotes: FC<IUserVotesProps> = async ({ param_key }) => {
 							</div>
 						</CardHeader>
 						<CardContent>
+							{param_key === "base_tps_fee" || param_key === "tps_interval" ? <TpsByFeeChart sysVars={sysVars} paramKey={param_key} value={value} /> : null}
+							{param_key === "threshold_size" ? <SizeByOversizeFeeChart sysVars={sysVars} value={Number(value)}  /> : null}
 							<div className="font-semibold mb-2">Votes:</div>
 							<ScrollArea type="always" className="md:flex md:max-h-[340px] flex-col pr-4">
 								{[...votes].sort((a, b) => (balances[b.address] ?? 0) - (balances[a.address] ?? 0)).map(({ address, unit, timestamp }) => (<div key={address + timestamp} className="flex md:justify-between md:items-center mb-4 flex-col-reverse md:flex-row">
