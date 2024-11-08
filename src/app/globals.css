@@ -76,6 +76,6 @@
 	}
 
 	.full-description a {
-		@apply underline;
+		@apply text-link;
 	}
 }
