@@ -34,7 +34,7 @@ const TESTNET_ORDER_PROVIDERS = {
 			
 		]
 	},
-}
+};
 
 const appConfig: IAppConfig = {
 	TESTNET: !!process.env.NEXT_PUBLIC_TESTNET,
