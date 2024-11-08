@@ -13,7 +13,7 @@ import {
 } from "@tanstack/react-table";
 import obyte from "obyte";
 import moment from "moment";
-import { Dot, X } from "lucide-react";
+import { Dot, Link, X } from "lucide-react";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -29,7 +29,6 @@ import { QRButton } from "../ui/_qr-button";
 import { ParamsView } from "../params-view";
 import { generateSysLink } from "@/lib/generateLink";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
 import { OrderProviderListDiff } from "./op-list-diff";
 import {
 	Dialog,
@@ -188,7 +187,10 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 						{row.original.editableFieldError ? <div className="text-xs text-red-700 mt-1">{row.original.editableFieldError}</div> : null}
 					</> :
 					<div className="min-h-[25px]">
-						<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" rel="noreferrer" className="address">{row.getValue("address")}</a> <div><small className="text-muted-foreground">{row.original.description}</small></div>
+						<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" rel="noreferrer" className="address">{row.getValue("address")}</a>
+						<div><small className="text-muted-foreground">{row.original.description}</small>
+							{String(row.getValue("address")) in appConfig.PROVIDER_DICTIONARY && (appConfig.PROVIDER_DICTIONARY[String(row.getValue("address"))].personalLinks ?? []).length > 0 ? <div className="text-xs mt-1 space-x-1 flex items-center"><Link className="inline-block w-3 h-3" /> {appConfig.PROVIDER_DICTIONARY[String(row.getValue("address"))].personalLinks?.map((l) => <span key={l.url} className="group"><a className="text-link" target="_blank" rel="noreferrer" href={l.url}>{l.text}</a><span className="last:group-last:hidden">,</span></span>)}</div> : null}
+						</div>
 					</div>
 			),
 		},
@@ -223,7 +225,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 											<div>
 												<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" rel="noreferrer" className="address">{address}</a>
 												<div className="space-x-2">
-													{appConfig.PROVIDER_DICTIONARY[address] && <><small className="text-muted-foreground">{appConfig.PROVIDER_DICTIONARY[address]}</small> <Dot className="w-4 h-4 inline-block" /> </>}
+													{appConfig.PROVIDER_DICTIONARY[address] && <><small className="text-muted-foreground">{appConfig.PROVIDER_DICTIONARY[address].displayName}</small> <Dot className="w-4 h-4 inline-block" /> </>}
 
 													<small className="text-muted-foreground">
 														<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/${unit}`} target="_blank" rel="noreferrer">{moment.unix(timestamp).format("LLL")}</a>

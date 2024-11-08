@@ -42,7 +42,7 @@ const OpListView: FC<{ value: string[], newValues: string[]; hideList?: boolean,
 							rel="noreferrer"
 						>
 							<span className="address">{v}</span>
-							{v in appConfig.PROVIDER_DICTIONARY ? <span className="block text-xs">{appConfig.PROVIDER_DICTIONARY[v as keyof typeof appConfig.PROVIDER_DICTIONARY]}</span> : ''}
+							{v in appConfig.PROVIDER_DICTIONARY ? <span className="block text-xs">{appConfig.PROVIDER_DICTIONARY[v as keyof typeof appConfig.PROVIDER_DICTIONARY].displayName}</span> : ''}
 						</a>
 					</li>
 				))}
