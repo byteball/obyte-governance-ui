@@ -15,7 +15,27 @@ const appConfig: IAppConfig = {
 	NUMBER_OF_ORDER_PROVIDERS: 12,
 	PROVIDER_DICTIONARY: {
 		"F4KHJUCLJKY4JV7M5F754LAJX4EB7M4N": "Tony Churyumoff",
-		"WMFLGI2GLAB2MDF2KQAH37VNRRMK7A5N": "Aleksandr Ponomarev (testnet)"
+		"WMFLGI2GLAB2MDF2KQAH37VNRRMK7A5N": "Aleksandr Ponomarev (testnet)",
+		"4GDZSXHEFVFMHCUCSHZVXBVF5T2LJHMU": "Rogier Eijkelhof",
+		"FAB6TH7IRAVHDLK2AAWY5YBE6CEBUACF": "Fabien Marino",
+		"4FIZC3KZ3ZQSSVOKFEUHKCTQWAWD6YMF": "Raivo Malter",
+		"IMMP5FWQXY6IZ53OIYQ46PHSI5T3MAYQ": "Demelza Hays",
+		"25XDFVFRP7BZ2SNSESFKUTF52W42JCSL": "Brad Morrison",
+		"2TO6NYBGX3NF5QS24MQLFR7KXYAMCIE5": "Bosch Connectory Stuttgart",
+		"DXYWHSZ72ZDNDZ7WYZXKWBBH425C6WZN": "Altos Engineering (formerly Bind Creative)",
+		"APABTE2IBKOIHLS2UNK6SAR4T5WRGH2J": "PolloPollo",
+		"UE25S4GRWZOLNXZKY4VWFHNJZWUSYCQC": "IFF at University of Nicosia",
+		"JMFXY26FN76GWJJG7N36UI2LNONOGZJV": "CryptoShare Studio",
+		"FL3LIHRXYE6PS7AADJLDOYZKDO2UVVNS": "Travin Keith",
+		"TKT4UESIKTTRALRRLWS4SENSTJX6ODCW": "Tony Churyumoff (Sports oracle)",
+		"GFK3RDAPQLLNCMQEVGGD2KCPZTLSG3HN": "Tony Churyumoff (Flight delay oracle)",
+		"BVVJ2K7ENPZZ3VYZFWQWK7ISPCATFIW3": "Tony Churyumoff (Accredited investor attestation)",
+		"I2ADHGP4HL6J37NQAD73J7E5SKFIXJOT": "Tony Churyumoff (Real name attestation)",
+		"OYW2XTDKSNKGSEZ27LMGNOPJSYIXHBHC": "Tony Churyumoff (Github attestation)",
+		"UENJPVZ7HVHM6QGVGT6MWOJGGRTUTJXQ": "Tony Churyumoff (Username attestation)",
+		"JPQKPRI5FMTQRJF4ZZMYZYDQVRD55OTC": "Tony Churyumoff (Price oracle)",
+		"H5EZTQE7ABFH27AUDTQFMZIALANK6RBG": "Tony Churyumoff (Email attestation)",
+		"FOPUBEUPBC6YLIQDLKL6EW775BMV7YOH": "Tony Churyumoff (Bitcoin oracle)",
 	}
 };
 
