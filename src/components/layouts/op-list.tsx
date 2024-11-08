@@ -168,31 +168,36 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 			accessorKey: "address",
 			header: "Address",
 			id: "address",
-			cell: ({ row }) => (
-				row.original.editable ?
-					<>
-						<div className="space-x-4 flex items-center">
-							<Input
-								value={row.getValue("address")}
-								loading={row.original.editableFieldCheckLoading}
-								className={obyte.utils.isValidAddress(row.getValue("address")) && row.original.editableFieldError === undefined ? "border-green-700 ring-green-700 focus-visible:ring-green-700 focus-visible:ring-offset-0" : "border-red-800 focus-visible:ring-red-800 focus-visible:ring-offset-0"}
-								onChange={(ev: React.ChangeEvent<HTMLInputElement>) => changeEditableField(row.original.editableFieldId || "unknownId", ev.target.value)}
-							/>
-							<div>
-								<X
-									className="w-6 h-6 cursor-pointer stroke-red-700"
-									onClick={() => setTableRows(rows => rows.filter(r => r.editableFieldId !== row.original.editableFieldId))} />
+			cell: ({ row }) => {
+				const address: string = row.getValue("address");
+				const personalLink = appConfig.PROVIDER_DICTIONARY[address]?.personalLink;
+
+				return (
+					row.original.editable ?
+						<>
+							<div className="space-x-4 flex items-center">
+								<Input
+									value={row.getValue("address")}
+									loading={row.original.editableFieldCheckLoading}
+									className={obyte.utils.isValidAddress(address) && row.original.editableFieldError === undefined ? "border-green-700 ring-green-700 focus-visible:ring-green-700 focus-visible:ring-offset-0" : "border-red-800 focus-visible:ring-red-800 focus-visible:ring-offset-0"}
+									onChange={(ev: React.ChangeEvent<HTMLInputElement>) => changeEditableField(row.original.editableFieldId || "unknownId", ev.target.value)}
+								/>
+								<div>
+									<X
+										className="w-6 h-6 cursor-pointer stroke-red-700"
+										onClick={() => setTableRows(rows => rows.filter(r => r.editableFieldId !== row.original.editableFieldId))} />
+								</div>
+							</div>
+							{row.original.editableFieldError ? <div className="text-xs text-red-700 mt-1">{row.original.editableFieldError}</div> : null}
+						</> :
+						<div className="min-h-[25px]">
+							<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" rel="noreferrer" className="address">{address}</a>
+							<div><small className="text-muted-foreground">{row.original.description}</small>
+								{personalLink ? <div className="text-xs mt-1 space-x-1 flex items-center"><Link className="inline-block shrink-0 w-3 h-3" /> <span className="group"><a className="text-link" target="_blank" rel="noreferrer" href={personalLink.url}>{personalLink.text}</a></span></div> : null}
 							</div>
 						</div>
-						{row.original.editableFieldError ? <div className="text-xs text-red-700 mt-1">{row.original.editableFieldError}</div> : null}
-					</> :
-					<div className="min-h-[25px]">
-						<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" rel="noreferrer" className="address">{row.getValue("address")}</a>
-						<div><small className="text-muted-foreground">{row.original.description}</small>
-							{String(row.getValue("address")) in appConfig.PROVIDER_DICTIONARY && (appConfig.PROVIDER_DICTIONARY[String(row.getValue("address"))].personalLinks ?? []).length > 0 ? <div className="text-xs mt-1 space-x-1 flex items-center"><Link className="inline-block w-3 h-3" /> {appConfig.PROVIDER_DICTIONARY[String(row.getValue("address"))].personalLinks?.map((l) => <span key={l.url} className="group"><a className="text-link" target="_blank" rel="noreferrer" href={l.url}>{l.text}</a><span className="last:group-last:hidden">,</span></span>)}</div> : null}
-						</div>
-					</div>
-			),
+				)
+			},
 		},
 		{
 			accessorKey: "amount",
