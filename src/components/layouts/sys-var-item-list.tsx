@@ -13,7 +13,7 @@ export const SysVarItemList = async () => {
 			name={transformSysVarKeyToName(key)}
 			key={key}
 			sysVarKey={key}
-			description={sysVarConfiguration[key]?.description ?? "No description"}
+			short_description={sysVarConfiguration[key]?.short_description ?? "No description"}
 		/>)}
 	</div>
 }
