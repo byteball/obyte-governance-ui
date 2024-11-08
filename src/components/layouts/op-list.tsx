@@ -13,7 +13,7 @@ import {
 } from "@tanstack/react-table";
 import obyte from "obyte";
 import moment from "moment";
-import { Dot, X } from "lucide-react";
+import { Dot, Link, X } from "lucide-react";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -29,7 +29,6 @@ import { QRButton } from "../ui/_qr-button";
 import { ParamsView } from "../params-view";
 import { generateSysLink } from "@/lib/generateLink";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
 import { OrderProviderListDiff } from "./op-list-diff";
 import {
 	Dialog,
@@ -169,28 +168,36 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 			accessorKey: "address",
 			header: "Address",
 			id: "address",
-			cell: ({ row }) => (
-				row.original.editable ?
-					<>
-						<div className="space-x-4 flex items-center">
-							<Input
-								value={row.getValue("address")}
-								loading={row.original.editableFieldCheckLoading}
-								className={obyte.utils.isValidAddress(row.getValue("address")) && row.original.editableFieldError === undefined ? "border-green-700 ring-green-700 focus-visible:ring-green-700 focus-visible:ring-offset-0" : "border-red-800 focus-visible:ring-red-800 focus-visible:ring-offset-0"}
-								onChange={(ev: React.ChangeEvent<HTMLInputElement>) => changeEditableField(row.original.editableFieldId || "unknownId", ev.target.value)}
-							/>
-							<div>
-								<X
-									className="w-6 h-6 cursor-pointer stroke-red-700"
-									onClick={() => setTableRows(rows => rows.filter(r => r.editableFieldId !== row.original.editableFieldId))} />
+			cell: ({ row }) => {
+				const address: string = row.getValue("address");
+				const personalLink = appConfig.PROVIDER_DICTIONARY[address]?.personalLink;
+
+				return (
+					row.original.editable ?
+						<>
+							<div className="space-x-4 flex items-center">
+								<Input
+									value={row.getValue("address")}
+									loading={row.original.editableFieldCheckLoading}
+									className={obyte.utils.isValidAddress(address) && row.original.editableFieldError === undefined ? "border-green-700 ring-green-700 focus-visible:ring-green-700 focus-visible:ring-offset-0" : "border-red-800 focus-visible:ring-red-800 focus-visible:ring-offset-0"}
+									onChange={(ev: React.ChangeEvent<HTMLInputElement>) => changeEditableField(row.original.editableFieldId || "unknownId", ev.target.value)}
+								/>
+								<div>
+									<X
+										className="w-6 h-6 cursor-pointer stroke-red-700"
+										onClick={() => setTableRows(rows => rows.filter(r => r.editableFieldId !== row.original.editableFieldId))} />
+								</div>
+							</div>
+							{row.original.editableFieldError ? <div className="text-xs text-red-700 mt-1">{row.original.editableFieldError}</div> : null}
+						</> :
+						<div className="min-h-[25px]">
+							<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" rel="noreferrer" className="address">{address}</a>
+							<div><small className="text-muted-foreground">{row.original.description}</small>
+								{personalLink ? <div className="text-xs mt-1 space-x-1 flex items-center"><Link className="inline-block shrink-0 w-3 h-3" /> <span className="group"><a className="text-link" target="_blank" rel="noreferrer" href={personalLink.url}>{personalLink.text}</a></span></div> : null}
 							</div>
 						</div>
-						{row.original.editableFieldError ? <div className="text-xs text-red-700 mt-1">{row.original.editableFieldError}</div> : null}
-					</> :
-					<div className="min-h-[25px]">
-						<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" rel="noreferrer" className="address">{row.getValue("address")}</a> <div><small className="text-muted-foreground">{row.original.description}</small></div>
-					</div>
-			),
+				)
+			},
 		},
 		{
 			accessorKey: "amount",
@@ -223,7 +230,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 											<div>
 												<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" rel="noreferrer" className="address">{address}</a>
 												<div className="space-x-2">
-													{appConfig.PROVIDER_DICTIONARY[address] && <><small className="text-muted-foreground">{appConfig.PROVIDER_DICTIONARY[address]}</small> <Dot className="w-4 h-4 inline-block" /> </>}
+													{appConfig.PROVIDER_DICTIONARY[address] && <><small className="text-muted-foreground">{appConfig.PROVIDER_DICTIONARY[address].displayName}</small> <Dot className="w-4 h-4 inline-block" /> </>}
 
 													<small className="text-muted-foreground">
 														<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/${unit}`} target="_blank" rel="noreferrer">{moment.unix(timestamp).format("LLL")}</a>

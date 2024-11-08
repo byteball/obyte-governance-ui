@@ -16,5 +16,5 @@ export const aggregateOpsData = (votes: IVoteInfo[], balances: IBalances) => {
 		}
 	});
 
-	return Object.entries(allOps).map(([address, amount]) => ({ address, amount, description: address in appConfig.PROVIDER_DICTIONARY ? appConfig.PROVIDER_DICTIONARY[address] as string : "" })) as IOrderProvider[];
+	return Object.entries(allOps).map(([address, amount]) => ({ address, amount, description: address in appConfig.PROVIDER_DICTIONARY ? appConfig.PROVIDER_DICTIONARY[address].displayName as string : "" })) as IOrderProvider[];
 }
