@@ -4,16 +4,16 @@ import { FC } from "react";
 import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card"
 
 interface ISysVarItemProps {
-	description: string;
+	short_description: string;
 	name: string;
 	sysVarKey: string;
 }
 
-export const SysVarItem: FC<ISysVarItemProps> = ({ name, sysVarKey, description }) => (<Card className="flex flex-col justify-between">
+export const SysVarItem: FC<ISysVarItemProps> = ({ name, sysVarKey, short_description }) => (<Card className="flex flex-col justify-between">
 	<CardHeader>
 		<CardTitle className="mb-4">
 			<Link href={`/sys/${sysVarKey}`} className="underline">{name}</Link>
 		</CardTitle>
-		<CardDescription className="leading-6">{description}</CardDescription>
+		<CardDescription className="leading-6">{short_description}</CardDescription>
 	</CardHeader>
 </Card>)

@@ -19,12 +19,12 @@ interface ISysVarPageProps {
 }
 
 export function generateMetadata({ params }: ISysVarPageProps): Metadata {
-	const { description } = sysVarConfiguration[params?.key] ?? {};
+	const { short_description } = sysVarConfiguration[params?.key] ?? {};
 	const name = transformSysVarKeyToName(params.key);
 
 	return {
 		title: `Obyte governance - ${name}`,
-		description: description ?? `Vote to change the ${name}`
+		description: short_description ?? `Vote to change the ${name}`
 	}
 }
 
@@ -33,7 +33,7 @@ export default async function SysVarPage({ params }: ISysVarPageProps) {
 
 	const { votes: allVotes, balances } = await getSystemVarsVotes();
 	const opsData = aggregateOpsData(allVotes.op_list, balances);
-	const { description } = sysVarConfiguration[params.key];
+	const { short_description, description } = sysVarConfiguration[params.key];
 
 	const allValues = await getSystemVars();
 
@@ -46,8 +46,8 @@ export default async function SysVarPage({ params }: ISysVarPageProps) {
 			Vote for <span className="lowercase">{transformSysVarKeyToName(params.key)}</span>
 		</h1>
 
-		{description ? <div className="max-w-3xl leading-6">
-			{description}
+		{(short_description || description) ? <div className="max-w-3xl leading-6">
+			{description ?? short_description}
 		</div> : null}
 
 		<div className="pb-8">
