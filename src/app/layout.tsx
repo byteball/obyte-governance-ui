@@ -39,7 +39,7 @@ export default function RootLayout({
 						</main>
 						<Toaster />
 						<footer className="p-4 text-center">
-							Made with ❤️ by <a target="_blank" rel="noreferrer" href="https://obyte.org">Obyte</a>
+							<a target="_blank" rel="noreferrer" href="https://obyte.org">Obyte — a fully decentralized, DAG based crypto</a>
 						</footer>
 					</div>
 				</ThemeProvider>
