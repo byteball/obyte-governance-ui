@@ -106,7 +106,7 @@ export const Widgets: FC<IWidgetsProps> = async ({ paramKey }) => {
 
 		{leaderValue && <Card className="min-h-[110px]">
 			<CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-				<CardTitle className="text-sm font-medium">Leader</CardTitle>
+				<CardTitle className="text-sm font-medium">Leader value</CardTitle>
 			</CardHeader>
 			<CardContent>
 				<div className="text-2xl font-semibold">
