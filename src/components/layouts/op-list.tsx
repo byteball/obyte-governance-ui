@@ -220,8 +220,11 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 							<DialogHeader>
 								<DialogTitle>Supporters</DialogTitle>
 							</DialogHeader>
-							<DialogDescription>Order provider: <a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" rel="noreferrer" className="address">{row.getValue("address")}</a></DialogDescription>
-							<ScrollArea className="max-h-[400px]">
+							<DialogDescription>
+								Order provider: <a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" rel="noreferrer" className="address">{row.getValue("address")}</a>
+								<div>{appConfig.PROVIDER_DICTIONARY[String(row.getValue("address"))].displayName}</div>
+							</DialogDescription>
+							<ScrollArea className="max-h-[400px] mt-4">
 								<div className="space-y-3 pr-5">
 									{votes
 										.filter((v) => isArray(v.value) && v.value?.includes(row.getValue("address")))
