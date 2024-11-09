@@ -46,7 +46,7 @@ export default async function SysVarPage({ params }: ISysVarPageProps) {
 			Vote for <span className="lowercase">{transformSysVarKeyToName(params.key)}</span>
 		</h1>
 
-		{(short_description || description) ? <div className="max-w-3xl leading-6">
+		{(short_description || description) ? <div className="max-w-3xl full-description leading-6">
 			{description ?? short_description}
 		</div> : null}
 

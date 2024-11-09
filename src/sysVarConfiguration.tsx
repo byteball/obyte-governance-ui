@@ -12,7 +12,7 @@ interface ISysVarConfiguration {
 export const sysVarConfiguration: ISysVarConfiguration = {
 	op_list: { // list of order providers type: string[]
 		customName: "Order Providers",
-		description: <div>List of 12 addresses whose transactions are used to order all other transactions on the DAG. <a href="https://obyte.org/technology/order-providers" target="_blank" rel="noopener">Order providers</a> frequently post waypoint transactions that determine the order of other transactions that are not already ordered on the DAG. Order providers do not have the power to approve or confirm transactions, and are unable to block them. However, they are generally expected to be non-anonymous people or organizations interested in Obyte's well-being.</div>,
+		description: <div>List of 12 addresses whose transactions are used to order all other transactions on the DAG. <a href="https://obyte.org/technology/order-providers" target="_blank" rel="noopener">Order providers</a> frequently post waypoint transactions that determine the order of other transactions that are not already ordered on the DAG. Order providers do not have the power to approve or confirm transactions, and are unable to block them. However, they are generally expected to be non-anonymous people or organizations interested in Obyte&apos;s well-being.</div>,
 		short_description: "List of 12 addresses whose transactions are used to order all other transactions on the DAG.",
 		type: "op-list"
 	},
