@@ -339,7 +339,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 									</TableCell>
 								</TableRow>
 							)}
-							<TableRow className="hover:bg-transparent data-[state=selected]:bg-transparent">
+							<TableRow>
 								<TableCell> <span></span> </TableCell>
 								<TableCell>
 									<span onClick={createEmptyOrderProviderField} className="font-medium text-link cursor-pointer">Suggest another order provider</span>
