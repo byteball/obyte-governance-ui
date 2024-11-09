@@ -40,7 +40,7 @@ export const AddAnotherValueModal: FC<IAddAnotherValueModalProps> = ({ defaultVa
 
 	if (!sysVarConfiguration[paramKey]) return notFound();
 
-	const { type, description, customName } = sysVarConfiguration[paramKey];
+	const { type, short_description, customName } = sysVarConfiguration[paramKey];
 	const actionUri = generateSysLink({ param_key: paramKey, value: type === "number" ? Number(value.value) : value.value });
 
 	const pattern = /^\d+(\.?)\d*$/g;
@@ -68,8 +68,8 @@ export const AddAnotherValueModal: FC<IAddAnotherValueModalProps> = ({ defaultVa
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
 					<DialogTitle>Suggest another {customName}</DialogTitle>
-					{description ? <DialogDescription className="leading-6">
-						{description}
+					{short_description ? <DialogDescription className="leading-6">
+						{short_description}
 					</DialogDescription> : null}
 				</DialogHeader>
 				{paramKey === "base_tps_fee" || paramKey === "tps_interval" ? <TpsByFeeChart sysVars={sysVars} paramKey={paramKey} value={value.value} /> : null}
