@@ -23,15 +23,15 @@ export default async function Image() {
 				flexDirection: 'column',
 				padding: 30
 			}}>
-				 <div
-          style={{
-            height: 100,
-            width: 100,
-            backgroundImage: `url(${logoSrc})`,
-            backgroundSize: '100px 100px',
-            backgroundRepeat: 'no-repeat',
-          }}
-        />
+				<div
+					style={{
+						height: 100,
+						width: 100,
+						backgroundImage: `url(${logoSrc})`,
+						backgroundSize: '100px 100px',
+						backgroundRepeat: 'no-repeat',
+					}}
+				/>
 
 				<div style={{ fontSize: 96, marginTop: 0, lineHeight: 1 }}>
 					Obyte network governance
