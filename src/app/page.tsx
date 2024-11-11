@@ -5,8 +5,6 @@ export const metadata = {
 	description: 'Vote for system parameters such as Order Providers and variables that determine the fees. The weight of your vote is equal to the GBYTE balance of your address(es).'
 }
 
-const MEDIUM_ARTICLE_LINK = 'https://medium.com/obyte';
-
 export default function Home() {
 	return (<div className="space-y-16">
 		<div className="space-y-8 mt-14">
