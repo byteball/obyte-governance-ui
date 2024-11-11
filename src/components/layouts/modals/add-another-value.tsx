@@ -49,7 +49,17 @@ export const AddAnotherValueModal: FC<IAddAnotherValueModalProps> = ({ defaultVa
 		const value = ev.target.value.replace(',', '.');
 
 		if ((getCountOfDecimals(value) <= 4 && value.match(pattern) || value === "") && Number(value) <= 10 ** 6 && value.length <= 6) {
-			setValue({ value, valid: isNumber(Number(value)) && Number(value) > 0 });
+			let valid = true;
+
+			if (!isNumber(Number(value)) || Number(value) < 0) {
+				valid = false;
+			} 
+
+			if (paramKey === "threshold_size" && Number(value) < 1000) {
+				valid = false;
+			}
+			
+			setValue({ value, valid });
 		}
 	}
 
@@ -69,7 +79,7 @@ export const AddAnotherValueModal: FC<IAddAnotherValueModalProps> = ({ defaultVa
 				<DialogHeader>
 					<DialogTitle>Suggest another {customName}</DialogTitle>
 					{short_description ? <DialogDescription className="leading-6">
-						{short_description}
+						{short_description} {paramKey === "threshold_size" ? " Minimum value 1000." : null}
 					</DialogDescription> : null}
 				</DialogHeader>
 				{paramKey === "base_tps_fee" || paramKey === "tps_interval" ? <TpsByFeeChart sysVars={sysVars} paramKey={paramKey} value={value.value} /> : null}
