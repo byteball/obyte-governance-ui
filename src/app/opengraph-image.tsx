@@ -6,7 +6,7 @@ import { ImageResponse } from 'next/og';
 export const contentType = 'image/png';
 
 export default async function Image() {
-	const logoData = await readFile(join(process.cwd(), 'public', 'logo.png'))
+	const logoData = await readFile(join(process.cwd(), 'public', 'big-logo.png'))
 	const logoBase64 = logoData.toString('base64')
 	const logoSrc = `data:image/png;base64,${logoBase64}`;
 
@@ -26,10 +26,10 @@ export default async function Image() {
 				<div
 					style={{
 						height: 100,
-						width: 100,
+						width: 177,
 						backgroundImage: `url(${logoSrc})`,
-						backgroundSize: '100px 100px',
-						backgroundRepeat: 'no-repeat',
+						backgroundSize: '177px 100px',
+						backgroundRepeat: 'no-repeat'
 					}}
 				/>
 
