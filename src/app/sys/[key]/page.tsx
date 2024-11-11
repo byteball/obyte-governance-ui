@@ -24,7 +24,11 @@ export function generateMetadata({ params }: ISysVarPageProps): Metadata {
 
 	return {
 		title: `Obyte governance - ${name}`,
-		description: short_description ?? `Vote to change the ${name}`
+		description: short_description ?? `Vote to change the ${name}`,
+		metadataBase: new URL(`https://${process.env.NEXT_PUBLIC_TESTNET ? 'testnet-' : ''}governance.obyte.org`),
+		openGraph: {
+			images: `https://${process.env.NEXT_PUBLIC_TESTNET ? 'testnet-' : ''}governance.obyte.org/sys/${params.key}/opengraph-image`,
+		}
 	}
 }
 

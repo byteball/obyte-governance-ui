@@ -1,11 +1,18 @@
+import { Metadata } from "next";
+
 import { SysVarItemList } from "@/components/layouts/sys-var-item-list";
 
-export const metadata = {
-  title: 'Obyte governance',
-	description: 'Vote for system parameters such as Order Providers and variables that determine the fees. The weight of your vote is equal to the GBYTE balance of your address(es).'
-}
 
-const MEDIUM_ARTICLE_LINK = 'https://medium.com/obyte';
+export function generateMetadata(): Metadata {
+	return {
+		title: 'Obyte governance',
+		description: 'Vote for system parameters such as Order Providers and variables that determine the fees. The weight of your vote is equal to the GBYTE balance of your address(es).',
+		metadataBase: new URL(`https://${process.env.NEXT_PUBLIC_TESTNET ? 'testnet-' : ''}governance.obyte.org`),
+		openGraph: {
+			images: `https://${process.env.NEXT_PUBLIC_TESTNET ? 'testnet-' : ''}governance.obyte.org/opengraph-image`,
+		}
+	}
+}
 
 export default function Home() {
 	return (<div className="space-y-16">
