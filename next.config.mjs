@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	eslint: {
-    // Disable ESLint during build on Vercel
-    // ignoreDuringBuilds: true,
-  }
+	images: {
+		domains: ['governance.obyte.org', 'testnet-governance.obyte.org'],
+	},
 };
 
 export default nextConfig;
