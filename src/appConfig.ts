@@ -96,6 +96,13 @@ const appConfig: IAppConfig = {
 				text: "Obyte Order Provider Candidacy"
 			}
 		},
+		"XY6JXVBITD4EKY3DFT27XS65D2M3FJ5V": {
+			displayName: "CariPower (Luc Chase)",
+			personalLink: {
+				url: "https://www.linkedin.com/pulse/powering-future-obyte-caripower-seeks-become-your-trusted-order-dmobe",
+				text: "Powering the Future of Obyte: CariPower Seeks to Become Your Trusted Order Provider"
+			}
+		},
 		"TKT4UESIKTTRALRRLWS4SENSTJX6ODCW": {
 			displayName: "Tony Churyumoff (Sports oracle)",
 		},
