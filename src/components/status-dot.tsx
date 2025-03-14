@@ -20,3 +20,5 @@ export const StatusDot = forwardRef<HTMLDivElement, StatusDotProps>(
 		)
 	}
 );
+
+StatusDot.displayName = 'StatusDot';

@@ -39,3 +39,5 @@ export const OrderProviderStatus: FC<IOrderProviderStatusProps> = ({ validations
 		</Tooltip>
 	</TooltipProvider>
 }
+
+OrderProviderStatus.displayName = 'OrderProviderStatus';
