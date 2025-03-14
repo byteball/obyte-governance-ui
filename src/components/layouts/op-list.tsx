@@ -50,6 +50,8 @@ import { useToast } from "@/hooks/use-toast";
 import appConfig from "@/appConfig"
 import { isArray } from "lodash";
 
+import { IOrderProviderStats, OrderProviderStatus } from "../op-status";
+
 export type IOrderProvider = {
 	amount: number;
 	address: string;
@@ -68,12 +70,39 @@ interface IOrderProviderListProps {
 	balances: IBalances;
 }
 
+interface IOrderProviderStatsData {
+	[address: string]: IOrderProviderStats;
+}
+
+const ORDER_PROVIDERS_STATS_URL = "https://stats.obyte.org/op_stats.json";
+const DEV_PROXY_URL = "https://cors.eu.org"; // to fix CORS issue in development 
+
 export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, votes, currentValue, balances }) => {
 	const [sorting, setSorting] = React.useState<SortingState>([{ id: "amount", desc: false }]);
 	const [rowSelection, setRowSelection] = React.useState<{ [rowID: string]: boolean; }>(currentValue.reduce((a, v) => ({ ...a, [v]: true }), {}))
 	const [tableRows, setTableRows] = React.useState<IOrderProvider[]>(data);
+	const [opStats, setOpStats] = React.useState<IOrderProviderStatsData>({});
 	const { toast } = useToast();
 
+	React.useEffect(() => {
+		const fetchUrl =
+			process.env.NODE_ENV === "development"
+				? DEV_PROXY_URL + '/' + ORDER_PROVIDERS_STATS_URL
+				: ORDER_PROVIDERS_STATS_URL;
+
+		fetch(fetchUrl, { headers: { 'Content-Type': 'application/json' }, cache: "no-store" })
+			.then((response) => response.json())
+			.then((data) => {
+				if ("witnesses_stats" in data) {
+					setOpStats(data.witnesses_stats);
+				} else {
+					throw new Error("Unknown error", data);
+				}
+			}).catch((error) => {
+				console.error("Error fetching order providers stats", error);
+				setOpStats({});
+			});
+	}, []);
 
 	const checkWalletDefinition = React.useCallback(async (address: string, id: string) => {
 		const definitionExists = await getWalletDefinition(address);
@@ -171,6 +200,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 			cell: ({ row }) => {
 				const address: string = row.getValue("address");
 				const personalLink = appConfig.PROVIDER_DICTIONARY[address]?.personalLink;
+				const opAddressStats = opStats[address] ?? {};
 
 				return (
 					row.original.editable ?
@@ -191,7 +221,13 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 							{row.original.editableFieldError ? <div className="text-xs text-red-700 mt-1">{row.original.editableFieldError}</div> : null}
 						</> :
 						<div className="min-h-[25px]">
-							<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" rel="noreferrer" className="address">{address}</a>
+							<div className="flex items-center space-x-2">
+								<div>
+									<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" rel="noreferrer" className="address">{address}</a>
+								</div>
+
+								<OrderProviderStatus isActive={"validations_count" in opAddressStats} {...opAddressStats} />
+							</div>
 							<div><small className="text-muted-foreground">{row.original.description}</small>
 								{personalLink ? <div className="text-xs mt-1 space-x-1 flex items-center"><Link className="inline-block shrink-0 w-3 h-3" /> <span className="group"><a className="text-link" target="_blank" rel="noreferrer" href={personalLink.url}>{personalLink.text}</a></span></div> : null}
 							</div>
@@ -261,7 +297,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 			enableResizing: true,
 			sortingFn: (a, b) => b.getValue<number>("amount") - a.getValue<number>("amount"),
 		}
-	], [balances, votes, toast, changeEditableField]);
+	], [balances, votes, toast, opStats, changeEditableField]);
 
 	const table = useReactTable({
 		rowCount: tableRows.length,
