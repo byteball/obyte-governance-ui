@@ -223,13 +223,13 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 						<div className="min-h-[25px]">
 							<div className="flex items-center space-x-2">
 								<div>
-									<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" rel="noreferrer" className="address">{address}</a>
+									<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" rel="noopener" className="address">{address}</a>
 								</div>
 
 								<OrderProviderStatus isActive={"validations_count" in opAddressStats} {...opAddressStats} />
 							</div>
 							<div><small className="text-muted-foreground">{row.original.description}</small>
-								{personalLink ? <div className="text-xs mt-1 space-x-1 flex items-center"><Link className="inline-block shrink-0 w-3 h-3" /> <span className="group"><a className="text-link" target="_blank" rel="noreferrer" href={personalLink.url}>{personalLink.text}</a></span></div> : null}
+								{personalLink ? <div className="text-xs mt-1 space-x-1 flex items-center"><Link className="inline-block shrink-0 w-3 h-3" /> <span className="group"><a className="text-link" target="_blank" rel="noopener" href={personalLink.url}>{personalLink.text}</a></span></div> : null}
 							</div>
 						</div>
 				)
@@ -257,7 +257,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 								<DialogTitle>Supporters</DialogTitle>
 							</DialogHeader>
 							<DialogDescription>
-								Order provider: <a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" rel="noreferrer" className="address">{row.getValue("address")}</a>
+								Order provider: <a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${row.getValue("address")}`} target="_blank" rel="noopener" className="address">{row.getValue("address")}</a>
 								<div>{appConfig.PROVIDER_DICTIONARY[String(row.getValue("address"))]?.displayName}</div>
 							</DialogDescription>
 							<ScrollArea className="max-h-[400px] mt-4">
@@ -267,12 +267,12 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 										.sort((a, b) => (balances[b.address] ?? 0) - (balances[a.address] ?? 0))
 										.map(({ address, timestamp, unit }) => (<div key={address} className="flex justify-between items-center border-b pb-3">
 											<div>
-												<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" rel="noreferrer" className="address">{address}</a>
+												<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/address/${address}`} target="_blank" rel="noopener" className="address">{address}</a>
 												<div className="space-x-2">
 													{appConfig.PROVIDER_DICTIONARY[address] && <><small className="text-muted-foreground">{appConfig.PROVIDER_DICTIONARY[address].displayName}</small> <Dot className="w-4 h-4 inline-block" /> </>}
 
 													<small className="text-muted-foreground">
-														<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/${unit}`} target="_blank" rel="noreferrer">{moment.unix(timestamp).format("LLL")}</a>
+														<a href={`https://${appConfig.TESTNET ? 'testnet' : ''}explorer.obyte.org/${unit}`} target="_blank" rel="noopener">{moment.unix(timestamp).format("LLL")}</a>
 													</small>
 												</div>
 											</div>
