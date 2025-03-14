@@ -85,12 +85,7 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 	const { toast } = useToast();
 
 	React.useEffect(() => {
-		const fetchUrl = true
-			//process.env.NODE_ENV === "development"
-				? DEV_PROXY_URL + '/' + ORDER_PROVIDERS_STATS_URL
-				: ORDER_PROVIDERS_STATS_URL;
-
-		fetch(fetchUrl, { headers: { 'Content-Type': 'application/json' }, cache: "no-store" })
+		fetch(ORDER_PROVIDERS_STATS_URL, { headers: {}, cache: "no-store" })
 			.then((response) => response.json())
 			.then((data) => {
 				if ("witnesses_stats" in data) {
