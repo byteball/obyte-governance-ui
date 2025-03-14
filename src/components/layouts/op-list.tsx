@@ -85,8 +85,8 @@ export const OrderProviderList: React.FC<IOrderProviderListProps> = ({ data, vot
 	const { toast } = useToast();
 
 	React.useEffect(() => {
-		const fetchUrl =
-			process.env.NODE_ENV === "development"
+		const fetchUrl = true
+			//process.env.NODE_ENV === "development"
 				? DEV_PROXY_URL + '/' + ORDER_PROVIDERS_STATS_URL
 				: ORDER_PROVIDERS_STATS_URL;
 
